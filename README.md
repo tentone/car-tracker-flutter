@@ -18,8 +18,9 @@
 ### Build
 
 - Check the flutter [android](https://flutter.io/docs/deployment/android) and [ios](https://flutter.io/docs/deployment/ios) publish guides for more information.
+- The application has only tested in Android during development.
 - To build a release APK for android run `flutter build apk` on the project folder.
-- Dont forget to update the project version on the `pubspec.yaml` file.
+- Don't forget to update the project version on the `pubspec.yaml` file.
 - When building APK output is the `build\app\outputs\apk\release` folder.
 
 
@@ -31,6 +32,8 @@ https://pub.dev/packages/flutter_sms
 https://pub.dev/packages/sms_receiver
 
 https://githubmemory.com/repo/arsamme/flutter-sms-retriever
+
+https://pub.dev/packages/mapbox_gl
 
 
 
