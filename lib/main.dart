@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'cartracker.dart';
+import 'app.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const TrackerApp());
 }
 
 
