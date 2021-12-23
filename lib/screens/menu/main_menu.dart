@@ -6,10 +6,12 @@ class MainMenu extends StatefulWidget {
   final String title;
 
   @override
-  State<MainMenu> createState() => _MainMenuState();
+  State<MainMenu> createState() {
+    return MainMenuState();
+  }
 }
 
-class _MainMenuState extends State<MainMenu> {
+class MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
