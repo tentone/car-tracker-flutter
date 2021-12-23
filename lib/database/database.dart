@@ -7,7 +7,7 @@ class Database {
   static void create() {
     print('Using sqlite3 ${sqlite3.version}');
 
-    // Create a new in-memory database. To use a database backed by a file, you can replace this with sqlite3.open(yourFilePath).
+    // Create a new in-memory database.
     final db = sqlite3.openInMemory();
 
     // Create a table and insert some data

@@ -16,7 +16,9 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center()
+      body: Center(
+
+      )
     );
   }
 }

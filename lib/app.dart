@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main_menu.dart';
+import 'screens/menu/main_menu.dart';
 
 class TrackerApp extends StatelessWidget {
   const TrackerApp({Key? key}) : super(key: key);
@@ -15,9 +15,7 @@ class TrackerApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: const MainMenu(title: 'Home'),
     );
   }
