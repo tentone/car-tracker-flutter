@@ -21,6 +21,8 @@
 
 - If flutter cannot find the Android SDK please run `flutter config --android-sdk <path>`
 
+- Use `flutter doctor` to debug setup problems. Don't forget to accept the `flutter doctor --android-licenses`.
+
   
 
 ### Build
