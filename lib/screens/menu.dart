@@ -10,31 +10,48 @@ class MainMenu extends StatefulWidget {
   }
 }
 
+/// Class to represent menu options
+class MenuOption {
+  /// Widget to represent the menu option
+  late Widget Function(BuildContext context) builder;
+
+  /// Label of the option
+  ///
+  /// Labels are only translated in runtime.
+  late String label;
+
+  /// Icon to display in the options
+  late Icon icon;
+
+  MenuOption({Widget Function(BuildContext context) ?builder, String ?label, Icon ?icon}) {
+    this.builder = builder ?? (BuildContext builder) => Container();
+    this.label = label ?? '';
+    this.icon = icon ?? Icon(Icons.home);
+  };
+}
+
 class MainMenuState extends State<MainMenu> {
-  int _selectedIndex = 0;
+  /// Index of the selected widget
+  int selectedIndex = 0;
 
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
+  /// Options available in the meny
+  static List<MenuOption> options = <MenuOption>[
+    MenuOption (
+      label: 'trackers',
+      builder: (BuildContext context) => Text(Locales.get('trackers', context)),
+      icon: Icon(Icons.gps_fixed)
     ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
+    MenuOption (
+        label: 'map',
+        builder: (BuildContext context) => Text(Locales.get('map', context)),
+        icon: Icon(Icons.map)
     ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    MenuOption (
+        label: 'trackers',
+        builder: (BuildContext context) => Text(Locales.get('trackers', context)),
+        icon: Icon(Icons.settings)
+    )
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +60,29 @@ class MainMenuState extends State<MainMenu> {
         title: Text(Locales.get('carTracker', context)),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: options.elementAt(selectedIndex).builder(context),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.gps_fixed),
+            label: Locales.get('trackers', context),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: const Icon(Icons.map),
+            label: Locales.get('map', context),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: const Icon(Icons.settings),
+            label: Locales.get('settings', context),
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: selectedIndex,
+        onTap: (int index) => {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
       ),
     );
   }
