@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
 /// Tracker represents a GPS tracker, contains all the metadata required to communicate with the tracker.
 class Tracker {
   /// UUID used to identify the tracker.
@@ -16,7 +20,7 @@ class Tracker {
   String model = '';
 
   /// Color to represent the tracker on the map.
-  String color = null;
+  Color color = Colors.blue;
 
   /// Phone number of the tracker used to send and receive messages.
   String phoneNumber = '';
@@ -33,10 +37,10 @@ class Tracker {
   String pin = '123456';
 
   /// Limit speed in miles per hour, defined on the tracker.
-  int speedLimit = null;
+  int speedLimit = 0;
 
   /// Time limit before the tracker enters into sleep mode.
-  int sleepLimit = null;
+  int sleepLimit = 0;
 
   /// If enabled the ignition alarm is fired every time the ACC signal changes.
   ///
