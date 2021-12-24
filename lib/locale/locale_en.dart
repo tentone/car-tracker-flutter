@@ -1,3 +1,3 @@
 const Map<String, String> LocaleEN = {
-  'test': 'test'
+  'carTracker': 'Car Tracker',
 };

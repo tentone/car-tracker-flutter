@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import './locale/locales.dart';
 import 'screens/menu/main_menu.dart';
+
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Car Tracker',
+      title: Locales.get('carTracker', context),
       showPerformanceOverlay: false,
       showSemanticsDebugger: false,
       debugShowCheckedModeBanner: false,
@@ -16,7 +17,7 @@ class App extends StatelessWidget {
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
       theme: ThemeData.dark(),
-      home: const MainMenu(title: 'Home'),
+      home: MainMenu(),
     );
   }
 }

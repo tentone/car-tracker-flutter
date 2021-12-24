@@ -1,9 +1,8 @@
+import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 
 class MainMenu extends StatefulWidget {
-  const MainMenu({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MainMenu({Key? key}) : super(key: key);
 
   @override
   State<MainMenu> createState() {
@@ -16,7 +15,7 @@ class MainMenuState extends State<MainMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(Locales.get('carTracker', context)),
       ),
       body: Center(
 
