@@ -100,6 +100,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_localizations">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter/packages/flutter_localizations/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_sms">
           <value>
             <list>
@@ -125,6 +132,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/image-3.1.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="intl">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
             </list>
           </value>
         </entry>
@@ -370,6 +384,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_sms-2.3.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/image-3.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/lints-1.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/mapbox_gl-0.14.0/lib" />
@@ -403,6 +418,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.3.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/packages/flutter/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter/packages/flutter_localizations/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/packages/flutter_test/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/packages/flutter_web_plugins/lib" />
     </CLASSES>

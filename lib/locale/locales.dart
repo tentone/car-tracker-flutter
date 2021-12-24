@@ -17,7 +17,7 @@ class Locales {
   static String code = 'en';
 
   /// Supported locale codes
-  static const List<Locale> supported = [Locale('en', 'US'), Locale('pt', 'PT')];
+  static const List<Locale> supported = [Locale('en', 'US')];
 
   /// Get the locale to be used for a specific context.
   static Locales? of(BuildContext context)

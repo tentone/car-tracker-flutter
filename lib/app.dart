@@ -1,7 +1,8 @@
+import 'package:cartracker/locale/locale_manager.dart';
 import 'package:flutter/material.dart';
 import './locale/locales.dart';
 import 'screens/menu/main_menu.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -9,7 +10,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Locales.get('carTracker', context),
       showPerformanceOverlay: false,
       showSemanticsDebugger: false,
       debugShowCheckedModeBanner: false,
@@ -17,6 +17,13 @@ class App extends StatelessWidget {
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
       theme: ThemeData.dark(),
+      localizationsDelegates:
+      const [
+        LocaleManager(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: Locales.supported,
       home: MainMenu(),
     );
   }
