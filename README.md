@@ -33,6 +33,19 @@
 
 
 
+### Android Permissions
+
+- When new plugins are added to provide additional native functionality, the permissions list in the `AndroidManifest.xml` should be updated.
+- It might be necessary to also request for permission during runtime before using the feature.
+
+```xml
+<!-- Geolocation -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
+
+
+
 ### Dependencies
 - https://pub.dev/packages/sqlite3
 - https://pub.dev/packages/flutter_sms
