@@ -14,6 +14,9 @@ dependencies:
   sqlite3: ^1.4.0
   cupertino_icons: ^1.0.2
   sqlite3_flutter_libs: ^0.5.2
+  mapbox_gl: ^0.14.0
+  sms_receiver: ^0.4.1
+  flutter_sms: ^2.3.2
 
 dev_dependencies:
   flutter_test:

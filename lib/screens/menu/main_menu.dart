@@ -20,7 +20,11 @@ class MainMenuState extends State<MainMenu> {
       ),
       body: Center(
 
-      )
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(height: 50.0),
+      ),
     );
   }
 }

@@ -37,9 +37,11 @@
 - https://pub.dev/packages/sqlite3
 - https://pub.dev/packages/flutter_sms
 - https://pub.dev/packages/sms_receiver
-- https://githubmemory.com/repo/arsamme/flutter-sms-retriever
+- https://pub.dev/packages/sms_retriever
 - https://pub.dev/packages/mapbox_gl
 - https://github.com/therezacuet/Motion-Tab-Bar
+
+
 
 
 ### License
