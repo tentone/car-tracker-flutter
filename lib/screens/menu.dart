@@ -27,7 +27,7 @@ class MenuOption {
     this.builder = builder ?? (BuildContext builder) => Container();
     this.label = label ?? '';
     this.icon = icon ?? Icon(Icons.home);
-  };
+  }
 }
 
 class MainMenuState extends State<MainMenu> {
@@ -55,6 +55,15 @@ class MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    List<BottomNavigationBarItem> buttons = [];
+    for(int i = 0; i < options.length; i++) {
+      buttons.add(BottomNavigationBarItem(
+        icon: options[i].icon,
+        label: Locales.get(options[i].label, context),
+      ));
+    }
+    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(Locales.get('carTracker', context)),
@@ -63,25 +72,12 @@ class MainMenuState extends State<MainMenu> {
         child: options.elementAt(selectedIndex).builder(context),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.gps_fixed),
-            label: Locales.get('trackers', context),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.map),
-            label: Locales.get('map', context),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings),
-            label: Locales.get('settings', context),
-          ),
-        ],
+        items: buttons,
         currentIndex: selectedIndex,
         onTap: (int index) => {
           setState(() {
             selectedIndex = index;
-          });
+          })
         },
       ),
     );
