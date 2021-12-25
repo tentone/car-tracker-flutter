@@ -1,5 +1,9 @@
 import 'package:cartracker/locale/locales.dart';
+import 'package:cartracker/screens/settings.dart';
+import 'package:cartracker/screens/tracker_list.dart';
 import 'package:flutter/material.dart';
+
+import 'map.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -38,17 +42,17 @@ class MainMenuState extends State<MainMenu> {
   static List<MenuOption> options = <MenuOption>[
     MenuOption (
       label: 'trackers',
-      builder: (BuildContext context) => Text(Locales.get('trackers', context)),
+      builder: (BuildContext context) => TrackerListScreen(),
       icon: Icon(Icons.gps_fixed)
     ),
     MenuOption (
         label: 'map',
-        builder: (BuildContext context) => Text(Locales.get('map', context)),
+        builder: (BuildContext context) => MapScreen(),
         icon: Icon(Icons.map)
     ),
     MenuOption (
-        label: 'trackers',
-        builder: (BuildContext context) => Text(Locales.get('trackers', context)),
+        label: 'settings',
+        builder: (BuildContext context) => SettingsScreen(),
         icon: Icon(Icons.settings)
     )
   ];
