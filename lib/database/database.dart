@@ -18,6 +18,7 @@ class Database {
     // Create a new in-memory database.
     final db = sqlite3.open(path + "/" + name);
 
+
     // Create a table and insert some data
     db.execute('''
       CREATE TABLE artists (
