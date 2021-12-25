@@ -6,7 +6,9 @@ import 'screens/menu.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}): super(key: key) {
+
+  }
 
   @override
   Widget build(BuildContext context) {

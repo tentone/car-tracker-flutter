@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'database/database.dart';
 
-void main() {
+Future<void> main() async {
   Database.create();
 
-  runApp(const App());
+  runApp(App());
 }
 
 

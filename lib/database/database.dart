@@ -1,6 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 class Database {
@@ -11,13 +10,12 @@ class Database {
 
   /// Create database structures
   static Future<void> create() async {
-    print('Using sqlite3 ${sqlite3.version}');
+    // print('Using sqlite3 ${sqlite3.version}');
 
-    String path = (await getApplicationDocumentsDirectory()).path;
-
-    // Create a new in-memory database.
-    final db = sqlite3.open(path + "/" + name);
-
+    // Directory dir = await getApplicationDocumentsDirectory();
+    // String path = join(dir.path, Database.name);
+    // final db = sqlite3.open(path + "/" + name);
+    final db = sqlite3.openInMemory();
 
     // Create a table and insert some data
     db.execute('''
