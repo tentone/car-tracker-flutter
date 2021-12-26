@@ -18,8 +18,7 @@ class MapScreenState extends State<MapScreen> {
     return MapboxMap(
       accessToken: Global.MAPBOX_TOKEN,
       trackCameraPosition: true,
-      initialCameraPosition:
-      const CameraPosition(target: LatLng(35.0, 135.0), zoom: 5),
+      initialCameraPosition: const CameraPosition(target: LatLng(35.0, 135.0), zoom: 5),
     );
   }
 }
