@@ -25,6 +25,7 @@ class Modal
       context: context,
       builder: (BuildContext context)
       {
+
         return AlertDialog
         (
           title: Text(title),
