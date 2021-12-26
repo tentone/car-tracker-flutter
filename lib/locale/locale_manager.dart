@@ -13,7 +13,6 @@ class LocaleManager extends LocalizationsDelegate<Locales>
   @override
   bool isSupported(Locale locale)
   {
-    print(Locales.values.keys.contains(locale.languageCode));
     return Locales.values.keys.contains(locale.languageCode);
   }
 
