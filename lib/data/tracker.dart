@@ -1,11 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 /// Tracker represents a GPS tracker, contains all the metadata required to communicate with the tracker.
 class Tracker {
   /// UUID used to identify the tracker.
   String uuid = '';
+
+  /// ID of the tracker device, each tracker has its own ID.
+  String id = '';
 
   /// Name of the tracker.
   String name = '';
@@ -67,8 +71,9 @@ class Tracker {
   /// Integrated Circuit Card Identifier (ICCID) of the SIM card inserted in the tracker.
   String iccid = '';
 
-  /// ID of the tracker device, each tracker has its own ID.
-  String id = '';
+  Tracker() {
+    this.uuid = Uuid().v4().toString();
+  }
 
 
   //  * Process a message received from SMS and store its result on a tracker message.

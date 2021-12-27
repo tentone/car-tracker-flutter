@@ -1,3 +1,5 @@
+import 'package:cartracker/data/tracker.dart';
+import 'package:cartracker/screens/tracker_edit.dart';
 import 'package:flutter/material.dart';
 
 class TrackerListScreen extends StatefulWidget {
@@ -12,23 +14,22 @@ class TrackerListScreen extends StatefulWidget {
 class TrackerListScreenState extends State<TrackerListScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<String> entries = <String>['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C'];
-    final List<int> colorCodes = <int>[600, 500, 100, 600, 500, 100, 600, 500, 100, 600, 500, 100, 600, 500, 100, 600, 500, 100,];
+    final List<Tracker> entries = [Tracker(), Tracker()];
 
     return ListView.builder(
         padding: const EdgeInsets.all(0),
         itemCount: entries.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
+          return SizedBox(
             height: 80,
-
-            // color: Colors.amber[colorCodes[index]],
             child: ListTile(
               leading: Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-              title: Text(entries[index]),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+              title: Text(entries[index].uuid),
+              subtitle: Text(entries[index].uuid),
               onTap: () => {
-
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const TrackerEditScreen();
+                }));
               },
             )
           );
