@@ -12,6 +12,8 @@ class TrackerEditScreen extends StatefulWidget {
 class TrackerEditScreenState extends State<TrackerEditScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return FloatingActionButton(onPressed: () {
+      Navigator.pop(context);
+    });
   }
 }

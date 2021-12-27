@@ -26,8 +26,8 @@ class TrackerListScreenState extends State<TrackerListScreen> {
               leading: Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
               title: Text(entries[index].uuid),
               subtitle: Text(entries[index].uuid),
-              onTap: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                   return const TrackerEditScreen();
                 }));
               },
