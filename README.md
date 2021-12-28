@@ -56,6 +56,7 @@
 <!-- SMS -->
 <uses-permission android:name="android.permission.SEND_SMS" />
 <uses-permission android:name="android.permission.RECEIVE_SMS" />
+<uses-permission android:name="android.permission.READ_SMS" />
 <queries>
 <intent>
   <action android:name="android.intent.action.SENDTO" />

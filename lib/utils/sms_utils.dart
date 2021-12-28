@@ -4,14 +4,15 @@ import 'package:sms_advanced/sms_advanced.dart';
 class SMSUtils {
   /// Listen to incoming SMS messages.
   static void listen() {
-    // TODO <ADD CODE HERE>
-
     SmsReceiver receiver = SmsReceiver();
-    receiver.onSmsReceived?.listen((SmsMessage msg) => print(msg.body));
-
+    if(receiver.onSmsReceived != null) {
+      receiver.onSmsReceived?.listen((SmsMessage msg){
+        print(msg.body);
+      });
+    }
   }
 
-  /// Method to send SMS to a list of recipients.
+  /// Send a SMS to an address (phone number)
   static void send(String content, String address) async {
     SmsSender sender = SmsSender();
 
@@ -26,10 +27,27 @@ class SMSUtils {
     sender.sendSms(message);
   }
 
-  /// Get all SMS for a specific phone number
-  static Future get(String address) async {
+  static Future getReceived(String address) async {
+    SmsQuery query = SmsQuery();
+    List<SmsMessage> messages = await query.querySms(
+      kinds: [SmsQueryKind.Inbox],
+      address: address
+    );
+
+    for(int i = 0; i < messages.length; i++) {
+      print(messages[i].address);
+      print(messages[i].body);
+    }
+  }
+
+  /// Get all SMS received by the device.
+  static Future getAll() async {
     SmsQuery query = SmsQuery();
     List<SmsMessage> messages = await query.getAllSms;
-    print(messages);
+
+    for(int i = 0; i < messages.length; i++) {
+      print(messages[i].address);
+      print(messages[i].body);
+    }
   }
 }
