@@ -72,7 +72,7 @@ class Tracker {
   String iccid = '';
 
   Tracker() {
-    this.uuid = Uuid().v4().toString();
+    this.uuid = const Uuid().v4().toString();
   }
 
 

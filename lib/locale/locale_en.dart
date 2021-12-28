@@ -5,5 +5,5 @@ const Map<String, String> LocaleEN = {
   'settings': 'Settings',
   'back': 'Back',
   'editTracker': 'Edit Tracker',
-  'createTracker': 'Adicionar Tracker'
+  'createTracker': 'Create Tracker'
 };

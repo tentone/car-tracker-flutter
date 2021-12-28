@@ -23,13 +23,14 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          await SMSUtils.get('');
 
-          final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-          if(contact.phoneNumber?.number != null) {
-            print(contact.phoneNumber?.number);
-          }
-
-          SMSUtils.send('g1234', '+351915939715');
+          // final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+          // if(contact.phoneNumber?.number != null) {
+          //   print(contact.phoneNumber?.number);
+          // }
+          //
+          // SMSUtils.send('g1234', '+351915939715');
         },
         child: const Icon(Icons.sms),
       ),
