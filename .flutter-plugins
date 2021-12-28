@@ -1,5 +1,7 @@
 # This is a generated file; do not edit or check into version control.
+contact_picker_web=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\contact_picker_web-4.6.0\\
 flutter_sms=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_sms-2.3.2\\
+fluttercontactpicker=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\fluttercontactpicker-4.6.0\\
 mapbox_gl=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\mapbox_gl-0.14.0\\
 mapbox_gl_web=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\mapbox_gl_web-0.14.0\\
 path_provider=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.8\\
@@ -8,6 +10,7 @@ path_provider_ios=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provid
 path_provider_linux=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.4\\
 path_provider_macos=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.4\\
 path_provider_windows=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.0.4\\
+sms_advanced=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sms_advanced-1.0.1\\
 sms_receiver=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sms_receiver-0.4.1\\
 sqlite3_flutter_libs=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\sqlite3_flutter_libs-0.5.2\\
 url_launcher=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher-6.0.17\\

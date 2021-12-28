@@ -1,4 +1,5 @@
 import 'package:cartracker/data/tracker.dart';
+import 'package:cartracker/screens/tracker_create.dart';
 import 'package:cartracker/screens/tracker_edit.dart';
 import 'package:flutter/material.dart';
 
@@ -14,26 +15,41 @@ class TrackerListScreen extends StatefulWidget {
 class TrackerListScreenState extends State<TrackerListScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<Tracker> entries = [Tracker(), Tracker()];
+    final List<Tracker> entries = [Tracker(), Tracker(), Tracker(), Tracker(), Tracker(), Tracker(),
+      Tracker(), Tracker(), Tracker(), Tracker(), Tracker(), Tracker(),
+      Tracker(), Tracker(), Tracker(), Tracker(), Tracker(), Tracker(),
+      Tracker(), Tracker(), Tracker(), Tracker(), Tracker(), Tracker(),
+      Tracker(), Tracker(), Tracker(), Tracker(), Tracker(), Tracker()];
 
-    return ListView.builder(
-        padding: const EdgeInsets.all(0),
-        itemCount: entries.length,
-        itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            height: 80,
-            child: ListTile(
-              leading: Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-              title: Text(entries[index].uuid),
-              subtitle: Text(entries[index].uuid),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                  return const TrackerEditScreen();
-                }));
-              },
-            )
-          );
-        }
+
+    return Scaffold(
+      body: ListView.builder(
+          padding: const EdgeInsets.all(0),
+          itemCount: entries.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SizedBox(
+                height: 80,
+                child: ListTile(
+                  leading: Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+                  title: Text(entries[index].uuid),
+                  subtitle: Text(entries[index].uuid),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                      return const TrackerEditScreen();
+                    }));
+                  },
+                )
+            );
+          }
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+            return const TrackerCreateScreen();
+          }));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

@@ -44,6 +44,24 @@
 <!-- Geolocation -->
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+<!-- File API-->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+<!-- Contacts -->
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+<uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+
+<!-- SMS -->
+<uses-permission android:name="android.permission.SEND_SMS" />
+<uses-permission android:name="android.permission.RECEIVE_SMS" />
+<queries>
+<intent>
+  <action android:name="android.intent.action.SENDTO" />
+  <data android:scheme="smsto"/>
+</intent>
+</queries>
 ```
 
 

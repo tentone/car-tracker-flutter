@@ -1,12 +1,19 @@
-import 'package:flutter_sms/flutter_sms.dart';
+import 'package:sms_advanced/sms_advanced.dart';
 
 /// Utils to send and receive SMS messages.
 class SMSUtils {
   /// Method to send SMS to a list of recipients.
-  static void _sendSMS(String message, List<String> recipents) async {
-    String result = await sendSMS(message: message, recipients: recipents).catchError((onError) {
-      print(onError);
+  static void send(String content, String address) async {
+    SmsSender sender = new SmsSender();
+
+    SmsMessage message = new SmsMessage(address, content);
+    message.onStateChanged.listen((state) {
+      if (state == SmsMessageState.Sent) {
+        print("SMS is sent!");
+      } else if (state == SmsMessageState.Delivered) {
+        print("SMS is delivered!");
+      }
     });
-    print(result);
+    sender.sendSms(message);
   }
 }
