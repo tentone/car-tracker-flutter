@@ -10,8 +10,17 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: const <Widget>[
+          // Add TextFormFields and ElevatedButton here.
+        ],
+      ),
+    );
   }
 }

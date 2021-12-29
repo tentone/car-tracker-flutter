@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Data {
-  /// Database object.
-  static Data ?db;
-
+/// Handle global database operations.
+///
+/// Database should be created and closed after operations are performed.
+class DataBase {
+  /// Name of the database file
   static String name = 'database.db';
 
   /// Create database structures
   static Future<void> create() async {
-    String path = join(await getDatabasesPath(), Data.name);
+    String path = join(await getDatabasesPath(), DataBase.name);
 
     Database database = await openDatabase(path, version: 1, onCreate: (Database db, int version) async {
       await db.execute('CREATE TABLE Test ('
@@ -50,7 +51,7 @@ class Data {
   ///
   /// Useful for resetting the application back to its original settings.
   static delete() async {
-    String path = join(await getDatabasesPath(), Data.name);
+    String path = join(await getDatabasesPath(), DataBase.name);
 
     await deleteDatabase(path);
   }

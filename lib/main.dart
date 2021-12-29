@@ -6,7 +6,7 @@ import 'app.dart';
 Future<void> main() async {
   runApp(App());
 
-  Data.create();
+  DataBase.create();
 
   SMSUtils.listen();
 }
