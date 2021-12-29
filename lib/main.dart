@@ -3,7 +3,7 @@ import 'app.dart';
 import 'database/database.dart';
 
 Future<void> main() async {
-  Database.create();
+  Data.create();
 
   runApp(App());
 }
