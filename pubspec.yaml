@@ -13,20 +13,22 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  mapbox_gl: ^0.14.0
-  sms_advanced: ^1.0.1
-  uuid: ^3.0.5
-  sqlite3: ^1.4.0
-  sqlite3_flutter_libs: ^0.5.2
-  path_provider: ^2.0.8
-  fluttercontactpicker: ^4.6.0
+  cupertino_icons: 1.0.2
+  mapbox_gl: 0.14.0
+  sms_advanced: 1.0.1
+  uuid: 3.0.5
+  sqlite3: 1.4.0
+  sqlite3_flutter_libs: 0.5.2
+  path_provider: 2.0.8
+  shared_preferences : 2.0.11
+  fluttercontactpicker: 4.6.0
+  path: 1.8.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: 1.0.0
 
 flutter:
   uses-material-design: true

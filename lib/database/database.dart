@@ -12,9 +12,6 @@ class Database {
   static Future<void> create() async {
     // print('Using sqlite3 ${sqlite3.version}');
 
-    // Directory dir = await getApplicationDocumentsDirectory();
-    // String path = join(dir.path, Database.name);
-    // final db = sqlite3.open(path + "/" + name);
     final db = sqlite3.openInMemory();
 
     // Create a table and insert some data
