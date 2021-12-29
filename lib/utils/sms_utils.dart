@@ -6,8 +6,8 @@ class SMSUtils {
   static void listen() {
     SmsReceiver receiver = SmsReceiver();
     if(receiver.onSmsReceived != null) {
-      receiver.onSmsReceived?.listen((SmsMessage msg){
-        print(msg.body);
+      receiver.onSmsReceived?.listen((SmsMessage ?msg){
+        print(msg?.body);
       });
     }
   }

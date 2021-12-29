@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cartracker/locale/locale_manager.dart';
 import 'package:cartracker/themes.dart';
 import 'package:flutter/material.dart';
