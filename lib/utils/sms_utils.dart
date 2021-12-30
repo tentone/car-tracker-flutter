@@ -21,21 +21,22 @@ class SMSUtils {
         to: address,
         message: content,
         statusListener: (SendStatus status) {
-          print(status);
+          // SendStatus.DELIVERED
+          // SendStatus.SENT
         }
     );
   }
 
   static Future getReceived(String address) async {
-    // List<SmsMessage> messages = await telephony.getInboxSms(
-    //   kinds: [SmsQueryKind.Inbox],
-    //   address: address
-    // );
-    //
-    // for(int i = 0; i < messages.length; i++) {
-    //   print(messages[i].address);
-    //   print(messages[i].body);
-    // }
+    List<SmsMessage> messages = await telephony.getInboxSms(
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY],
+        filter: SmsFilter.where(SmsColumn.ADDRESS).like(address)
+    );
+
+    for(int i = 0; i < messages.length; i++) {
+      print(messages[i].address);
+      print(messages[i].body);
+    }
   }
 
   /// Get all SMS received by the device.
