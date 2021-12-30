@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cartracker/data/tracker_location.dart';
+import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/utils/sms_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -70,7 +72,10 @@ class Tracker {
   String iccid = '';
 
   /// Messages exchanged with the tracker device.
-  List<String> messages = [];
+  List<TrackerMessage> messages = [];
+
+  /// Positions of the tracker over time.
+  List<TrackerLocation> locations = [];
 
   Tracker() {
     this.uuid = const Uuid().v4().toString();
@@ -80,7 +85,7 @@ class Tracker {
   ///
   /// @param message Message received.
   void processSMS(String message) {
-
+    this.messages.add(TrackerMessage(MessageDirection.RECEIVED, message, DateTime.now()));
 
     // Acknowledge message
     String ackMsg = message.toLowerCase();
@@ -110,62 +115,61 @@ class Tracker {
     // GPS Location
     if (message.startsWith('http')) {
       try {
-        const regex = /https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)/;
-        let matches = message.match(regex);
-        let data = new LocationData();
+        RegExp regex = RegExp("/https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)/");
+        List<RegExpMatch> regMatch = regex.allMatches(message).toList();
+        List<String> matches = regMatch.map((val) => val.input).toList();
+
+        // TODO <REMOVE THIS>
+        print(matches);
+
+        TrackerLocation data = new TrackerLocation();
 
         if (matches[1].length > 0) {
-          data.position = new Geoposition(Number.parseFloat(matches[1]), -Number.parseFloat(matches[2]));
+          data.position = TrackerLocation(double.parse(matches[1]), -double.parse(matches[2]), 0.0);
         }
 
-        data.id = matches[3];
-        data.acc = matches[4] != 'OFF';
-        data.gps = matches[5] == 'A';
-        data.speed = Number.parseFloat(matches[6]);
+        String id = matches[3];
+        bool acc = matches[4] != 'OFF';
+        bool gps = matches[5] == 'A';
+        double speed = double.parse(matches[6]);
 
-        int year = Number.parseInt(matches[7], 10) + 2000;
-        int month = Number.parseInt(matches[8], 10);
-        int day = Number.parseInt(matches[9], 10);
-        data.date.setFullYear(year, month, day);
+        int year = int.parse(matches[7]) + 2000;
+        int month = int.parse(matches[8]);
+        int day = int.parse(matches[9]);
 
-        int hour = Number.parseInt(matches[10], 10);
-        int minute = Number.parseInt(matches[11], 10);
-        int seconds = Number.parseInt(matches[12], 10);
-        data.date.setHours(hour, minute, seconds);
-        msg.data = data;
-        msg.type = MessageType.LOCATION;
+
+        int hour = int.parse(matches[10]);
+        int minute = int.parse(matches[11]);
+        int seconds = int.parse(matches[12]);
+
 
         this.id = data.id;
         // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
-        this.addMessage(msg);
         return;
       } catch(e) {
-        Modal.alert(Locale.get('error'), Locale.get('errorParseLocationMsg'));
-        console.log('CarTracker: Error parsing location message.', e, this);
-        this.addMessage(msg);
+        // Modal.alert(Locale.get('error'), Locale.get('errorParseLocationMsg'));
         return;
       }
     }
 
     // GPS Tracker data
-    const infoRegex = /([A-Za-z0-9_\.]+) ([0-9]+)\/([0-9]+)\/([0-9]+)\s*ID:([0-9]+)\s*IP:([0-9\.a-zA-Z\\]+)\s*([0-9]+) BAT:([0-9])\s*APN:([0-9\.a-zA-Z\\]+)\s*GPS:([0-9A-Z\-]+)\s*GSM:([0-9]+)\s*ICCID:([0-9A-Z]+)/;
+    RegExp infoRegex = RegExp("/([A-Za-z0-9_\.]+) ([0-9]+)\/([0-9]+)\/([0-9]+)\s*ID:([0-9]+)\s*IP:([0-9\.a-zA-Z\\]+)\s*([0-9]+) BAT:([0-9])\s*APN:([0-9\.a-zA-Z\\]+)\s*GPS:([0-9A-Z\-]+)\s*GSM:([0-9]+)\s*ICCID:([0-9A-Z]+)/");
     try {
-      if (message.search(infoRegex) != -1) {
-        let matches = message.match(infoRegex);
+      if (infoRegex.hasMatch(message)) {
+        List<RegExpMatch> regMatch = infoRegex.allMatches(message).toList();
+        List<String> matches = regMatch.map((val) => val.input).toList();
 
         let data = new InformationData();
         data.model = matches[1];
         data.id = matches[5];
         data.ip = matches[6];
         data.port = matches[7];
-        data.battery = Number.parseInt(matches[8], 10);
+        data.battery = int.parse(matches[8], 10);
         data.apn = matches[9];
         data.gps = matches[10];
         data.gsm = matches[11];
         data.iccid = matches[12];
-        msg.data = data;
-        msg.type = MessageType.INFORMATION;
 
         this.battery = data.battery;
         this.model = data.model;
@@ -174,19 +178,13 @@ class Tracker {
         this.id = data.id;
 
         // Modal.toast(Locale.get('trackerUpdated', {name: this.name}));
-        this.addMessage(msg);
         return;
       }
     }
     catch(e) {
-      Modal.alert(Locale.get('error'), Locale.get('errorParseInfoMsg'));
-      console.log('CarTracker: Error parsing device info message.', e, this);
-      this.addMessage(msg);
+      // Modal.alert(Locale.get('error'), Locale.get('errorParseInfoMsg'));
       return;
     }
-
-    // Modal.toast(Locale.get('receivedUnknown', {name: this.name}));
-    this.addMessage(msg);
   }
 
 
@@ -195,12 +193,8 @@ class Tracker {
   /// @param message Message to be sent to the tracker.
   void sendSMS(String message) {
     SMSUtils.send(message, this.phoneNumber);
-    this.messages.add(message);
-  }
 
-  /// Add message to the list of messages
-  void addMessage(String msg) {
-    this.messages.add(msg);
+    this.messages.add(TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
   }
 
   /// Update the tracker in database.
