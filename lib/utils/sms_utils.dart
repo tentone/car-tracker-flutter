@@ -7,10 +7,11 @@ class SMSUtils {
   /// Listen to incoming SMS messages.
   static void listen() {
     telephony.listenIncomingSms(
-        onNewMessage: (SmsMessage msg) {
-          print(msg.address);
-          print(msg.body);
-        },
+      onNewMessage: (SmsMessage msg) {
+        print(msg.address);
+        print(msg.body);
+      },
+      listenInBackground: false,
     );
   }
 
@@ -39,7 +40,6 @@ class SMSUtils {
 
   /// Get all SMS received by the device.
   static Future getAll() async {
-    // SmsQuery query = SmsQuery();
     List<SmsMessage> messages = await telephony.getInboxSms();
 
     for(int i = 0; i < messages.length; i++) {

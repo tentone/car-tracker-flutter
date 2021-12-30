@@ -11,15 +11,22 @@ class TrackerCreateScreen extends StatefulWidget {
 }
 
 class TrackerCreateScreenState extends State<TrackerCreateScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(Locales.get('createTracker', context)),
       ),
-      body: FloatingActionButton(onPressed: () {
-        Navigator.pop(context);
-      }),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: const <Widget>[
+            // TODO <ADD CODE HERE>
+          ],
+        ),
+      ),
     );
   }
 }

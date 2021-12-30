@@ -25,15 +25,16 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         onPressed: () async {
           SMSUtils.listen();
 
-          // await SMSUtils.getAll('');
-          SMSUtils.send('g1234', '915939715');
+          await SMSUtils.getAll();
 
-          // final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-          // if(contact.phoneNumber?.number != null) {
-          //   String number = contact.phoneNumber?.number ?? '';
-          //   SMSUtils.send('g1234', number);
-          //
-          // }
+          // SMSUtils.send('g1234', '915939715');
+
+          final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+          if(contact.phoneNumber?.number != null) {
+            String number = contact.phoneNumber?.number ?? '';
+            SMSUtils.send('g1234', number);
+
+          }
         },
         child: const Icon(Icons.sms),
       ),
