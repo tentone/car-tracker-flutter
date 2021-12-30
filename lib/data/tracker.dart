@@ -93,24 +93,17 @@ class Tracker {
       // msg.type = MessageType.ACKNOWLEDGE;
       //
       // Modal.toast(Locale.get('trackerAcknowledge', {name: this.name}));
-      // this.addMessage(msg);
-
       return;
     }
 
     // List of SOS numbers
-    // if (message.startsWith('101#')) {
-    //   msg.type = MessageType.SOS_NUMBERS;
-    //
-    //   let numbers = message.split(' ');
-    //   for (let i = 0; i < numbers.length;  i++) {
-    //   this.sosNumbers[i] = numbers[i].substr(4);
-    //   }
-    //
-    //   // Modal.toast(Locale.get('trackerAcknowledge', {name: this.name}));
-    //   this.addMessage(msg);
-    //   return;
-    // }
+    if (message.startsWith('101#')) {
+      List<String> numbers = message.split(' ');
+      for (int i = 0; i < numbers.length;  i++) {
+        this.sosNumbers[i] = numbers[i].substring(4);
+      }
+      return;
+    }
 
     // GPS Location
     if (message.startsWith('http')) {
@@ -124,26 +117,26 @@ class Tracker {
 
         TrackerLocation data = new TrackerLocation();
 
-        if (matches[1].length > 0) {
-          data.position = TrackerLocation(double.parse(matches[1]), -double.parse(matches[2]), 0.0);
-        }
+        data.latitude = double.parse(matches[1]);
+
+        data.longitude = -double.parse(matches[2]);
 
         String id = matches[3];
-        bool acc = matches[4] != 'OFF';
-        bool gps = matches[5] == 'A';
-        double speed = double.parse(matches[6]);
+
+        data.acc = matches[4] != 'OFF';
+        data.gps = matches[5] == 'A';
+        data.speed = double.parse(matches[6]);
 
         int year = int.parse(matches[7]) + 2000;
         int month = int.parse(matches[8]);
         int day = int.parse(matches[9]);
-
 
         int hour = int.parse(matches[10]);
         int minute = int.parse(matches[11]);
         int seconds = int.parse(matches[12]);
 
 
-        this.id = data.id;
+        this.id = id;
         // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
         return;
@@ -160,22 +153,21 @@ class Tracker {
         List<RegExpMatch> regMatch = infoRegex.allMatches(message).toList();
         List<String> matches = regMatch.map((val) => val.input).toList();
 
-        let data = new InformationData();
-        data.model = matches[1];
-        data.id = matches[5];
-        data.ip = matches[6];
-        data.port = matches[7];
-        data.battery = int.parse(matches[8], 10);
-        data.apn = matches[9];
-        data.gps = matches[10];
-        data.gsm = matches[11];
-        data.iccid = matches[12];
+        String model = matches[1];
+        String id = matches[5];
+        String ip = matches[6];
+        String port = matches[7];
+        int battery = int.parse(matches[8]);
+        String apn = matches[9];
+        String gps = matches[10];
+        String gsm = matches[11];
+        String iccid = matches[12];
 
-        this.battery = data.battery;
-        this.model = data.model;
-        this.apn = data.apn;
-        this.iccid = data.iccid;
-        this.id = data.id;
+        this.battery = battery;
+        this.model = model;
+        this.apn = apn;
+        this.iccid = iccid;
+        this.id = id;
 
         // Modal.toast(Locale.get('trackerUpdated', {name: this.name}));
         return;
