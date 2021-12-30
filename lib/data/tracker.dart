@@ -135,8 +135,9 @@ class Tracker {
         int minute = int.parse(matches[11]);
         int seconds = int.parse(matches[12]);
 
-
         this.id = id;
+        this.locations.add(data);
+
         // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
         return;
