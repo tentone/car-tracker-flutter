@@ -56,7 +56,9 @@ class TrackerDB {
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
     Tracker tracker = Tracker();
+    List<Map<String, Object?>> value = await db.rawQuery('SELECT * FROM "table" WHERE uuid=?', [uuid]);
 
+    print(value);
 
     return tracker;
   }
