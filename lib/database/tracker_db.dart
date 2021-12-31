@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 class TrackerDB {
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE tracker('
+    await db.execute('CREATE TABLE IF NOT EXISTS tracker('
       'uuid TEXT PRIMARY KEY,'
       'id TEXT,'
       'name TEXT,'
