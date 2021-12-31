@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class TrackerDB {
   static String tableName = 'tracker';
 
+
   static Future<void> migrate(Database db) async {
     await db.execute('CREATE TABLE IF NOT EXISTS tracker('
       'uuid TEXT PRIMARY KEY,'
@@ -33,12 +34,31 @@ class TrackerDB {
     await db.execute('INSERT INTO tracker(uuid, id, name, license_plate, chassis_number,'
         'model, color, phone_number, admin_number, sos_numbers,'
         'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
-        'power_alarm_call, battery, apn, accid) VALUES (?, ?, ?)', []);
+        'power_alarm_call, battery, apn, iccid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [tracker.uuid, tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber,
+          tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers,
+          tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS,
+          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid]);
+  }
+
+  /// Update data from the tracker in database
+  static Future update(Database db, Tracker tracker) async {
+    await db.execute('UPDATE tracker SET id=?, name=?, license_plate=?, chassis_number=?,'
+        'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
+        'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
+        'power_alarm_call=?, battery=?, apn=?, iccid=?) VALUES WHERE uuid=?',
+        [tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber,
+          tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers,
+          tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS,
+          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.uuid]);
   }
 
   /// Get details of a tracker by its UUID
-  static Future get(Database db, String uuid) async {
+  static Future<Tracker> get(Database db, String uuid) async {
+    Tracker tracker = Tracker();
 
+
+    return tracker;
   }
 
   /// Delete a tracker by its UUID
