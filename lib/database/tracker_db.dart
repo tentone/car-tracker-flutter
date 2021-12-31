@@ -56,7 +56,8 @@ class TrackerDB {
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
     Tracker tracker = Tracker();
-    List<Map<String, Object?>> value = await db.rawQuery('SELECT * FROM "table" WHERE uuid=?', [uuid]);
+    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM "table" WHERE uuid=?', [uuid]);
+    Map<String, Object?> value = values[0];
 
     print(value);
 
@@ -65,7 +66,7 @@ class TrackerDB {
 
   /// Delete a tracker by its UUID
   static Future delete(Database db, String uuid) async {
-
+    await db.rawDelete('DELETE FROM tracker WHERE uuid = ?', [uuid]);
   }
 
   /// Get a list of all trackers available in database

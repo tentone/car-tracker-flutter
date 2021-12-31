@@ -26,12 +26,7 @@ class DataBase {
       await TrackerMessageDB.migrate(db);
     });
 
-    // // Insert some records in a transaction
-    // await database.transaction((txn) async {
-    //   await txn.rawInsert('INSERT INTO Test(name, value, num) VALUES(?, ?, ?)', ['name', 2, 3.1]);
-    //   await txn.rawInsert('INSERT INTO Test(name, value, num) VALUES(?, ?, ?)', ['name', 1, 4.2]);
-    // });
-    //
+
     // // Update some record
     // int? count = await database.rawUpdate('UPDATE Test SET name = ?, value = ? WHERE name = ?', ['updated name', '9876', 'some name']);
     // print('updated: $count');
