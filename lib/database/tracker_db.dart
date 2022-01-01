@@ -7,6 +7,8 @@ class TrackerDB {
   static test(Database db) async {
     const int size = 10;
 
+    print(await count(db));
+
     List<Future> addFuture = [];
     for (int i = 0; i < size; i++) {
       addFuture.add(add(db, Tracker()));
@@ -70,11 +72,11 @@ class TrackerDB {
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
     List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM tracker WHERE uuid=?', [uuid]);
-    Map<String, Object?> value = values[0];
+    if (values.length == 0) {
+      throw new Exception('Tracker does not exist.');
+    }
 
-    print(value);
-
-    return parse(value);
+    return parse(values[0]);
   }
 
   /// Delete a tracker by its UUID
@@ -90,12 +92,16 @@ class TrackerDB {
   /// Get a list of all trackers available in database
   static Future<List<Tracker>> list(Database db) async {
     List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker');
+    List<Tracker> trackers = [];
 
-    print(list);
+    for (int i = 0; i < list.length; i++) {
+      trackers.add(parse(list[i]));
+    }
 
-    return [];
+    return trackers;
   }
 
+  /// Parse database retrieved data into a usable object.
   static Tracker parse(Map<String, Object?> values) {
     Tracker tracker = Tracker();
 
@@ -108,17 +114,16 @@ class TrackerDB {
     tracker.color = values['color'].toString();
     tracker.phoneNumber = values['phone_number'].toString();
     tracker.adminNumber = values['admin_number'].toString();
-
     // 'sos_numbers TEXT,'
-    // 'pin TEXT,'
-    // 'speed_limit INTEGER,'
-    // 'sleep_limit INTEGER,'
-    // 'ignition_alarm INTEGER,'
-    // 'power_alarm_sms INTEGER,'
-    // 'power_alarm_call INTEGER,'
-    // 'battery INTEGER,'
-    // 'apn TEXT,'
-    // 'iccid TEXT'
+    tracker.pin = values['pin'].toString();
+    tracker.speedLimit = int.parse(values['speed_limit'].toString());
+    tracker.sleepLimit = int.parse(values['sleep_limit'].toString());
+    tracker.ignitionAlarm = int.parse(values['ignition_alarm'].toString()) == 1;
+    tracker.powerAlarmSMS = int.parse(values['power_alarm_sms'].toString()) == 1;
+    tracker.powerAlarmCall = int.parse(values['power_alarm_call'].toString()) == 1;
+    tracker.battery = int.parse(values['battery'].toString());
+    tracker.apn = values['apn'].toString();
+    tracker.iccid = values['iccid'].toString();
 
     return tracker;
   }

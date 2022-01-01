@@ -26,7 +26,7 @@ class DataBase {
       await TrackerMessageDB.migrate(db);
     });
 
-    TrackerDB.test(db!);
+   // TrackerDB.test(db!);
 
   }
 
