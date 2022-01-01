@@ -4,6 +4,20 @@ import 'package:sqflite/sqflite.dart';
 class TrackerDB {
   static String tableName = 'tracker';
 
+  static test(Database db) async {
+    const int size = 10;
+
+    List<Future> addFuture = [];
+    for (int i = 0; i < size; i++) {
+      addFuture.add(add(db, Tracker()));
+    }
+    await Future.wait(addFuture);
+
+    await list(db);
+
+    print(await count(db));
+  }
+
 
   static Future<void> migrate(Database db) async {
     await db.execute('CREATE TABLE IF NOT EXISTS tracker('
@@ -55,13 +69,12 @@ class TrackerDB {
 
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
-    Tracker tracker = Tracker();
-    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM "table" WHERE uuid=?', [uuid]);
+    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM tracker WHERE uuid=?', [uuid]);
     Map<String, Object?> value = values[0];
 
     print(value);
 
-    return tracker;
+    return parse(value);
   }
 
   /// Delete a tracker by its UUID
@@ -69,12 +82,44 @@ class TrackerDB {
     await db.rawDelete('DELETE FROM tracker WHERE uuid = ?', [uuid]);
   }
 
+  /// Count the number of trackers stored in database
+  static Future<int?> count(Database db) async {
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM tracker'));
+  }
+
   /// Get a list of all trackers available in database
   static Future<List<Tracker>> list(Database db) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM "table"');
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker');
 
     print(list);
 
     return [];
+  }
+
+  static Tracker parse(Map<String, Object?> values) {
+    Tracker tracker = Tracker();
+
+    tracker.uuid = values['uuid'].toString();
+    tracker.id = values['id'].toString();
+    tracker.name = values['name'].toString();
+    tracker.licensePlate = values['license_plate'].toString();
+    tracker.chassisNumber = values['chassis_number'].toString();
+    tracker.model = values['model'].toString();
+    tracker.color = values['color'].toString();
+    tracker.phoneNumber = values['phone_number'].toString();
+    tracker.adminNumber = values['admin_number'].toString();
+
+    // 'sos_numbers TEXT,'
+    // 'pin TEXT,'
+    // 'speed_limit INTEGER,'
+    // 'sleep_limit INTEGER,'
+    // 'ignition_alarm INTEGER,'
+    // 'power_alarm_sms INTEGER,'
+    // 'power_alarm_call INTEGER,'
+    // 'battery INTEGER,'
+    // 'apn TEXT,'
+    // 'iccid TEXT'
+
+    return tracker;
   }
 }

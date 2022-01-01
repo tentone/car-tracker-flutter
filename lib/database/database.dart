@@ -26,20 +26,8 @@ class DataBase {
       await TrackerMessageDB.migrate(db);
     });
 
+    TrackerDB.test(db!);
 
-    // // Update some record
-    // int? count = await database.rawUpdate('UPDATE Test SET name = ?, value = ? WHERE name = ?', ['updated name', '9876', 'some name']);
-    // print('updated: $count');
-    //
-    // // Get the records
-    // List<Map> list = await database.rawQuery('SELECT * FROM Test');
-    // print(list);
-    //
-    // // Count the records
-    // count = Sqflite.firstIntValue(await database.rawQuery('SELECT COUNT(*) FROM Test'));
-    //
-    // // Delete a record
-    // count = await database.rawDelete('DELETE FROM Test WHERE name = ?', ['another name']);
   }
 
   /// Close the database
