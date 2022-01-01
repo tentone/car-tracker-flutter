@@ -14,7 +14,7 @@ class DataBase {
   static String name = 'database.db';
 
   /// Global database object, should be closed before exiting.
-  static Database? db;
+  static Database ?db;
 
   /// Create database structures
   static Future<void> create() async {
