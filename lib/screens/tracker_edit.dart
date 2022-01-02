@@ -2,9 +2,9 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
-import 'package:cartracker/utils/debug_utils.dart';
 import 'package:cartracker/utils/sms_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -54,10 +54,9 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               decoration: InputDecoration(hintText: Locales.get('model', context)),
               onChanged: (value) => widget.tracker.model = value,
             ),
-            Color(
-              controller: TextEditingController(),
-              decoration: InputDecoration(hintText: Locales.get('color', context)),
-              onChanged: (value) => widget.tracker.color = value,
+            ColorPicker(
+              pickerColor: Colors.blue,
+              onColorChanged: (value) => widget.tracker.color = value.toString(),
             ),
             ElevatedButton(
               child: Text(Locales.get('update', context)),
