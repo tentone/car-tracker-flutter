@@ -35,29 +35,74 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         child: ListView(
           children: [
             TextFormField(
-              controller: TextEditingController(),
-              decoration: InputDecoration(hintText: Locales.get('name', context)),
+              controller: TextEditingController(text: widget.tracker.name),
+              decoration: InputDecoration(icon: const Icon(Icons.drive_file_rename_outline), hintText: Locales.get('name', context)),
               onChanged: (value) => widget.tracker.name = value,
             ),
             TextFormField(
-              controller: TextEditingController(),
+              controller: TextEditingController(text: widget.tracker.licensePlate),
               decoration: InputDecoration(hintText: Locales.get('licensePlate', context)),
               onChanged: (value) => widget.tracker.licensePlate = value,
             ),
             TextFormField(
-              controller: TextEditingController(),
+              controller: TextEditingController(text: widget.tracker.chassisNumber),
               decoration: InputDecoration(hintText: Locales.get('chassisNumber', context)),
               onChanged: (value) => widget.tracker.chassisNumber = value,
             ),
             TextFormField(
-              controller: TextEditingController(),
+              controller: TextEditingController(text: widget.tracker.model),
               decoration: InputDecoration(hintText: Locales.get('model', context)),
               onChanged: (value) => widget.tracker.model = value,
             ),
-            ColorPicker(
-              pickerColor: Colors.blue,
-              onColorChanged: (value) => widget.tracker.color = value.toString(),
+            // ColorPicker(
+            //   pickerColor: Colors.blue,
+            //   onColorChanged: (value) => widget.tracker.color = value.toString(),
+            // ),
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      titlePadding: const EdgeInsets.all(0),
+                      contentPadding: const EdgeInsets.all(0),
+                      content: SingleChildScrollView(
+                        child: MaterialPicker(
+                          pickerColor: Colors.blue,
+                          onColorChanged: (value) => widget.tracker.color = "#" + value.value.toRadixString(16),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Text(Locales.get('color', context)),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue, // Color(widget.tracker.color),
+                elevation: 10,
+              ),
             ),
+            TextFormField(
+              controller: TextEditingController(text: widget.tracker.phoneNumber),
+              decoration: InputDecoration(icon: const Icon(Icons.phone),hintText: Locales.get('phoneNumber', context)),
+              onChanged: (value) => widget.tracker.phoneNumber = value,
+            ),
+            TextFormField(
+              controller: TextEditingController(text: widget.tracker.adminNumber),
+              decoration: InputDecoration(icon: const Icon(Icons.contact_phone),hintText: Locales.get('adminNumber', context)),
+              onChanged: (value) => widget.tracker.adminNumber = value,
+            ),
+            TextFormField(
+              controller: TextEditingController(text: widget.tracker.pin),
+              obscureText: true,
+              decoration: InputDecoration(icon: const Icon(Icons.password), hintText: Locales.get('pin', context)),
+              onChanged: (value) => widget.tracker.pin = value,
+            ),
+            // FormField(
+            //   controller: TextEditingController(text: widget.tracker.adminNumber),
+            //   decoration: InputDecoration(hintText: Locales.get('adminNumber', context)),
+            //   onChanged: (value) => widget.tracker.adminNumber = value,
+            // ),
             ElevatedButton(
               child: Text(Locales.get('update', context)),
               onPressed: () async {
