@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:cartracker/data/tracker_location.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/utils/sms_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 /// Tracker represents a GPS tracker, contains all the metadata required to communicate with the tracker.

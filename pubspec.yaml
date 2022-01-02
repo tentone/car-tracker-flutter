@@ -21,9 +21,6 @@ dependencies:
   path: 1.8.0
   path_provider: 2.0.8
   telephony: 0.1.4
-  flutter_form_builder: 7.0.0
-  form_builder_image_picker: 2.0.0
-  form_builder_file_picker: 2.0.0
 
 dev_dependencies:
   flutter_test:

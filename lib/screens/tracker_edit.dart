@@ -1,8 +1,12 @@
 import 'package:cartracker/data/tracker.dart';
+import 'package:cartracker/database/database.dart';
+import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
+import 'package:cartracker/utils/debug_utils.dart';
 import 'package:cartracker/utils/sms_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+import 'package:sqflite/sqflite.dart';
 
 class TrackerEditScreen extends StatefulWidget {
   final Tracker tracker;
@@ -16,7 +20,7 @@ class TrackerEditScreen extends StatefulWidget {
 }
 
 class TrackerEditScreenState extends State<TrackerEditScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +31,42 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
           title: Text(Locales.get('editTracker', context)),
       ),
       body: Form(
-        key: _formKey,
-        child: Column(
-          children: const <Widget>[
-            // TODO <ADD CODE HERE>
+        key: formKey,
+        child: ListView(
+          children: [
+            TextFormField(
+              controller: TextEditingController(),
+              decoration: InputDecoration(hintText: Locales.get('name', context)),
+              onChanged: (value) => widget.tracker.name = value,
+            ),
+            TextFormField(
+              controller: TextEditingController(),
+              decoration: InputDecoration(hintText: Locales.get('licensePlate', context)),
+              onChanged: (value) => widget.tracker.licensePlate = value,
+            ),
+            TextFormField(
+              controller: TextEditingController(),
+              decoration: InputDecoration(hintText: Locales.get('chassisNumber', context)),
+              onChanged: (value) => widget.tracker.chassisNumber = value,
+            ),
+            TextFormField(
+              controller: TextEditingController(),
+              decoration: InputDecoration(hintText: Locales.get('model', context)),
+              onChanged: (value) => widget.tracker.model = value,
+            ),
+            Color(
+              controller: TextEditingController(),
+              decoration: InputDecoration(hintText: Locales.get('color', context)),
+              onChanged: (value) => widget.tracker.color = value,
+            ),
+            ElevatedButton(
+              child: Text(Locales.get('update', context)),
+              onPressed: () async {
+                Database? db = await DataBase.get();
+                await TrackerDB.update(db!, widget.tracker);
+                Navigator.pop(context);
+              }
+            )
           ],
         ),
       ),

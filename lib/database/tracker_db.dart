@@ -63,7 +63,7 @@ class TrackerDB {
     await db.execute('UPDATE tracker SET id=?, name=?, license_plate=?, chassis_number=?,'
         'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
         'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
-        'power_alarm_call=?, battery=?, apn=?, iccid=?) VALUES WHERE uuid=?',
+        'power_alarm_call=?, battery=?, apn=?, iccid=? WHERE uuid=?',
         [tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber,
           tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers,
           tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS,
@@ -115,7 +115,7 @@ class TrackerDB {
     tracker.color = values['color'].toString();
     tracker.phoneNumber = values['phone_number'].toString();
     tracker.adminNumber = values['admin_number'].toString();
-    // 'sos_numbers TEXT,'
+    // tracker.sosNumbers = values['sos_numbers'].toString();
     tracker.pin = values['pin'].toString();
     tracker.speedLimit = int.parse(values['speed_limit'].toString());
     tracker.sleepLimit = int.parse(values['sleep_limit'].toString());

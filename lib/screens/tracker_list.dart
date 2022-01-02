@@ -37,7 +37,7 @@ class TrackerListScreenState extends State<TrackerListScreen> {
                     height: 80,
                     child: ListTile(
                       leading: Image.network('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-                      title: Text(entries.data![index].uuid),
+                      title: Text(entries.data![index].name),
                       subtitle: Text(entries.data![index].uuid),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
