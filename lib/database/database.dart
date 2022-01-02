@@ -30,7 +30,7 @@ class DataBase {
   /// Create database structures
   static Future<Database?> create() async {
     String path = join(await getDatabasesPath(), DataBase.name);
-    
+
     DataBase.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await TrackerDB.migrate(db);
       await TrackerLocationDB.migrate(db);

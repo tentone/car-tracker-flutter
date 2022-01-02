@@ -30,7 +30,7 @@ class TrackerDB {
       'license_plate TEXT,'
       'chassis_number TEXT,'
       'model TEXT,'
-      'color TEXT,'
+      'color INTEGER,'
       'phone_number TEXT,'
       'admin_number TEXT,'
       'sos_numbers TEXT,'
@@ -48,7 +48,7 @@ class TrackerDB {
 
   /// Add a new tracker to the database
   static Future add(Database db, Tracker tracker) async {
-    await db.execute('INSERT INTO tracker(uuid, id, name, license_plate, chassis_number,'
+    await db.execute('INSERT INTO tracker (uuid, id, name, license_plate, chassis_number,'
         'model, color, phone_number, admin_number, sos_numbers,'
         'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
         'power_alarm_call, battery, apn, iccid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -112,7 +112,7 @@ class TrackerDB {
     tracker.licensePlate = values['license_plate'].toString();
     tracker.chassisNumber = values['chassis_number'].toString();
     tracker.model = values['model'].toString();
-    tracker.color = values['color'].toString();
+    tracker.color = int.parse(values['color'].toString());
     tracker.phoneNumber = values['phone_number'].toString();
     tracker.adminNumber = values['admin_number'].toString();
     // tracker.sosNumbers = values['sos_numbers'].toString();

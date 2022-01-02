@@ -68,8 +68,8 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                       contentPadding: const EdgeInsets.all(0),
                       content: SingleChildScrollView(
                         child: MaterialPicker(
-                          pickerColor: Colors.blue,
-                          onColorChanged: (value) => widget.tracker.color = "#" + value.value.toRadixString(16),
+                          pickerColor: Color(widget.tracker.color),
+                          onColorChanged: (value) => widget.tracker.color = value.value,
                         ),
                       ),
                     );
@@ -78,7 +78,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               },
               child: Text(Locales.get('color', context)),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // Color(widget.tracker.color),
+                primary: Color(widget.tracker.color),
                 elevation: 10,
               ),
             ),

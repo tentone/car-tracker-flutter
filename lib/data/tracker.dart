@@ -14,7 +14,7 @@ class Tracker {
   String id = '';
 
   /// Name of the tracker.
-  String name = '';
+  String name = 'Tracker';
 
   /// License plate of the vehicle where the tracker is placed
   String licensePlate = '';
@@ -25,8 +25,8 @@ class Tracker {
   /// Model of the tracker.
   String model = '';
 
-  /// Color to represent the tracker on the map.
-  String color = "#FF0000";
+  /// Color to represent the tracker on the map in hexadecimal.
+  int color = 0xFF0000;
 
   /// Phone number of the tracker used to send and receive messages.
   String phoneNumber = '';
