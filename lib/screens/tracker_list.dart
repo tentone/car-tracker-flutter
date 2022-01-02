@@ -4,6 +4,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/screens/tracker_create.dart';
 import 'package:cartracker/screens/tracker_edit.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class TrackerListScreen extends StatefulWidget {
   const TrackerListScreen({Key? key}) : super(key: key);
@@ -19,8 +20,15 @@ class TrackerListScreenState extends State<TrackerListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: TrackerDB.list(DataBase.db!),
+        future: () async {
+          Database? db = await DataBase.get();
+          return TrackerDB.list(db!);
+        }(),
         builder: (BuildContext context, AsyncSnapshot<List<Tracker>> entries) {
+          if (entries.data == null) {
+            return const SizedBox();
+          }
+
           return ListView.builder(
               padding: const EdgeInsets.all(0),
               itemCount: entries.data!.length,
@@ -33,13 +41,13 @@ class TrackerListScreenState extends State<TrackerListScreen> {
                       subtitle: Text(entries.data![index].uuid),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                          return const TrackerEditScreen();
+                          return TrackerEditScreen(entries.data![index]);
                         }));
                       },
                     )
                 );
               }
-          )
+          );
         }
       ),
       floatingActionButton: FloatingActionButton(

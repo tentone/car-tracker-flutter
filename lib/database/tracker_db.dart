@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class TrackerDB {
   static String tableName = 'tracker';
 
+  /// Test tracker database functionality.
   static test(Database db) async {
     const int size = 10;
 

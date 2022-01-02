@@ -16,8 +16,19 @@ class DataBase {
   /// Global database object, should be closed before exiting.
   static Database ?db;
 
+  /// Get database object to access data.
+  ///
+  /// Ensures that database is created.
+  static Future<Database?> get() async {
+    if(DataBase.db == null) {
+      return DataBase.create();
+    }
+
+    return DataBase.db;
+  }
+
   /// Create database structures
-  static Future<void> create() async {
+  static Future<Database?> create() async {
     String path = join(await getDatabasesPath(), DataBase.name);
     
     DataBase.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
@@ -26,13 +37,11 @@ class DataBase {
       await TrackerMessageDB.migrate(db);
     });
 
-   // TrackerDB.test(db!);
-
+    return DataBase.db;
   }
 
   /// Close the database
   static close() async {
-    // Close the database
     await DataBase.db?.close();
   }
 
