@@ -84,8 +84,24 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.phoneNumber),
-              decoration: InputDecoration(icon: const Icon(Icons.phone),hintText: Locales.get('phoneNumber', context)),
+              decoration: InputDecoration(
+                  icon: const Icon(Icons.phone),
+                  hintText: Locales.get('phoneNumber', context),
+                  suffixIcon: FloatingActionButton(
+                      child: const Icon(Icons.contact_phone),
+                      onPressed: () async {
+                        final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                        if(contact.phoneNumber?.number != null) {
+                          String number = contact.phoneNumber?.number ?? '';
+                          widget.tracker.phoneNumber = number;
+                          //SMSUtils.send('g1234', number);
+                        }
+                      }
+                  )
+
+              ),
               onChanged: (value) => widget.tracker.phoneNumber = value,
+
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.adminNumber),
