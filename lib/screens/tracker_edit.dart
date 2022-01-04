@@ -94,7 +94,6 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                         if(contact.phoneNumber?.number != null) {
                           String number = contact.phoneNumber?.number ?? '';
                           widget.tracker.phoneNumber = number;
-                          //SMSUtils.send('g1234', number);
                         }
                       }
                   )

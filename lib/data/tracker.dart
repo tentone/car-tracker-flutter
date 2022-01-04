@@ -26,7 +26,7 @@ class Tracker {
   String model = '';
 
   /// Color to represent the tracker on the map in hexadecimal.
-  int color = 0xFF0000;
+  int color = 0xFFFF0000;
 
   /// Phone number of the tracker used to send and receive messages.
   String phoneNumber = '';

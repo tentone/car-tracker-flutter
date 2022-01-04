@@ -8,6 +8,7 @@ const Map<String, String> LocaleEN = {
   'editTracker': 'Editar Tracker',
   'createTracker': 'Adicionar Tracker',
 
+  'model': 'Modelo',
   'theme': 'Tema',
   'locale': 'Idioma',
   'test': 'Teste',
