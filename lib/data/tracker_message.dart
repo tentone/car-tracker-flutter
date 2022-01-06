@@ -7,6 +7,9 @@ enum MessageDirection {
 
 /// Message received or sent by the tracker
 class TrackerMessage {
+  /// ID of the tracker message
+  int id = -1;
+
   /// Timestamp of the message
   DateTime timestamp;
 

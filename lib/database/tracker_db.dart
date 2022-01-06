@@ -4,24 +4,6 @@ import 'package:sqflite/sqflite.dart';
 class TrackerDB {
   static String tableName = 'tracker';
 
-  /// Test tracker database functionality.
-  static test(Database db) async {
-    const int size = 10;
-
-    print(await count(db));
-
-    List<Future> addFuture = [];
-    for (int i = 0; i < size; i++) {
-      addFuture.add(add(db, Tracker()));
-    }
-    await Future.wait(addFuture);
-
-    await list(db);
-
-    print(await count(db));
-  }
-
-
   static Future<void> migrate(Database db) async {
     await db.execute('CREATE TABLE IF NOT EXISTS tracker('
       'uuid TEXT PRIMARY KEY,'
@@ -128,4 +110,22 @@ class TrackerDB {
 
     return tracker;
   }
+
+  /// Test tracker database functionality.
+  static test(Database db) async {
+    const int size = 10;
+
+    print(await count(db));
+
+    List<Future> addFuture = [];
+    for (int i = 0; i < size; i++) {
+      addFuture.add(add(db, Tracker()));
+    }
+    await Future.wait(addFuture);
+
+    print(await list(db));
+
+    print(await count(db));
+  }
+
 }

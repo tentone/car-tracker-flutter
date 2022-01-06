@@ -14,4 +14,6 @@ class TrackerLocationDB {
       'FOREIGN KEY(tracker_id) REFERENCES tracker(id)'
     ')');
   }
+
+
 }
