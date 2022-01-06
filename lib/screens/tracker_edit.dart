@@ -113,6 +113,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               decoration: InputDecoration(icon: const Icon(Icons.password), hintText: Locales.get('pin', context)),
               onChanged: (value) => widget.tracker.pin = value,
             ),
+
             // FormField(
             //   controller: TextEditingController(text: widget.tracker.adminNumber),
             //   decoration: InputDecoration(hintText: Locales.get('adminNumber', context)),

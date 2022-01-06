@@ -19,4 +19,11 @@ class TrackerLocation {
 
   /// Speed of the vehicle
   late double speed;
+
+  /// Generate a google maps URL from the GPS position.
+  ///
+  /// Can be used to open the location in external application.
+  String getGoogleMapsURL() {
+   return 'http://maps.google.com/maps?q=' + this.latitude.toString() + ',' + this.longitude.toString();
+  }
 }
