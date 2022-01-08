@@ -3,25 +3,25 @@
 /// Stored in database and associated with the tracker.
 class TrackerLocation {
   /// ID of the tracker location in database
-  late int id = -1;
+  int id = -1;
 
   /// GPS latitude of the location
-  late double latitude;
+  double latitude = 0.0;
 
   /// GPS longitude of the location
-  late double longitude;
+  double longitude = 0.0;
 
   /// Timestamp at wich this location was obtained
-  late DateTime timestamp;
+  DateTime timestamp = DateTime.now();
 
   /// Flag indicates if the ACC (ignition) was active.
-  late bool acc;
+  bool acc = false;
 
   /// Indicates if the GPS signal is active.
-  late bool gps;
+  bool gps = false;
 
   /// Speed of the vehicle
-  late double speed;
+  double speed = 0.0;
 
   /// Generate a google maps URL from the GPS position.
   ///

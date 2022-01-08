@@ -1,4 +1,6 @@
+import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_location.dart';
+import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerLocationDB {
@@ -47,6 +49,27 @@ class TrackerLocationDB {
     location.speed = double.parse(values['speed'].toString());
 
     return location;
+  }
+
+  static Future<void> test(Database db) async {
+    Tracker tracker = Tracker();
+    await TrackerDB.add(db, tracker);
+
+    List<Future> addFuture = [];
+    const int size = 10;
+    for (int i = 0; i < size; i++) {
+      TrackerLocation location = TrackerLocation();
+      location.latitude = 1.0;
+      location.longitude = 1.0;
+      location.speed = 1.0;
+      addFuture.add(add(db, tracker.uuid, location));
+    }
+    await Future.wait(addFuture);
+
+    List<TrackerLocation> locations = await list(db, tracker.uuid);
+
+    print(locations[0].getGoogleMapsURL());
+    print(locations);
   }
 
 

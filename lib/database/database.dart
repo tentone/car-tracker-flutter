@@ -4,6 +4,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_location_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:path/path.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 /// Handle global database operations.
@@ -36,6 +37,10 @@ class DataBase {
       await TrackerLocationDB.migrate(db);
       await TrackerMessageDB.migrate(db);
     });
+
+    TrackerDB.test(DataBase.db!);
+    TrackerMessageDB.test(DataBase.db!);
+    TrackerLocationDB.test(DataBase.db!);
 
     return DataBase.db;
   }
