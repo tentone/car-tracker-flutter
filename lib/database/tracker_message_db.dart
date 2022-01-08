@@ -1,4 +1,6 @@
+import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_message.dart';
+import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerMessageDB {
@@ -21,7 +23,7 @@ class TrackerMessageDB {
         [trackerUUID, message.direction.index, message.timestamp.toIso8601String(), message.data]);
   }
 
-  /// Get a list of all trackers available in database
+  /// Get a list of all messages of the a specific tracker available in database
   static Future<List<TrackerMessage>> list(Database db, String trackerUUID) async {
     List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_message WHERE tracker_message.tracker_id = ?', [trackerUUID]);
     List<TrackerMessage> messages = [];
@@ -44,5 +46,19 @@ class TrackerMessageDB {
     message.id = int.parse(values['id'].toString());
 
     return message;
+  }
+
+  static Future<void> test(Database db) async {
+    Tracker tracker = Tracker();
+    await TrackerDB.add(db, tracker);
+
+    List<Future> addFuture = [];
+    const int size = 10;
+    for (int i = 0; i < size; i++) {
+      addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, "test", DateTime.now())));
+    }
+    await Future.wait(addFuture);
+
+    print(await list(db, tracker.uuid));
   }
 }

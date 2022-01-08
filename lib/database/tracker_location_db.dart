@@ -1,6 +1,9 @@
+import 'package:cartracker/data/tracker_location.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerLocationDB {
+  static String tableName = 'tracker_location';
+
   static Future<void> migrate(Database db) async {
     await db.execute('CREATE TABLE IF NOT EXISTS tracker_location ('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
@@ -13,6 +16,37 @@ class TrackerLocationDB {
       'speed REAL,'
       'FOREIGN KEY(tracker_id) REFERENCES tracker(id)'
     ')');
+  }
+
+  /// Add a new tracker location the database
+  static Future add(Database db, String trackerUUID, TrackerLocation location) async {
+    await db.execute('INSERT INTO tracker_location (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [trackerUUID, location.latitude, location.longitude, location.timestamp.toIso8601String(), location.acc, location.gps, location.speed]);
+  }
+
+  /// Get a list of all location available in for a specific tracker in database
+  static Future<List<TrackerLocation>> list(Database db, String trackerUUID) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_location WHERE tracker_location.tracker_id = ?', [trackerUUID]);
+    List<TrackerLocation> locations = [];
+
+    for (int i = 0; i < list.length; i++) {
+      locations.add(parse(list[i]));
+    }
+
+    return locations;
+  }
+
+  /// Parse database retrieved data into a usable object.
+  static TrackerLocation parse(Map<String, Object?> values) {
+    TrackerLocation location = TrackerLocation();
+
+    location.id = int.parse(values['id'].toString());
+    location.timestamp = DateTime.parse(values['timestamp'].toString());
+    location.latitude = double.parse(values['latitude'].toString());
+    location.longitude = double.parse(values['longitude'].toString());
+    location.speed = double.parse(values['speed'].toString());
+
+    return location;
   }
 
 

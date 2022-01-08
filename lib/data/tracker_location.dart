@@ -2,6 +2,9 @@
 ///
 /// Stored in database and associated with the tracker.
 class TrackerLocation {
+  /// ID of the tracker location in database
+  late int id = -1;
+
   /// GPS latitude of the location
   late double latitude;
 

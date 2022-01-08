@@ -41,17 +41,17 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.licensePlate),
-              decoration: InputDecoration(hintText: Locales.get('licensePlate', context)),
+              decoration: InputDecoration(icon: const Icon(Icons.document_scanner), hintText: Locales.get('licensePlate', context)),
               onChanged: (value) => widget.tracker.licensePlate = value,
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.chassisNumber),
-              decoration: InputDecoration(hintText: Locales.get('chassisNumber', context)),
+              decoration: InputDecoration(icon: const Icon(Icons.car_rental), hintText: Locales.get('chassisNumber', context)),
               onChanged: (value) => widget.tracker.chassisNumber = value,
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.model),
-              decoration: InputDecoration(hintText: Locales.get('model', context)),
+              decoration: InputDecoration(icon: const Icon(Icons.car_repair), hintText: Locales.get('model', context)),
               onChanged: (value) => widget.tracker.model = value,
             ),
             // ColorPicker(
@@ -64,7 +64,8 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                   icon: const Icon(Icons.phone),
                   hintText: Locales.get('phoneNumber', context),
                   suffixIcon: FloatingActionButton(
-                      child: const Icon(Icons.contact_phone),
+                      child: const Icon(Icons.contact_phone, color: Colors.grey),
+                      backgroundColor: Colors.transparent,
                       onPressed: () async {
                         final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
                         if(contact.phoneNumber?.number != null) {
@@ -76,11 +77,25 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
 
               ),
               onChanged: (value) => widget.tracker.phoneNumber = value,
-
             ),
             TextFormField(
               controller: TextEditingController(text: widget.tracker.adminNumber),
-              decoration: InputDecoration(icon: const Icon(Icons.contact_phone),hintText: Locales.get('adminNumber', context)),
+              decoration: InputDecoration(
+                  icon: const Icon(Icons.contact_phone),
+                  hintText: Locales.get('adminNumber', context),
+                  suffixIcon: FloatingActionButton(
+                    child: const Icon(Icons.contact_phone, color: Colors.grey),
+                    backgroundColor: Colors.transparent,
+                    onPressed: () async {
+                      final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                      if(contact.phoneNumber?.number != null) {
+                        String number = contact.phoneNumber?.number ?? '';
+                        widget.tracker.adminNumber = number;
+                      }
+                    }
+                  )
+
+              ),
               onChanged: (value) => widget.tracker.adminNumber = value,
             ),
             TextFormField(
@@ -89,11 +104,11 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               decoration: InputDecoration(icon: const Icon(Icons.password), hintText: Locales.get('pin', context)),
               onChanged: (value) => widget.tracker.pin = value,
             ),
-            // FormField(
-            //   controller: TextEditingController(text: widget.tracker.adminNumber),
-            //   decoration: InputDecoration(hintText: Locales.get('adminNumber', context)),
-            //   onChanged: (value) => widget.tracker.adminNumber = value,
-            // ),
+            TextFormField(
+              controller: TextEditingController(text: widget.tracker.adminNumber),
+              decoration: InputDecoration(hintText: Locales.get('adminNumber', context)),
+              onChanged: (value) => widget.tracker.adminNumber = value,
+            ),
             ElevatedButton(
               onPressed: () {
                 showDialog(
