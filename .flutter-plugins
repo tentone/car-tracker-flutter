@@ -1,6 +1,10 @@
 # This is a generated file; do not edit or check into version control.
 contact_picker_web=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\contact_picker_web-4.6.0\\
+flutter_plugin_android_lifecycle=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_plugin_android_lifecycle-2.0.5\\
 fluttercontactpicker=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\fluttercontactpicker-4.6.0\\
+fluttertoast=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\fluttertoast-8.0.8\\
+image_picker=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker-0.8.4+4\\
+image_picker_for_web=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker_for_web-2.1.4\\
 mapbox_gl=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\mapbox_gl-0.14.0\\
 mapbox_gl_web=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\mapbox_gl_web-0.14.0\\
 path_provider=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.8\\

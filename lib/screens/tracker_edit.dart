@@ -3,6 +3,7 @@ import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
@@ -104,10 +105,17 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               decoration: InputDecoration(icon: const Icon(Icons.password), hintText: Locales.get('pin', context)),
               onChanged: (value) => widget.tracker.pin = value,
             ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.adminNumber),
-              decoration: InputDecoration(hintText: Locales.get('adminNumber', context)),
-              onChanged: (value) => widget.tracker.adminNumber = value,
+            ElevatedButton(
+                child: Text('alert'),
+                onPressed: () async {
+                  Modal.alert(context, 'test', 'test');
+                }
+            ),
+            ElevatedButton(
+                child: Text('toast'),
+                onPressed: () async {
+                  Modal.alert(context, 'test', 'test');
+                }
             ),
             ElevatedButton(
               onPressed: () {

@@ -22,6 +22,8 @@ dependencies:
   path_provider: 2.0.8
   telephony: 0.1.4
   flutter_colorpicker: 1.0.3
+  image_picker: 0.8.4+4
+  fluttertoast: 8.0.8
 
 dev_dependencies:
   flutter_test:
