@@ -38,6 +38,17 @@ class TrackerLocationDB {
     return locations;
   }
 
+  /// Get the last location of a specific tracker from database
+  static Future<TrackerLocation> getLast(Database db, String trackerUUID) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_location WHERE tracker_location.tracker_id = ? ORDER BY tracker_location.timestamp DESC', [trackerUUID]);
+
+    if (list.isEmpty) {
+      throw Exception("No location available for the tracker");
+    }
+
+    return parse(list[0]);
+  }
+
   /// Parse database retrieved data into a usable object.
   static TrackerLocation parse(Map<String, Object?> values) {
     TrackerLocation location = TrackerLocation();
