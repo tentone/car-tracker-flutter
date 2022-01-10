@@ -70,9 +70,6 @@ class TrackerLocationDB {
     const int size = 10;
     for (int i = 0; i < size; i++) {
       TrackerLocation location = TrackerLocation();
-      location.latitude = 1.0;
-      location.longitude = 1.0;
-      location.speed = 1.0;
       addFuture.add(add(db, tracker.uuid, location));
     }
     await Future.wait(addFuture);
