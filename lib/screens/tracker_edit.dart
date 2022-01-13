@@ -114,7 +114,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             ElevatedButton(
                 child: Text('toast'),
                 onPressed: () async {
-                  Modal.alert(context, 'test', 'test');
+                  Modal.toast(context, 'test');
                 }
             ),
             ElevatedButton(
