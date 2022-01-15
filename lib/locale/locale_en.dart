@@ -20,6 +20,7 @@ const Map<String, String> LocaleEN = {
   'delete': 'Delete',
   'version': 'Version',
   'update': 'Update',
+  'save': 'Save',
   'maxDistance': 'Max Distance (m)',
   'maxSpeed': 'Max Speed (mp/h)',
   'adminNumber': 'Admin Number',

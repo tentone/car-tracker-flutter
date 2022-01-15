@@ -106,18 +106,6 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               onChanged: (value) => widget.tracker.pin = value,
             ),
             ElevatedButton(
-                child: Text('alert'),
-                onPressed: () async {
-                  Modal.alert(context, 'test', 'test');
-                }
-            ),
-            ElevatedButton(
-                child: Text('toast'),
-                onPressed: () async {
-                  Modal.toast(context, 'test');
-                }
-            ),
-            ElevatedButton(
               onPressed: () {
                 showDialog(
                   context: context,
@@ -142,7 +130,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               ),
             ),
             ElevatedButton(
-              child: Text(Locales.get('update', context)),
+              child: Text(Locales.get('save', context)),
               onPressed: () async {
                 Database? db = await DataBase.get();
                 await TrackerDB.update(db!, widget.tracker);
