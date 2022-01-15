@@ -19,6 +19,8 @@ class SMSUtils {
           return;
         }
 
+        // msg.date | msg.dateSent
+
         Database? db = await DataBase.get();
         List<Tracker> trackers = await TrackerDB.list(db!);
 
