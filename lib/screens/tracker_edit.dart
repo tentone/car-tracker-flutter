@@ -116,7 +116,11 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                       content: SingleChildScrollView(
                         child: MaterialPicker(
                           pickerColor: Color(widget.tracker.color),
-                          onColorChanged: (value) => widget.tracker.color = value.value,
+                          onColorChanged: (value) {
+                            setState(() {
+                              widget.tracker.color = value.value;
+                            });
+                          }
                         ),
                       ),
                     );

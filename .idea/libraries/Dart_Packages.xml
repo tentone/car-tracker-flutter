@@ -142,6 +142,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_slidable">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_slidable-1.2.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_test">
           <value>
             <list>
@@ -499,6 +506,7 @@
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_colorpicker-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_slidable-1.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/fluttercontactpicker-4.6.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.8/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4/lib" />
