@@ -3,6 +3,7 @@ import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
@@ -24,8 +25,6 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // widget.tracker
-
     return Scaffold(
       appBar: AppBar(
           title: Text(Locales.get('editTracker', context)),
@@ -168,6 +167,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
       floatingActionButton: widget.tracker.phoneNumber.isEmpty ? const SizedBox() : FloatingActionButton(
         onPressed: () async {
           SMSUtils.send('g1234', widget.tracker.phoneNumber);
+          Modal.toast(context, Locales.get('requestedPosition', context));
         },
         child: const Icon(Icons.gps_fixed),
       ),

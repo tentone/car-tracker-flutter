@@ -1,4 +1,6 @@
+import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/database/database.dart';
+import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 
@@ -13,16 +15,21 @@ class SMSUtils {
   static void startListener() {
     telephony.listenIncomingSms(
       onNewMessage: (SmsMessage msg) async {
-        Database? db = await DataBase.get();
+        if (msg.body == null) {
+          return;
+        }
 
-        print(msg.address);
-        print(msg.body);
+        Database? db = await DataBase.get();
+        List<Tracker> trackers = await TrackerDB.list(db!);
+
+        for (int i = 0; i < trackers.length; i++) {
+
+          if(msg.address == trackers[i].phoneNumber) {
+            trackers[i].processSMS(msg.body!);
+          }
+        }
       },
-      onBackgroundMessage: (SmsMessage msg) async {
-        print(msg.address);
-        print(msg.body);
-      },
-      listenInBackground: true,
+      listenInBackground: false
     );
   }
 

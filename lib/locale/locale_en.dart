@@ -58,5 +58,6 @@ const Map<String, String> LocaleEN = {
   'licensePlate': 'License Plate',
   'chassisNumber': 'Chassis Number',
 
+  'requestedPosition': 'Sent position request',
   'deletedSuccessfully': 'Tracker deleted successfully!',
 };
