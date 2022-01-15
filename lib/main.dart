@@ -5,7 +5,9 @@ import 'app.dart';
 Future<void> main() async {
   runApp(App());
 
-  SMSUtils.listen();
+  await SMSUtils.getAll();
+
+  SMSUtils.startListener();
 }
 
 

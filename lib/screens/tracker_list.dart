@@ -58,7 +58,7 @@ class TrackerListScreenState extends State<TrackerListScreen> {
                   child: ListTile(
                     leading: const Icon(Icons.gps_fixed, size:40.0),
                     title: Text(entries.data![index].name),
-                    subtitle: Text(entries.data![index].uuid),
+                    subtitle: Text(entries.data![index].licensePlate),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                         return TrackerEditScreen(entries.data![index]);
