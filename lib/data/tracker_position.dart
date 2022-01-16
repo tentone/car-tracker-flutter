@@ -1,7 +1,7 @@
 /// Stores a tracker location.
 ///
 /// Stored in database and associated with the tracker.
-class TrackerLocation {
+class TrackerPosition {
   /// ID of the tracker location in database
   int id = -1;
 

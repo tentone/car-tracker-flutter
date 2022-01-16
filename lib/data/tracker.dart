@@ -1,8 +1,13 @@
-import 'dart:ui';
-
-import 'package:cartracker/data/tracker_location.dart';
+import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/data/tracker_message.dart';
+import 'package:cartracker/database/database.dart';
+import 'package:cartracker/database/tracker_message_db.dart';
+import 'package:cartracker/database/tracker_position_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/widget/modal.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
 
 /// Tracker represents a GPS tracker, contains all the metadata required to communicate with the tracker.
@@ -74,30 +79,68 @@ class Tracker {
   List<TrackerMessage> messages = [];
 
   /// Positions of the tracker over time.
-  List<TrackerLocation> locations = [];
+  List<TrackerPosition> positions = [];
 
   Tracker() {
     this.uuid = const Uuid().v4().toString();
   }
 
+  /// Add a message to the tracker.
+  ///
+  /// Updates the local messages list and the database state.
+  Future<void> addMessage(TrackerMessage message) async {
+    Database? db = await DataBase.get();
+    await TrackerMessageDB.add(db!, this.uuid, message);
+    this.messages.add(message);
+  }
+
+
+  /// Add a new location to the tracker.
+  ///
+  /// Updates the local locations list and the database state.
+  Future<void> addPosition(TrackerPosition position) async {
+    Database? db = await DataBase.get();
+    await TrackerPositionDB.add(db!, this.uuid, position);
+    this.positions.add(position);
+  }
+
+  /// Update the tracker in database.
+  void storeDB() {
+    // TODO <ADD CODE HERE>
+  }
+
+  /// Compare the phone number of the tracker with an external phone number.
+  ///
+  /// Check if they are the same allow for some tolerance (e.g. country codes etc).
+  bool compareAddress(String address) {
+    if (address.length > this.phoneNumber.length) {
+      return address.contains(this.phoneNumber);
+    } else if (address.length < this.phoneNumber.length) {
+      return this.phoneNumber.contains(address);
+    }
+
+    return address == this.phoneNumber;
+  }
+
   /// Process a message received from SMS and store its result on a tracker message.
   ///
   /// @param message Message received.
-  void processSMS(String message) {
-    this.messages.add(TrackerMessage(MessageDirection.RECEIVED, message, DateTime.now()));
+  void processSMS(SmsMessage msg) {
+    String body = msg.body!;
+    DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+
+    this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
     // Acknowledge message
-    String ackMsg = message.toLowerCase();
+    String ackMsg = body.toLowerCase();
     if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
-      // msg.type = MessageType.ACKNOWLEDGE;
-      //
-      // Modal.toast(Locale.get('trackerAcknowledge', {name: this.name}));
+      // Modal.toast(Locales.get('trackerAcknowledge'));
       return;
     }
 
     // List of SOS numbers
-    if (message.startsWith('101#')) {
-      List<String> numbers = message.split(' ');
+    if (body.startsWith('101#')) {
+      List<String> numbers = body.split(' ');
       for (int i = 0; i < numbers.length;  i++) {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
@@ -105,16 +148,17 @@ class Tracker {
     }
 
     // GPS Location
-    if (message.startsWith('http')) {
+    if (body.startsWith('http')) {
       try {
         RegExp regex = RegExp("/https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)/");
-        List<RegExpMatch> regMatch = regex.allMatches(message).toList();
+        List<RegExpMatch> regMatch = regex.allMatches(body).toList();
         List<String> matches = regMatch.map((val) => val.input).toList();
 
         // TODO <REMOVE THIS>
         print(matches);
 
-        TrackerLocation data = new TrackerLocation();
+        TrackerPosition data = TrackerPosition();
+        data.timestamp = timestamp;
 
         data.latitude = double.parse(matches[1]);
 
@@ -135,8 +179,8 @@ class Tracker {
         int seconds = int.parse(matches[12]);
 
         this.id = id;
-        this.locations.add(data);
 
+        this.positions.add(data);
         // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
         return;
@@ -149,8 +193,8 @@ class Tracker {
     // GPS Tracker data
     RegExp infoRegex = RegExp("/([A-Za-z0-9_\.]+) ([0-9]+)\/([0-9]+)\/([0-9]+)\s*ID:([0-9]+)\s*IP:([0-9\.a-zA-Z\\]+)\s*([0-9]+) BAT:([0-9])\s*APN:([0-9\.a-zA-Z\\]+)\s*GPS:([0-9A-Z\-]+)\s*GSM:([0-9]+)\s*ICCID:([0-9A-Z]+)/");
     try {
-      if (infoRegex.hasMatch(message)) {
-        List<RegExpMatch> regMatch = infoRegex.allMatches(message).toList();
+      if (infoRegex.hasMatch(body)) {
+        List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
         List<String> matches = regMatch.map((val) => val.input).toList();
 
         String model = matches[1];
@@ -185,17 +229,11 @@ class Tracker {
   /// @param message Message to be sent to the tracker.
   void sendSMS(String message) {
     SMSUtils.send(message, this.phoneNumber);
-
-    this.messages.add(TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
-  }
-
-  /// Update the tracker in database.
-  void storeDB() {
-    // TODO <ADD CODE HERE>
+    this.addMessage(TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
   }
 
   /// Request a data with the location of the device, status and speed of the tracker.
-  void getLocation() {
+  void requestLocation() {
     this.sendSMS('g1234');
   }
 

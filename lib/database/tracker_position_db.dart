@@ -1,13 +1,13 @@
 import 'package:cartracker/data/tracker.dart';
-import 'package:cartracker/data/tracker_location.dart';
+import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
-class TrackerLocationDB {
-  static String tableName = 'tracker_location';
+class TrackerPositionDB {
+  static String tableName = 'tracker_position';
 
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE IF NOT EXISTS tracker_location ('
+    await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       'tracker_id STRING,'
       'latitude REAL,'
@@ -21,15 +21,15 @@ class TrackerLocationDB {
   }
 
   /// Add a new tracker location the database
-  static Future add(Database db, String trackerUUID, TrackerLocation location) async {
-    await db.execute('INSERT INTO tracker_location (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
+  static Future add(Database db, String trackerUUID, TrackerPosition location) async {
+    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [trackerUUID, location.latitude, location.longitude, location.timestamp.toIso8601String(), location.acc, location.gps, location.speed]);
   }
 
   /// Get a list of all location available in for a specific tracker in database
-  static Future<List<TrackerLocation>> list(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_location WHERE tracker_location.tracker_id = ?', [trackerUUID]);
-    List<TrackerLocation> locations = [];
+  static Future<List<TrackerPosition>> list(Database db, String trackerUUID) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_position.tracker_id = ?', [trackerUUID]);
+    List<TrackerPosition> locations = [];
 
     for (int i = 0; i < list.length; i++) {
       locations.add(parse(list[i]));
@@ -39,8 +39,8 @@ class TrackerLocationDB {
   }
 
   /// Get the last location of a specific tracker from database
-  static Future<TrackerLocation> getLast(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_location WHERE tracker_location.tracker_id = ? ORDER BY tracker_location.timestamp DESC', [trackerUUID]);
+  static Future<TrackerPosition> getLast(Database db, String trackerUUID) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_position.tracker_id = ? ORDER BY tracker_position.timestamp DESC', [trackerUUID]);
 
     if (list.isEmpty) {
       throw Exception("No location available for the tracker");
@@ -50,8 +50,8 @@ class TrackerLocationDB {
   }
 
   /// Parse database retrieved data into a usable object.
-  static TrackerLocation parse(Map<String, Object?> values) {
-    TrackerLocation location = TrackerLocation();
+  static TrackerPosition parse(Map<String, Object?> values) {
+    TrackerPosition location = TrackerPosition();
 
     location.id = int.parse(values['id'].toString());
     location.timestamp = DateTime.parse(values['timestamp'].toString());
@@ -69,12 +69,12 @@ class TrackerLocationDB {
     List<Future> addFuture = [];
     const int size = 10;
     for (int i = 0; i < size; i++) {
-      TrackerLocation location = TrackerLocation();
+      TrackerPosition location = TrackerPosition();
       addFuture.add(add(db, tracker.uuid, location));
     }
     await Future.wait(addFuture);
 
-    List<TrackerLocation> locations = await list(db, tracker.uuid);
+    List<TrackerPosition> locations = await list(db, tracker.uuid);
 
     print(locations[0].getGoogleMapsURL());
     print(locations);

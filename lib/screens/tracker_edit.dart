@@ -166,7 +166,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
       ),
       floatingActionButton: widget.tracker.phoneNumber.isEmpty ? const SizedBox() : FloatingActionButton(
         onPressed: () async {
-          SMSUtils.send('g1234', widget.tracker.phoneNumber);
+          widget.tracker.requestLocation();
           Modal.toast(context, Locales.get('requestedPosition', context));
         },
         child: const Icon(Icons.gps_fixed),

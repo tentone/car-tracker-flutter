@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cartracker/database/tracker_db.dart';
-import 'package:cartracker/database/tracker_location_db.dart';
+import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:path/path.dart';
 
@@ -34,13 +34,13 @@ class DataBase {
 
     DataBase.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await TrackerDB.migrate(db);
-      await TrackerLocationDB.migrate(db);
+      await TrackerPositionDB.migrate(db);
       await TrackerMessageDB.migrate(db);
     });
 
     TrackerDB.test(DataBase.db!);
     TrackerMessageDB.test(DataBase.db!);
-    TrackerLocationDB.test(DataBase.db!);
+    TrackerPositionDB.test(DataBase.db!);
 
     return DataBase.db;
   }

@@ -4,6 +4,8 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 
+import '../main.dart';
+
 /// Utils to send and receive SMS messages.
 class SMSUtils {
   /// Telephony instance used to interact with phone functionalities
@@ -19,20 +21,35 @@ class SMSUtils {
           return;
         }
 
-        // msg.date | msg.dateSent
-
         Database? db = await DataBase.get();
         List<Tracker> trackers = await TrackerDB.list(db!);
 
         for (int i = 0; i < trackers.length; i++) {
-
-          if(msg.address == trackers[i].phoneNumber) {
-            trackers[i].processSMS(msg.body!);
+          if(trackers[i].compareAddress(msg.address!)) {
+            trackers[i].processSMS(msg);
           }
         }
       },
+      onBackgroundMessage: backgroundMessageHandler,
       listenInBackground: false
     );
+  }
+
+  /// Get all SMS received by the device.
+  static Future getAll() async {
+    List<SmsMessage> messages = await telephony.getInboxSms();
+    Database? db = await DataBase.get();
+    List<Tracker> trackers = await TrackerDB.list(db!);
+
+    for(int i = 0; i < messages.length; i++) {
+      SmsMessage msg = messages[i];
+
+      for (int i = 0; i < trackers.length; i++) {
+        if(trackers[i].compareAddress(msg.address!)) {
+          print(msg.address! + "(" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
+        }
+      }
+    }
   }
 
   /// Send a SMS to an address (phone number)
@@ -45,16 +62,6 @@ class SMSUtils {
           // SendStatus.SENT
         }
     );
-  }
-
-  /// Get all SMS received by the device.
-  static Future getAll() async {
-    List<SmsMessage> messages = await telephony.getInboxSms();
-
-    for(int i = 0; i < messages.length; i++) {
-      print(messages[i].address);
-      print(messages[i].body);
-    }
   }
 
   /// Get SMS received from a specific address

@@ -59,4 +59,5 @@ const Map<String, String> LocaleEN = {
 
   'requestedPosition': 'Enviado pedido de posição!',
   'deletedSuccessfully': 'Tracker eliminado com sucesso!',
+  'trackerAcknowledge': 'Commando confirmado pelo tracker.'
 };

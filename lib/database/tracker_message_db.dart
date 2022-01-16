@@ -7,7 +7,7 @@ class TrackerMessageDB {
   static String tableName = 'tracker_message';
 
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE IF NOT EXISTS tracker_message ('
+    await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       'tracker_id STRING,'
       'direction INTEGER,'
@@ -19,13 +19,13 @@ class TrackerMessageDB {
 
   /// Add a new tracker message the database
   static Future add(Database db, String trackerUUID, TrackerMessage message) async {
-    await db.execute('INSERT INTO tracker_message (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)',
+    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)',
         [trackerUUID, message.direction.index, message.timestamp.toIso8601String(), message.data]);
   }
 
   /// Get a list of all messages of the a specific tracker available in database
   static Future<List<TrackerMessage>> list(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker_message WHERE tracker_message.tracker_id = ?', [trackerUUID]);
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_message.tracker_id = ?', [trackerUUID]);
     List<TrackerMessage> messages = [];
 
     for (int i = 0; i < list.length; i++) {
