@@ -43,10 +43,9 @@ class SMSUtils {
 
     for(int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
-
-      for (int i = 0; i < trackers.length; i++) {
-        if(trackers[i].compareAddress(msg.address!)) {
-          print(msg.address! + "(" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
+      for (int j= 0; j < trackers.length; j++) {
+        if(trackers[j].compareAddress(msg.address!)) {
+          print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
         }
       }
     }

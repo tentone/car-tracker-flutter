@@ -113,6 +113,10 @@ class Tracker {
   ///
   /// Check if they are the same allow for some tolerance (e.g. country codes etc).
   bool compareAddress(String address) {
+    if (address.isEmpty || this.phoneNumber.isEmpty) {
+      return false;
+    }
+
     if (address.length > this.phoneNumber.length) {
       return address.contains(this.phoneNumber);
     } else if (address.length < this.phoneNumber.length) {
