@@ -1,11 +1,10 @@
 import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
+import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
-import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms_utils.dart';
-import 'package:cartracker/widget/modal.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
@@ -104,9 +103,10 @@ class Tracker {
     this.positions.add(position);
   }
 
-  /// Update the tracker in database.
-  void storeDB() {
-    // TODO <ADD CODE HERE>
+  /// Update the tracker information in database.
+  void update() async {
+    Database? db = await DataBase.get();
+    TrackerDB.update(db!, this);
   }
 
   /// Compare the phone number of the tracker with an external phone number.
@@ -144,6 +144,7 @@ class Tracker {
       for (int i = 0; i < numbers.length;  i++) {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
+      this.update();
       return;
     }
 
@@ -180,7 +181,7 @@ class Tracker {
 
         this.id = id;
 
-        this.positions.add(data);
+        this.addPosition(data);
         // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
         return;
@@ -212,6 +213,7 @@ class Tracker {
         this.apn = apn;
         this.iccid = iccid;
         this.id = id;
+        this.update();
 
         // Modal.toast(Locale.get('trackerUpdated', {name: this.name}));
         return;
@@ -261,9 +263,8 @@ class Tracker {
     String msg = 'password' + this.pin + ' ' + newPin;
 
     this.pin = newPin;
-    this.storeDB();
-
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -275,6 +276,7 @@ class Tracker {
 
     this.adminNumber = phoneNumber;
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -291,6 +293,7 @@ class Tracker {
 
     this.sosNumbers[slot - 1] = phoneNumber;
     this.sendSMS(msg);
+    this.update();
   }
 
   /// Delete SOS number used for the GPS to return requested information, alarm messages etc.
@@ -305,6 +308,7 @@ class Tracker {
 
     this.sosNumbers[slot - 1] = '';
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -324,6 +328,7 @@ class Tracker {
 
     this.ignitionAlarm = enabled;
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -335,6 +340,7 @@ class Tracker {
 
     this.powerAlarmCall = enabled;
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -346,6 +352,7 @@ class Tracker {
 
     this.powerAlarmSMS = enabled;
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -371,6 +378,7 @@ class Tracker {
 
     this.speedLimit = speed;
     this.sendSMS(msg);
+    this.update();
   }
 
 
@@ -382,5 +390,6 @@ class Tracker {
 
     this.sleepLimit = time;
     this.sendSMS(msg);
+    this.update();
   }
 }

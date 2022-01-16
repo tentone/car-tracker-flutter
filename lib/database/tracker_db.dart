@@ -5,7 +5,7 @@ class TrackerDB {
   static String tableName = 'tracker';
 
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE IF NOT EXISTS tracker('
+    await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + '('
       'uuid TEXT PRIMARY KEY,'
       'id TEXT,'
       'name TEXT,'
@@ -30,7 +30,7 @@ class TrackerDB {
 
   /// Add a new tracker to the database
   static Future add(Database db, Tracker tracker) async {
-    await db.execute('INSERT INTO tracker (uuid, id, name, license_plate, chassis_number,'
+    await db.execute('INSERT INTO ' + tableName + ' (uuid, id, name, license_plate, chassis_number,'
         'model, color, phone_number, admin_number, sos_numbers,'
         'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
         'power_alarm_call, battery, apn, iccid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -42,7 +42,7 @@ class TrackerDB {
 
   /// Update data from the tracker in database
   static Future update(Database db, Tracker tracker) async {
-    await db.execute('UPDATE tracker SET id=?, name=?, license_plate=?, chassis_number=?,'
+    await db.execute('UPDATE ' + tableName + ' SET id=?, name=?, license_plate=?, chassis_number=?,'
         'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
         'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
         'power_alarm_call=?, battery=?, apn=?, iccid=? WHERE uuid=?',
@@ -54,7 +54,7 @@ class TrackerDB {
 
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
-    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM tracker WHERE uuid=?', [uuid]);
+    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE uuid=?', [uuid]);
     if (values.length == 0) {
       throw new Exception('Tracker does not exist.');
     }
@@ -64,17 +64,17 @@ class TrackerDB {
 
   /// Delete a tracker by its UUID
   static Future delete(Database db, String uuid) async {
-    await db.rawDelete('DELETE FROM tracker WHERE uuid = ?', [uuid]);
+    await db.rawDelete('DELETE FROM ' + tableName + ' WHERE uuid = ?', [uuid]);
   }
 
   /// Count the number of trackers stored in database
   static Future<int?> count(Database db) async {
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM tracker'));
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM ' + tableName));
   }
 
   /// Get a list of all trackers available in database
   static Future<List<Tracker>> list(Database db) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM tracker');
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName);
     List<Tracker> trackers = [];
 
     for (int i = 0; i < list.length; i++) {
