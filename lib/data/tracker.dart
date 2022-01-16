@@ -139,6 +139,7 @@ class Tracker {
     String ackMsg = body.toLowerCase();
     if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
       // Modal.toast(Locales.get('trackerAcknowledge'));
+      print('Tracker Acknowledge message');
       return;
     }
 
@@ -148,6 +149,8 @@ class Tracker {
       for (int i = 0; i < numbers.length;  i++) {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
+
+      print('Received SOS list.');
       this.update();
       return;
     }
@@ -155,6 +158,8 @@ class Tracker {
     // GPS Location
     if (body.startsWith('http')) {
       try {
+        print('Received GPS position');
+
         RegExp regex = RegExp("/https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)/");
         List<RegExpMatch> regMatch = regex.allMatches(body).toList();
         List<String> matches = regMatch.map((val) => val.input).toList();
@@ -164,9 +169,7 @@ class Tracker {
 
         TrackerPosition data = TrackerPosition();
         data.timestamp = timestamp;
-
         data.latitude = double.parse(matches[1]);
-
         data.longitude = -double.parse(matches[2]);
 
         String id = matches[3];
@@ -178,16 +181,18 @@ class Tracker {
         int year = int.parse(matches[7]) + 2000;
         int month = int.parse(matches[8]);
         int day = int.parse(matches[9]);
-
         int hour = int.parse(matches[10]);
         int minute = int.parse(matches[11]);
         int seconds = int.parse(matches[12]);
 
+        print('GPS Position ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + data.speed.toString() + ' , ' + timestamp.toString());
+
         this.id = id;
 
+        this.update();
         this.addPosition(data);
-        // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
 
+        // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
         return;
       } catch(e) {
         // Modal.alert(Locale.get('error'), Locale.get('errorParseLocationMsg'));

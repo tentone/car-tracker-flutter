@@ -30,7 +30,7 @@ class SMSUtils {
           }
         }
       },
-      onBackgroundMessage: backgroundMessageHandler,
+      // onBackgroundMessage: backgroundMessageHandler,
       listenInBackground: false
     );
   }
@@ -46,6 +46,7 @@ class SMSUtils {
       for (int j= 0; j < trackers.length; j++) {
         if(trackers[j].compareAddress(msg.address!)) {
           print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
+          trackers[j].processSMS(msg);
         }
       }
     }
