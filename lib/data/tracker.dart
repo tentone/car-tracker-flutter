@@ -160,12 +160,16 @@ class Tracker {
       try {
         print('Received GPS position');
 
-
-        RegExp regex = RegExp("/https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)");
-        // RegExp regex = RegExp("/https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)/");
+        RegExp regex = RegExp(r"http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)");
 
         List<RegExpMatch> regMatch = regex.allMatches(body).toList();
-        List<String> matches = regMatch.map((val) => val.input).toList();
+        List<String> matches = [];
+
+        if(regMatch.length > 0) {
+          for (int i = 0; i < regMatch[0].groupCount; i++) {
+            matches.add(regMatch[0].group(i + 1)!);
+          }
+        }
 
         // TODO <REMOVE THIS>
         print(matches);
@@ -175,20 +179,20 @@ class Tracker {
         data.latitude = double.parse(matches[1]);
         data.longitude = -double.parse(matches[2]);
 
-        String id = matches[3];
+        // String id = matches[3];
+        //
+        // data.acc = matches[4] != 'OFF';
+        // data.gps = matches[5] == 'A';
+        // data.speed = double.parse(matches[6]);
+        //
+        // int year = int.parse(matches[7]) + 2000;
+        // int month = int.parse(matches[8]);
+        // int day = int.parse(matches[9]);
+        // int hour = int.parse(matches[10]);
+        // int minute = int.parse(matches[11]);
+        // int seconds = int.parse(matches[12]);
 
-        data.acc = matches[4] != 'OFF';
-        data.gps = matches[5] == 'A';
-        data.speed = double.parse(matches[6]);
-
-        int year = int.parse(matches[7]) + 2000;
-        int month = int.parse(matches[8]);
-        int day = int.parse(matches[9]);
-        int hour = int.parse(matches[10]);
-        int minute = int.parse(matches[11]);
-        int seconds = int.parse(matches[12]);
-
-        print('GPS Position ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + data.speed.toString() + ' , ' + timestamp.toString());
+        print('GPS Position ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , '  + timestamp.toString());
 
         this.id = id;
 
@@ -204,7 +208,7 @@ class Tracker {
     }
 
     // GPS Tracker data
-    RegExp infoRegex = RegExp("/([A-Za-z0-9_\.]+) ([0-9]+)\/([0-9]+)\/([0-9]+)\s*ID:([0-9]+)\s*IP:([0-9\.a-zA-Z\\]+)\s*([0-9]+) BAT:([0-9])\s*APN:([0-9\.a-zA-Z\\]+)\s*GPS:([0-9A-Z\-]+)\s*GSM:([0-9]+)\s*ICCID:([0-9A-Z]+)/");
+    RegExp infoRegex = RegExp("/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/");
     try {
       if (infoRegex.hasMatch(body)) {
         List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();

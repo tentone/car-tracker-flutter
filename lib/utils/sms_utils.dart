@@ -4,8 +4,6 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 
-import '../main.dart';
-
 /// Utils to send and receive SMS messages.
 class SMSUtils {
   /// Telephony instance used to interact with phone functionalities
