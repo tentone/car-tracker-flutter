@@ -8,17 +8,18 @@ class SettingsDB {
     await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + '('
         'id INTEGER PRIMARY KEY,'
         'locale TEXT'
+        'dark_mode INT'
         ')');
 
     Settings settings = Settings();
 
     try {
-      await db.execute('INSERT INTO ' + tableName + ' (locale, theme) VALUES (?, ?)', [settings.locale, settings.theme]);
+      await db.execute('INSERT INTO ' + tableName + ' (locale, dark_mode) VALUES (?, ?)', [settings.locale, settings.darkMode]);
     } catch(e) {}
   }
 
   static Future update(Database db, Settings settings) async {
-    await db.execute('UPDATE ' + tableName + ' SET locale=?, theme=? WHERE id=0', [settings.locale, settings.theme]);
+    await db.execute('UPDATE ' + tableName + ' SET locale=?, dark_mode=? WHERE id=0', [settings.locale, settings.darkMode]);
   }
 
   static Future<Settings> get(Database db, String uuid) async {
@@ -32,7 +33,7 @@ class SettingsDB {
     Settings settings = Settings();
 
     settings.locale = values['locale'].toString();
-    settings.theme = values['theme'].toString();
+    settings.darkMode = int.parse(values['dark_mode'].toString()) == 1;
 
     return settings;
   }

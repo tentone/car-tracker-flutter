@@ -2,7 +2,8 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
-import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/screens/tracker_message_list.dart';
+import 'package:cartracker/screens/tracker_positions_list.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -160,6 +161,22 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                 await TrackerDB.update(db!, widget.tracker);
                 Navigator.pop(context);
               }
+            ),
+            ElevatedButton(
+                child: Text(Locales.get('messages', context)),
+                onPressed: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                    return TrackerMessageListScreen(widget.tracker);
+                  }));
+                }
+            ),
+            ElevatedButton(
+                child: Text(Locales.get('positions', context)),
+                onPressed: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                    return TrackerPositionListScreen(widget.tracker);
+                  }));
+                }
             )
           ],
         ),
