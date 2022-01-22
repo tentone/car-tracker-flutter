@@ -26,17 +26,13 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(Locales.get('editTracker', context)),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Center
+    Drawer drawer = Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Center
                 (
                   child: Text(
                     Locales.get('tracker', context),
@@ -44,23 +40,79 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                       fontSize: 24,
                     ),
                   )
-                )
-            ),
-            const ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Messages'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
-          ],
-        ),
+              )
+          ),
+          ListTile(
+            leading: const Icon(Icons.speed),
+            title: Text(Locales.get('speedLimit', context)),
+            onTap: () async {
+              int speed = 0;
+
+              // TODO <ADD CODE HERE>
+
+              widget.tracker.setSpeedLimit(speed);
+              Database? db = await DataBase.get();
+              await TrackerDB.update(db!, widget.tracker);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.call),
+            title: Text(Locales.get('powerAlarmCall', context)),
+            onTap: () async {
+              bool enabled = false;
+
+              // TODO <ADD CODE HERE>
+
+              widget.tracker.setPowerAlarmCall(enabled);
+              Database? db = await DataBase.get();
+              await TrackerDB.update(db!, widget.tracker);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.sms_outlined),
+            title: Text(Locales.get('powerAlarmSMS', context)),
+            onTap: () async {
+              bool enabled = false;
+
+              // TODO <ADD CODE HERE>
+
+              widget.tracker.setPowerAlarmSMS(enabled);
+              Database? db = await DataBase.get();
+              await TrackerDB.update(db!, widget.tracker);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.mode_standby),
+            title: Text(Locales.get('sleepTime', context)),
+            onTap: () async {
+              int time = 0;
+
+              // TODO <ADD CODE HERE>
+              // Modal.question(context, Locales.get('sleepTime', context), message, options)
+
+              widget.tracker.setSleepTime(time);
+              Database? db = await DataBase.get();
+              await TrackerDB.update(db!, widget.tracker);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: Text(Locales.get('getInfo', context)),
+            onTap: () async {
+              widget.tracker.getTrackerInfo();
+            },
+          ),
+        ],
       ),
+    );
+
+
+
+    return Scaffold(
+      appBar: AppBar(
+          title: Text(Locales.get('editTracker', context)),
+      ),
+      drawer: drawer,
       body: Form(
         key: formKey,
         child: ListView(
