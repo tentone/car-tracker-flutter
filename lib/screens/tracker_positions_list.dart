@@ -4,6 +4,7 @@ import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TrackerPositionListScreen extends StatefulWidget {
   final Tracker tracker;
@@ -38,10 +39,11 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
                       height: 80,
                       child: ListTile(
                         leading: const Icon(Icons.gps_fixed, size:40.0),
+                        title: Text(entries.data![index].timestamp.toString()),
                         subtitle: Text(entries.data![index].longitude.toString() + 'º ' + entries.data![index].latitude.toString() + 'º'),
                         onTap: () {
                           String url = entries.data![index].getGoogleMapsURL();
-
+                          launch(url);
                         },
                       )
                   );

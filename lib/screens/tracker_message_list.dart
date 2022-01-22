@@ -1,13 +1,8 @@
 import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
-import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
-import 'package:cartracker/locale/locales.dart';
-import 'package:cartracker/screens/tracker_edit.dart';
-import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerMessageListScreen extends StatefulWidget {

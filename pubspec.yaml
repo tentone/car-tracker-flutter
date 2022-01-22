@@ -25,7 +25,8 @@ dependencies:
   image_picker: 0.8.4+4
   fluttertoast: 8.0.8
   flutter_slidable: 1.2.0
-  
+  url_launcher: 6.0.18
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
