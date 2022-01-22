@@ -30,6 +30,37 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
       appBar: AppBar(
           title: Text(Locales.get('editTracker', context)),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Center
+                (
+                  child: Text(
+                    Locales.get('tracker', context),
+                    style: const TextStyle(
+                      fontSize: 24,
+                    ),
+                  )
+                )
+            ),
+            const ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Messages'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Profile'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+        ),
+      ),
       body: Form(
         key: formKey,
         child: ListView(

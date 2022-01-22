@@ -37,6 +37,7 @@ class TrackerMessageListScreenState extends State<TrackerMessageListScreen> {
               return SizedBox(
                 height: 80,
                 child: ListTile(
+                  title: Text(entries.data![index].timestamp.toString()),
                   leading: Icon(entries.data![index].direction == MessageDirection.SENT ? Icons.call_made: Icons.call_received, size:40.0),
                   subtitle: Text(entries.data![index].data),
                 )
