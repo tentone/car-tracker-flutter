@@ -159,9 +159,8 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                   icon: const Icon(Icons.phone),
                   labelText: Locales.get('phoneNumber', context),
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  suffixIcon: FloatingActionButton(
-                      child: const Icon(Icons.contact_phone, color: Colors.grey),
-                      backgroundColor: Colors.transparent,
+                  suffixIcon: IconButton(
+                      icon: const Icon(Icons.contact_phone, color: Colors.grey),
                       onPressed: () async {
                         final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
                         if(contact.phoneNumber?.number != null) {
@@ -182,9 +181,8 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                   icon: const Icon(Icons.contact_phone),
                   labelText: Locales.get('adminNumber', context),
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  suffixIcon: FloatingActionButton(
-                    child: const Icon(Icons.contact_phone, color: Colors.grey),
-                    backgroundColor: Colors.transparent,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.contact_phone, color: Colors.grey),
                     onPressed: () async {
                       final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
                       if(contact.phoneNumber?.number != null) {

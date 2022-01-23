@@ -6,7 +6,7 @@ import 'package:telephony/telephony.dart';
 
 /// Utils to send and receive SMS messages.
 class SMSUtils {
-  /// Telephony instance used to interact with phone functionalities
+  /// Telephony instance used to interact with phone functionalities.
   static Telephony telephony = Telephony.instance;
 
   /// Listen and process incoming SMS messages.
@@ -24,6 +24,8 @@ class SMSUtils {
 
         for (int i = 0; i < trackers.length; i++) {
           if(trackers[i].compareAddress(msg.address!)) {
+
+            print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
             trackers[i].processSMS(msg);
           }
         }
@@ -34,7 +36,11 @@ class SMSUtils {
   }
 
   /// Get all SMS received by the device.
-  static Future getAll() async {
+  ///
+  /// Check if any stored messages correspond to tracker messages
+  ///
+  /// Import data from these messages.
+  static Future importAll() async {
     List<SmsMessage> messages = await telephony.getInboxSms();
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);

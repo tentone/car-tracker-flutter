@@ -14,7 +14,7 @@ backgroundMessageHandler(SmsMessage message) async {
 Future<void> main() async {
   runApp(App());
 
-  await SMSUtils.getAll();
+  await SMSUtils.importAll();
 
   SMSUtils.startListener();
 }

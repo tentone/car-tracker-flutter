@@ -2,6 +2,7 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,6 +22,9 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(Locales.get('positions', context)),
+      ),
       body: FutureBuilder(
           future: () async {
             Database? db = await DataBase.get();

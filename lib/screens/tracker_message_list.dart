@@ -2,6 +2,7 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -20,6 +21,9 @@ class TrackerMessageListScreenState extends State<TrackerMessageListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(Locales.get('messages', context)),
+      ),
       body: FutureBuilder(
         future: () async {
           Database? db = await DataBase.get();

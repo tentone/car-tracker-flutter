@@ -18,10 +18,12 @@ class SettingsDB {
     } catch(e) {}
   }
 
+  /// Update settings in database
   static Future update(Database db, Settings settings) async {
     await db.execute('UPDATE ' + tableName + ' SET locale=?, dark_mode=? WHERE id=0', [settings.locale, settings.darkMode]);
   }
 
+  /// Get settings from database
   static Future<Settings> get(Database db, String uuid) async {
     List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0', [uuid]);
 
