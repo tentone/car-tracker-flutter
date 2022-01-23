@@ -24,8 +24,8 @@ class TrackerMessageDB {
   }
 
   /// Get a list of all messages of the a specific tracker available in database
-  static Future<List<TrackerMessage>> list(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_message.tracker_id = ?', [trackerUUID]);
+  static Future<List<TrackerMessage>> list(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
     List<TrackerMessage> messages = [];
 
     for (int i = 0; i < list.length; i++) {

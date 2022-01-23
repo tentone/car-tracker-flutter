@@ -20,7 +20,7 @@
     </queries>
 
     <application
-        android:label="cartracker"
+        android:label="Car Tracker"
         android:icon="@mipmap/ic_launcher">
 
 

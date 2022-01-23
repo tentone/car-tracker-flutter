@@ -73,8 +73,8 @@ class TrackerDB {
   }
 
   /// Get a list of all trackers available in database
-  static Future<List<Tracker>> list(Database db) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName);
+  static Future<List<Tracker>> list(Database db, {String sortAttribute = 'name', String sortDirection = 'ASC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' ORDER BY ' + sortAttribute + ' ' + sortDirection);
     List<Tracker> trackers = [];
 
     for (int i = 0; i < list.length; i++) {

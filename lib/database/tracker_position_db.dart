@@ -27,8 +27,8 @@ class TrackerPositionDB {
   }
 
   /// Get a list of all location available in for a specific tracker in database
-  static Future<List<TrackerPosition>> list(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_position.tracker_id = ?', [trackerUUID]);
+  static Future<List<TrackerPosition>> list(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
     List<TrackerPosition> locations = [];
 
     for (int i = 0; i < list.length; i++) {
@@ -39,8 +39,8 @@ class TrackerPositionDB {
   }
 
   /// Get the last location of a specific tracker from database
-  static Future<TrackerPosition> getLast(Database db, String trackerUUID) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_position.tracker_id = ? ORDER BY tracker_position.timestamp DESC', [trackerUUID]);
+  static Future<TrackerPosition> getLast(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
 
     if (list.isEmpty) {
       throw Exception("No location available for the tracker");
