@@ -135,6 +135,11 @@ class Tracker {
 
     this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
+    if (body == '指令格式错误') {
+      print('Tracker Command Error');
+      return;
+    }
+
     // Acknowledge message
     String ackMsg = body.toLowerCase();
     if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
