@@ -3,6 +3,13 @@ import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
+class TrackerLastPosition {
+  Tracker tracker;
+  TrackerPosition position;
+
+  TrackerLastPosition(this.tracker, this.position);
+}
+
 class TrackerPositionDB {
   static String tableName = 'tracker_position';
 
@@ -37,6 +44,24 @@ class TrackerPositionDB {
 
     return locations;
   }
+
+  /// Get the last location of a specific tracker from database
+  static Future<List<TrackerLastPosition>> getAllTrackerLastPosition(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+    List<Tracker> trackers = await TrackerDB.list(db);
+    List<TrackerLastPosition> list = [];
+
+    for (int i = 0; i < trackers.length; i++) {
+      try {
+        TrackerPosition position = await TrackerPositionDB.getLast(db, trackers[i].uuid);
+        list.add(TrackerLastPosition(trackers[i], position));
+
+      } catch(e) {}
+    }
+
+    return list;
+  }
+
+
 
   /// Get the last location of a specific tracker from database
   static Future<TrackerPosition> getLast(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
