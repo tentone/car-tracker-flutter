@@ -46,7 +46,7 @@ class TrackerPositionDB {
   }
 
   /// Get the last location of a specific tracker from database
-  static Future<List<TrackerLastPosition>> getAllTrackerLastPosition(Database db, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+  static Future<List<TrackerLastPosition>> getAllTrackerLastPosition(Database db, {String sortAttribute = 'name', String sortDirection = 'DESC'}) async {
     List<Tracker> trackers = await TrackerDB.list(db, sortAttribute: sortAttribute, sortDirection: sortDirection);
     List<TrackerLastPosition> list = [];
 

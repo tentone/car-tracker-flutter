@@ -16,6 +16,12 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapScreenState extends State<MapScreen> {
+  late MapboxMapController controller;
+
+  void onMapCreated(MapboxMapController controller) {
+    this.controller = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +35,16 @@ class MapScreenState extends State<MapScreen> {
               return const SizedBox();
             }
 
+            // TODO <REMOVE THIS>
+            print(entries.data);
+
             return Stack(
               children: <Widget>[
                 MapboxMap(
                   accessToken: Global.MAPBOX_TOKEN,
                   trackCameraPosition: true,
                   initialCameraPosition: const CameraPosition(target: LatLng(35.0, 135.0), zoom: 5),
+                  onMapCreated: onMapCreated,
                 ),
                 Container(
                   width: 100,
