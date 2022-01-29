@@ -2,6 +2,7 @@ import 'package:cartracker/utils/sms_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:telephony/telephony.dart';
 import 'app.dart';
+import 'package:geolocator/geolocator.dart';
 
 /// Background message handler.
 ///
@@ -13,6 +14,11 @@ backgroundMessageHandler(SmsMessage message) async {
 
 Future<void> main() async {
   runApp(App());
+
+
+  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+  print(position.latitude.toString() + ', ' + position.longitude.toString())
 
   await SMSUtils.importAll();
 
