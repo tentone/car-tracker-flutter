@@ -7,6 +7,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +30,7 @@ class MapScreenState extends State<MapScreen> {
   /// Trackers are coded by their color
   Future<void> onMapCreated(MapboxMapController controller) async {
     this.controller = controller;
-    this.controller.onSymbolTapped.remove(onSymbolTapped);
+    this.controller.onSymbolTapped.add(onSymbolTapped);
 
     Database? db = await DataBase.get();
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
@@ -37,23 +38,19 @@ class MapScreenState extends State<MapScreen> {
     for (int i = 0; i < entries.length; i++) {
       Symbol symbol = await this.controller.addSymbol(
         SymbolOptions(
-          iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
           geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
-          iconImage: 'airport-15',
-          textField: entries[i].tracker.name,
-          textSize: 14,
-          textOffset: const Offset(0, 0.8),
+          iconImage: 'car-15',
           iconSize: 2,
-          textAnchor: 'top',
-          textColor: '#000000',
-          textHaloBlur: 1,
-          textHaloColor: '#ffffff',
-          textHaloWidth: 0.8,
-        )
+          iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
+          textField: entries[i].tracker.name,
+          textSize: 16,
+          textOffset: const Offset(0, 1.3)
+        ),
+        {
+          'position': entries[i].position,
+          'tracker': entries[i].tracker
+        }
       );
-
-      symbol.data!['position'] = entries[i].position;
-      symbol.data!['tracker'] = entries[i].tracker;
     }
 
   }
@@ -69,39 +66,51 @@ class MapScreenState extends State<MapScreen> {
   ///
   /// Open the tracker location in external application.
   void onSymbolTapped(Symbol symbol) {
+    print('symbol tapped');
+
     TrackerPosition position = symbol.data!['position'];
+
     String url = position.getGoogleMapsURL();
+
+    print(url);
+
     launch(url);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          MapboxMap(
-            accessToken: Global.MAPBOX_TOKEN,
-            trackCameraPosition: true,
-            initialCameraPosition: const CameraPosition(target: LatLng(35.0, 135.0), zoom: 5),
-            onMapCreated: onMapCreated,
+    return FutureBuilder(
+      future: Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high),
+      builder: (BuildContext context, AsyncSnapshot<Position> data) {
+        if (!data.hasData) {
+          return Container();
+        }
+
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              MapboxMap(
+                accessToken: Global.MAPBOX_TOKEN,
+                trackCameraPosition: true,
+                myLocationEnabled: true,
+                myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+                initialCameraPosition: CameraPosition(target: LatLng(data.data!.latitude, data.data!.longitude), zoom: 10),
+                onMapCreated: onMapCreated,
+              ),
+            ],
           ),
-          Container(
-            width: 100,
-            height: 100,
-            color: Colors.red,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              Database? db = await DataBase.get();
+              List<Tracker> trackers = await TrackerDB.list(db!);
+              for(int i = 0; i < trackers.length; i++) {
+                trackers[i].requestLocation();
+              }
+            },
+            child: const Icon(Icons.gps_not_fixed),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Database? db = await DataBase.get();
-          List<Tracker> trackers = await TrackerDB.list(db!);
-          for(int i = 0; i < trackers.length; i++) {
-            trackers[i].requestLocation();
-          }
-        },
-        child: const Icon(Icons.gps_not_fixed),
-      ),
+        );
+      }
     );
   }
 }

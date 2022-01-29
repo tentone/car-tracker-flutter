@@ -11,15 +11,10 @@ backgroundMessageHandler(SmsMessage message) async {
   // Handle background message
 }
 
-
 Future<void> main() async {
   runApp(App());
 
-
-  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-  print(position.latitude.toString() + ', ' + position.longitude.toString())
-
+  await Geolocator.requestPermission();
   await SMSUtils.importAll();
 
   SMSUtils.startListener();
