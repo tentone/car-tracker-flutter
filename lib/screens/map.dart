@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cartracker/data/tracker.dart';
+import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../global.dart';
 
 class MapScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class MapScreenState extends State<MapScreen> {
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     for (int i = 0; i < entries.length; i++) {
-      this.controller.addSymbol(
+      Symbol symbol = await this.controller.addSymbol(
         SymbolOptions(
           iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
           geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
@@ -48,8 +49,11 @@ class MapScreenState extends State<MapScreen> {
           textHaloBlur: 1,
           textHaloColor: '#ffffff',
           textHaloWidth: 0.8,
-        ),
+        )
       );
+
+      symbol.data!['position'] = entries[i].position;
+      symbol.data!['tracker'] = entries[i].tracker;
     }
 
   }
@@ -65,7 +69,9 @@ class MapScreenState extends State<MapScreen> {
   ///
   /// Open the tracker location in external application.
   void onSymbolTapped(Symbol symbol) {
-
+    TrackerPosition position = symbol.data!['position'];
+    String url = position.getGoogleMapsURL();
+    launch(url);
   }
 
   @override
