@@ -52,7 +52,7 @@ class Locales {
   /// Define the locale to be used by the application.
   static void setLocale(String code) {
     if (!Locales.values.containsKey(code)) {
-      throw Exception("Locale is not registered, or does not exist.");
+      throw Exception('Locale is not registered, or does not exist.');
     }
 
     Locales.code = code;

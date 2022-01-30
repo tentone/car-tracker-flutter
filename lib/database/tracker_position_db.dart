@@ -68,7 +68,7 @@ class TrackerPositionDB {
     List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
 
     if (list.isEmpty) {
-      throw Exception("No location available for the tracker");
+      throw Exception('No location available for the tracker');
     }
 
     return parse(list[0]);

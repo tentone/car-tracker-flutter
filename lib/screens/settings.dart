@@ -10,17 +10,19 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: const <Widget>[
-          // TODO <ADD CODE HERE>
-        ],
-      ),
+    return Scaffold(
+      body: Form(
+        key: formKey,
+        child: ListView(
+          children: [
+
+          ],
+        ),
+      )
     );
   }
 }

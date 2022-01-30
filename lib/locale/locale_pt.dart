@@ -9,7 +9,7 @@ const Map<String, String> LocaleEN = {
   'createTracker': 'Adicionar Tracker',
   'messages': 'Mensagens',
   'positions': 'Localizações',
-
+  'history': 'Historico',
   'model': 'Modelo',
   'theme': 'Tema',
   'locale': 'Idioma',
@@ -27,7 +27,7 @@ const Map<String, String> LocaleEN = {
   'maxSpeed': 'Velocidade Maxima (mp/h)',
   'adminNumber': 'Número  Administrador',
   'sosNumber': 'Número SOS',
-  'sent': 'Enviado',
+  'commandSent': 'Comando Enviado',
   'received': 'Recebido',
   'changePin': 'Alterar PIN',
   'getInfo': 'Obter Informação',
@@ -38,8 +38,6 @@ const Map<String, String> LocaleEN = {
   'import': 'Importar',
   'navigate': 'Navegar',
   'requiredField': 'Campo Obrigatório',
-
-  // Attributes
   'id': 'ID',
   'iccid': 'ICCID',
   'apn': 'APN',
@@ -58,7 +56,6 @@ const Map<String, String> LocaleEN = {
   'ignitionAlarm': 'Alarm Ignição',
   'licensePlate': 'Matricula',
   'chassisNumber': 'Número Chassis',
-
   'requestedPosition': 'Enviado pedido de posição!',
   'deletedSuccessfully': 'Tracker eliminado com sucesso!',
   'trackerAcknowledge': 'Commando confirmado pelo tracker.'

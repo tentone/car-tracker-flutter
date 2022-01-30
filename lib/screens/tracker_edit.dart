@@ -43,6 +43,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               )
           ),
           ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.speed),
             title: Text(Locales.get('speedLimit', context)),
             onTap: () async {
@@ -56,6 +57,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           ),
           ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.call),
             title: Text(Locales.get('powerAlarmCall', context)),
             onTap: () async {
@@ -69,6 +71,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           ),
           ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.sms_outlined),
             title: Text(Locales.get('powerAlarmSMS', context)),
             onTap: () async {
@@ -82,6 +85,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           ),
           ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.mode_standby),
             title: Text(Locales.get('sleepTime', context)),
             onTap: () async {
@@ -96,17 +100,133 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           ),
           ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.info_outline),
             title: Text(Locales.get('getInfo', context)),
             onTap: () async {
               widget.tracker.getTrackerInfo();
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.sms_rounded),
+            title: Text(Locales.get('messages', context)),
+            onTap: () async {
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                return TrackerMessageListScreen(widget.tracker);
+              }));
+            }
+          ),
         ],
       ),
     );
 
+    List<Widget> form = [
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.name),
+        decoration: InputDecoration(
+          icon: const Icon(Icons.drive_file_rename_outline),
+          labelText: Locales.get('name', context),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+        onChanged: (value) => widget.tracker.name = value,
+      ),
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.licensePlate),
+        decoration: InputDecoration(
+          icon: const Icon(Icons.document_scanner),
+          labelText: Locales.get('licensePlate', context),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+        onChanged: (value) => widget.tracker.licensePlate = value,
+      ),
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.chassisNumber),
+        decoration: InputDecoration(
+          icon: const Icon(Icons.car_rental),
+          labelText: Locales.get('chassisNumber', context),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+        onChanged: (value) => widget.tracker.chassisNumber = value,
+      ),
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.model),
+        decoration: InputDecoration(
+          icon: const Icon(Icons.car_repair),
+          labelText: Locales.get('model', context),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+        onChanged: (value) => widget.tracker.model = value,
+      ),
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.phoneNumber),
+        decoration: InputDecoration(
+            icon: const Icon(Icons.phone),
+            labelText: Locales.get('phoneNumber', context),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+            suffixIcon: IconButton(
+                icon: const Icon(Icons.contact_phone, color: Colors.grey),
+                onPressed: () async {
+                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+                  if(contact.phoneNumber?.number != null) {
+                    String number = contact.phoneNumber?.number ?? '';
+                    setState(() {
+                      widget.tracker.phoneNumber = number;
+                    });
+                  }
+                }
+            )
 
+        ),
+        onChanged: (value) => widget.tracker.phoneNumber = value,
+      )
+    ];
+
+    List<Widget> buttons = [
+      ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                titlePadding: const EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
+                content: SingleChildScrollView(
+                  child: MaterialPicker(
+                      pickerColor: Color(widget.tracker.color),
+                      onColorChanged: (value) {
+                        setState(() {
+                          widget.tracker.color = value.value;
+                        });
+                      }
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        child: Text(Locales.get('color', context)),
+        style: ElevatedButton.styleFrom(
+          primary: Color(widget.tracker.color),
+          elevation: 10,
+        ),
+      ),
+      ElevatedButton(
+          child: Text(Locales.get('save', context)),
+          onPressed: () async {
+            Database? db = await DataBase.get();
+            await TrackerDB.update(db!, widget.tracker);
+            Navigator.pop(context);
+          }
+      ),
+      ElevatedButton(
+          child: Text(Locales.get('history', context)),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return TrackerPositionListScreen(widget.tracker);
+            }));
+          }
+      )
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -117,148 +237,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         key: formKey,
         child: ListView(
           children: [
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.name),
-              decoration: InputDecoration(
-                icon: const Icon(Icons.drive_file_rename_outline),
-                labelText: Locales.get('name', context),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
-              onChanged: (value) => widget.tracker.name = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.licensePlate),
-              decoration: InputDecoration(
-                icon: const Icon(Icons.document_scanner),
-                labelText: Locales.get('licensePlate', context),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
-              onChanged: (value) => widget.tracker.licensePlate = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.chassisNumber),
-              decoration: InputDecoration(
-                icon: const Icon(Icons.car_rental),
-                labelText: Locales.get('chassisNumber', context),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
-              onChanged: (value) => widget.tracker.chassisNumber = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.model),
-              decoration: InputDecoration(
-                icon: const Icon(Icons.car_repair),
-                labelText: Locales.get('model', context),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
-              onChanged: (value) => widget.tracker.model = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.phoneNumber),
-              decoration: InputDecoration(
-                  icon: const Icon(Icons.phone),
-                  labelText: Locales.get('phoneNumber', context),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  suffixIcon: IconButton(
-                      icon: const Icon(Icons.contact_phone, color: Colors.grey),
-                      onPressed: () async {
-                        final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                        if(contact.phoneNumber?.number != null) {
-                          String number = contact.phoneNumber?.number ?? '';
-                          setState(() {
-                            widget.tracker.phoneNumber = number;
-                          });
-                        }
-                      }
-                  )
-
-              ),
-              onChanged: (value) => widget.tracker.phoneNumber = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.adminNumber),
-              decoration: InputDecoration(
-                  icon: const Icon(Icons.contact_phone),
-                  labelText: Locales.get('adminNumber', context),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.contact_phone, color: Colors.grey),
-                    onPressed: () async {
-                      final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                      if(contact.phoneNumber?.number != null) {
-                        String number = contact.phoneNumber?.number ?? '';
-                        setState(() {
-                          widget.tracker.adminNumber = number;
-                        });
-                      }
-                    }
-                  )
-
-              ),
-              onChanged: (value) => widget.tracker.adminNumber = value,
-            ),
-            TextFormField(
-              controller: TextEditingController(text: widget.tracker.pin),
-              obscureText: true,
-              decoration: InputDecoration(
-                icon: const Icon(Icons.password),
-                labelText: Locales.get('pin', context),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
-              onChanged: (value) => widget.tracker.pin = value,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      titlePadding: const EdgeInsets.all(0),
-                      contentPadding: const EdgeInsets.all(0),
-                      content: SingleChildScrollView(
-                        child: MaterialPicker(
-                          pickerColor: Color(widget.tracker.color),
-                          onColorChanged: (value) {
-                            setState(() {
-                              widget.tracker.color = value.value;
-                            });
-                          }
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Text(Locales.get('color', context)),
-              style: ElevatedButton.styleFrom(
-                primary: Color(widget.tracker.color),
-                elevation: 10,
-              ),
-            ),
-            ElevatedButton(
-              child: Text(Locales.get('save', context)),
-              onPressed: () async {
-                Database? db = await DataBase.get();
-                await TrackerDB.update(db!, widget.tracker);
-                Navigator.pop(context);
-              }
-            ),
-            ElevatedButton(
-                child: Text(Locales.get('messages', context)),
-                onPressed: () async {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                    return TrackerMessageListScreen(widget.tracker);
-                  }));
-                }
-            ),
-            ElevatedButton(
-                child: Text(Locales.get('positions', context)),
-                onPressed: () async {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                    return TrackerPositionListScreen(widget.tracker);
-                  }));
-                }
-            )
+            ...form, ...buttons
           ],
         ),
       ),

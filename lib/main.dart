@@ -1,4 +1,4 @@
-import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/utils/sms.dart';
 import 'package:flutter/material.dart';
 import 'package:telephony/telephony.dart';
 import 'app.dart';

@@ -9,7 +9,7 @@ const Map<String, String> LocaleEN = {
   'createTracker': 'Create Tracker',
   'messages': 'Messages',
   'positions': 'Positions',
-
+  'history': 'History',
   'model': 'Model',
   'theme': 'Theme',
   'locale': 'Locale',
@@ -28,7 +28,7 @@ const Map<String, String> LocaleEN = {
   'adminNumber': 'Admin Number',
   'sosNumber': 'SOS Number',
   'updateLocation': 'Update location',
-  'sent': 'Sent',
+  'commandSent': 'Command Sent',
   'received': 'Received',
   'changePin': 'Change PIN',
   'getInfo': 'Get Info',
@@ -39,8 +39,6 @@ const Map<String, String> LocaleEN = {
   'import': 'Import',
   'navigate': 'Navigate',
   'requiredField': 'Required Field',
-
-  // Attributes
   'id': 'ID',
   'iccid': 'ICCID',
   'apn': 'APN',
@@ -59,7 +57,6 @@ const Map<String, String> LocaleEN = {
   'ignitionAlarm': 'Ignition Alarm',
   'licensePlate': 'License Plate',
   'chassisNumber': 'Chassis Number',
-
   'requestedPosition': 'Sent position request',
   'deletedSuccessfully': 'Tracker deleted successfully!',
   'trackerAcknowledge': 'Tracker command confirmed.'

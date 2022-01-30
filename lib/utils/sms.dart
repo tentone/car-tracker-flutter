@@ -2,6 +2,9 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
+import 'package:cartracker/locale/locales.dart';
+import 'package:cartracker/widget/modal.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 
@@ -25,8 +28,8 @@ class SMSUtils {
 
         for (int i = 0; i < trackers.length; i++) {
           if(trackers[i].compareAddress(msg.address!)) {
-            // print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
-            trackers[i].processSMS(msg);
+            // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
+            trackers[i].processReceivedSMS(msg);
           }
         }
       },
@@ -41,16 +44,20 @@ class SMSUtils {
   ///
   /// Import data from these messages.
   static Future importReceived() async {
-    List<SmsMessage> messages = await telephony.getInboxSms(sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]);
+    List<SmsMessage> messages = await telephony.getInboxSms(
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
+        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]
+    );
+
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);
 
     for(int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
-      for (int j= 0; j < trackers.length; j++) {
+      for (int j = 0; j < trackers.length; j++) {
         if(trackers[j].compareAddress(msg.address!)) {
-          print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
-          trackers[j].processSMS(msg);
+          // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
+          trackers[j].processReceivedSMS(msg);
         }
       }
     }
@@ -58,7 +65,11 @@ class SMSUtils {
 
   /// Get all SMS sent to the device.
   static Future importSent() async {
-    List<SmsMessage> messages = await telephony.getSentSms(sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]);
+    List<SmsMessage> messages = await telephony.getSentSms(
+        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)],
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE]
+    );
+
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);
 
@@ -74,29 +85,17 @@ class SMSUtils {
   }
 
   /// Send a SMS to an address (phone number)
-  static void send(String content, String address) async {
+  static void send(String content, String address, {BuildContext? context}) async {
     telephony.sendSms(
         to: address,
         message: content,
         statusListener: (SendStatus status) {
-          // SendStatus.DELIVERED
-          // SendStatus.SENT
+          if (context != null) {
+            if (status == SendStatus.DELIVERED) {
+              Modal.toast(context, Locales.get('commandSent', context));
+            }
+          }
         }
     );
   }
-
-  /// Get SMS received from a specific address
-  static Future getReceived(String address) async {
-    List<SmsMessage> messages = await telephony.getInboxSms(
-        columns: [SmsColumn.ADDRESS, SmsColumn.BODY],
-        filter: SmsFilter.where(SmsColumn.ADDRESS).like(address)
-    );
-
-    for(int i = 0; i < messages.length; i++) {
-      // print(messages[i].address);
-      // print(messages[i].body);
-    }
-  }
-
-
 }

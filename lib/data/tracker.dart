@@ -4,7 +4,7 @@ import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
-import 'package:cartracker/utils/sms_utils.dart';
+import 'package:cartracker/utils/sms.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
@@ -123,7 +123,7 @@ class Tracker {
   /// Process a message received from SMS and store its result on a tracker message.
   ///
   /// @param message Message received.
-  void processSMS(SmsMessage msg) {
+  void processReceivedSMS(SmsMessage msg) {
     DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
 
     if (this.timestamp.isAfter(timestamp)) {
@@ -164,7 +164,7 @@ class Tracker {
     if (body.startsWith('http')) {
       print('Received GPS position');
 
-      RegExp regex = RegExp(r"http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)");
+      RegExp regex = RegExp(r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
 
       List<RegExpMatch> regMatch = regex.allMatches(body).toList();
       List<String> matches = [];
@@ -210,7 +210,7 @@ class Tracker {
     }
 
     // GPS Tracker data
-    RegExp infoRegex = RegExp(r"/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/");
+    RegExp infoRegex = RegExp(r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
     try {
       if (infoRegex.hasMatch(body)) {
         List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();

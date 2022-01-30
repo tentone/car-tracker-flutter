@@ -52,7 +52,6 @@ class MapScreenState extends State<MapScreen> {
         }
       );
     }
-
   }
 
   /// Adds an asset image to the currently displayed style

@@ -55,7 +55,7 @@ class TrackerMessageDB {
     List<Future> addFuture = [];
     const int size = 10;
     for (int i = 0; i < size; i++) {
-      addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, "test", DateTime.now())));
+      addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, 'test', DateTime.now())));
     }
     await Future.wait(addFuture);
 
