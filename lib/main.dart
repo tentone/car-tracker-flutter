@@ -15,7 +15,7 @@ Future<void> main() async {
   runApp(App());
 
   await Geolocator.requestPermission();
-  await SMSUtils.importAll();
+  await SMSUtils.importReceived();
 
   SMSUtils.startListener();
 }

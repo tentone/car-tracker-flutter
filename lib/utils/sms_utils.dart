@@ -1,4 +1,5 @@
 import 'package:cartracker/data/tracker.dart';
+import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
@@ -24,8 +25,7 @@ class SMSUtils {
 
         for (int i = 0; i < trackers.length; i++) {
           if(trackers[i].compareAddress(msg.address!)) {
-
-            print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
+            // print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
             trackers[i].processSMS(msg);
           }
         }
@@ -40,8 +40,8 @@ class SMSUtils {
   /// Check if any stored messages correspond to tracker messages
   ///
   /// Import data from these messages.
-  static Future importAll() async {
-    List<SmsMessage> messages = await telephony.getInboxSms();
+  static Future importReceived() async {
+    List<SmsMessage> messages = await telephony.getInboxSms(sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]);
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);
 
@@ -51,6 +51,23 @@ class SMSUtils {
         if(trackers[j].compareAddress(msg.address!)) {
           print(msg.address! + " (" + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ") -> " + msg.body!);
           trackers[j].processSMS(msg);
+        }
+      }
+    }
+  }
+
+  /// Get all SMS sent to the device.
+  static Future importSent() async {
+    List<SmsMessage> messages = await telephony.getSentSms(sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]);
+    Database? db = await DataBase.get();
+    List<Tracker> trackers = await TrackerDB.list(db!);
+
+    for(int i = 0; i < messages.length; i++) {
+      SmsMessage msg = messages[i];
+      for (int j= 0; j < trackers.length; j++) {
+        if(trackers[j].compareAddress(msg.address!)) {
+          DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+          trackers[j].addMessage(TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
         }
       }
     }
@@ -76,8 +93,8 @@ class SMSUtils {
     );
 
     for(int i = 0; i < messages.length; i++) {
-      print(messages[i].address);
-      print(messages[i].body);
+      // print(messages[i].address);
+      // print(messages[i].body);
     }
   }
 

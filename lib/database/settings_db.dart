@@ -7,7 +7,7 @@ class SettingsDB {
   static Future<void> migrate(Database db) async {
     await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + '('
         'id INTEGER PRIMARY KEY,'
-        'locale TEXT'
+        'locale TEXT,'
         'dark_mode INT'
         ')');
 

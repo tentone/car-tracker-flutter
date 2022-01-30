@@ -74,11 +74,8 @@ class Tracker {
   /// Integrated Circuit Card Identifier (ICCID) of the SIM card inserted in the tracker.
   String iccid = '';
 
-  /// Messages exchanged with the tracker device.
-  List<TrackerMessage> messages = [];
-
-  /// Positions of the tracker over time.
-  List<TrackerPosition> positions = [];
+  /// Timestamp of the last message processed by the tracker
+  DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(0);
 
   Tracker() {
     this.uuid = const Uuid().v4().toString();
@@ -90,9 +87,7 @@ class Tracker {
   Future<void> addMessage(TrackerMessage message) async {
     Database? db = await DataBase.get();
     await TrackerMessageDB.add(db!, this.uuid, message);
-    this.messages.add(message);
   }
-
 
   /// Add a new location to the tracker.
   ///
@@ -100,7 +95,6 @@ class Tracker {
   Future<void> addPosition(TrackerPosition position) async {
     Database? db = await DataBase.get();
     await TrackerPositionDB.add(db!, this.uuid, position);
-    this.positions.add(position);
   }
 
   /// Update the tracker information in database.
@@ -130,9 +124,15 @@ class Tracker {
   ///
   /// @param message Message received.
   void processSMS(SmsMessage msg) {
-    String body = msg.body!;
     DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
 
+    if (this.timestamp.isAfter(timestamp)) {
+      return;
+    }
+    this.timestamp = timestamp;
+
+
+    String body = msg.body!;
     this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
     if (body == '指令格式错误') {

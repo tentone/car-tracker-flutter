@@ -24,7 +24,8 @@ class TrackerDB {
       'power_alarm_call INTEGER,'
       'battery INTEGER,'
       'apn TEXT,'
-      'iccid TEXT'
+      'iccid TEXT,'
+      'timestamp STRING'
     ')');
   }
 
@@ -33,11 +34,11 @@ class TrackerDB {
     await db.execute('INSERT INTO ' + tableName + ' (uuid, id, name, license_plate, chassis_number,'
         'model, color, phone_number, admin_number, sos_numbers,'
         'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
-        'power_alarm_call, battery, apn, iccid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'power_alarm_call, battery, apn, iccid, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [tracker.uuid, tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber,
           tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers,
           tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS,
-          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid]);
+          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String()]);
   }
 
   /// Update data from the tracker in database
@@ -45,11 +46,11 @@ class TrackerDB {
     await db.execute('UPDATE ' + tableName + ' SET id=?, name=?, license_plate=?, chassis_number=?,'
         'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
         'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
-        'power_alarm_call=?, battery=?, apn=?, iccid=? WHERE uuid=?',
+        'power_alarm_call=?, battery=?, apn=?, iccid=?, timestamp=? WHERE uuid=?',
         [tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber,
           tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers,
           tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS,
-          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.uuid]);
+          tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String(), tracker.uuid]);
   }
 
   /// Get details of a tracker by its UUID
@@ -107,6 +108,7 @@ class TrackerDB {
     tracker.battery = int.parse(values['battery'].toString());
     tracker.apn = values['apn'].toString();
     tracker.iccid = values['iccid'].toString();
+    tracker.timestamp = DateTime.parse(values['timestamp'].toString());
 
     return tracker;
   }
