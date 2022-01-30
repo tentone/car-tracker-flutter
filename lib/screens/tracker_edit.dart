@@ -2,6 +2,7 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
+import 'package:cartracker/screens/tracker_details.dart';
 import 'package:cartracker/screens/tracker_message_list.dart';
 import 'package:cartracker/screens/tracker_positions_list.dart';
 import 'package:cartracker/widget/modal.dart';
@@ -115,6 +116,15 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                 return TrackerMessageListScreen(widget.tracker);
               }));
             }
+          ),
+          ListTile(
+              leading: const Icon(Icons.list),
+              title: Text(Locales.get('details', context)),
+              onTap: () async {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                  return TrackerDetailsScreen(widget.tracker);
+                }));
+              }
           ),
         ],
       ),

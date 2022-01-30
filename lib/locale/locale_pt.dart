@@ -10,6 +10,7 @@ const Map<String, String> LocaleEN = {
   'messages': 'Mensagens',
   'positions': 'Localizações',
   'history': 'Historico',
+  'details': 'Detalhes',
   'model': 'Modelo',
   'theme': 'Tema',
   'locale': 'Idioma',

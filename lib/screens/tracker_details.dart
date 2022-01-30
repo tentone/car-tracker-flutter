@@ -138,7 +138,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(Locales.get('editTracker', context)),
+          title: Text(Locales.get('details', context)),
       ),
       body: Form(
         key: formKey,
