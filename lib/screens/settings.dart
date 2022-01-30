@@ -15,14 +15,11 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: formKey,
-        child: ListView(
-          children: [
-
-          ],
-        ),
-      )
-    );
+        body: Form(
+      key: formKey,
+      child: ListView(
+        children: [],
+      ),
+    ));
   }
 }

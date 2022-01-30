@@ -34,8 +34,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             icon: const Icon(Icons.perm_identity),
             labelText: Locales.get('id', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       TextFormField(
           enabled: false,
           controller: TextEditingController(text: widget.tracker.apn),
@@ -43,8 +42,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             icon: const Icon(Icons.perm_identity),
             labelText: Locales.get('apn', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       TextFormField(
           enabled: false,
           controller: TextEditingController(text: widget.tracker.iccid),
@@ -52,8 +50,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             icon: const Icon(Icons.perm_identity),
             labelText: Locales.get('iccid', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       TextFormField(
         controller: TextEditingController(text: widget.tracker.adminNumber),
         decoration: InputDecoration(
@@ -63,17 +60,15 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             suffixIcon: IconButton(
                 icon: const Icon(Icons.contact_phone, color: Colors.grey),
                 onPressed: () async {
-                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                  if(contact.phoneNumber?.number != null) {
+                  final PhoneContact contact =
+                      await FlutterContactPicker.pickPhoneContact();
+                  if (contact.phoneNumber?.number != null) {
                     String number = contact.phoneNumber?.number ?? '';
                     setState(() {
                       widget.tracker.adminNumber = number;
                     });
                   }
-                }
-            )
-
-        ),
+                })),
         onChanged: (value) => widget.tracker.adminNumber = value,
       ),
       TextFormField(
@@ -88,65 +83,60 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
       ),
       TextFormField(
           enabled: false,
-          controller: TextEditingController(text: widget.tracker.speedLimit.toString()),
+          controller:
+              TextEditingController(text: widget.tracker.speedLimit.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.speed),
             labelText: Locales.get('speedLimit', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       TextFormField(
           enabled: false,
-          controller: TextEditingController(text: widget.tracker.sleepLimit.toString()),
+          controller:
+              TextEditingController(text: widget.tracker.sleepLimit.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.mode_standby),
             labelText: Locales.get('sleepLimit', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       TextFormField(
           enabled: false,
-          controller: TextEditingController(text: widget.tracker.battery.toString()),
+          controller:
+              TextEditingController(text: widget.tracker.battery.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.battery_full),
             labelText: Locales.get('battery', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )
-      ),
+          )),
       CheckboxListTile(
-        title: Text(Locales.get('ignitionAlarm', context)),
-        value: widget.tracker.ignitionAlarm,
-        controlAffinity: ListTileControlAffinity.trailing,
-        onChanged: null,
-        secondary: const Icon(Icons.alarm)
-      ),
+          title: Text(Locales.get('ignitionAlarm', context)),
+          value: widget.tracker.ignitionAlarm,
+          controlAffinity: ListTileControlAffinity.trailing,
+          onChanged: null,
+          secondary: const Icon(Icons.alarm)),
       CheckboxListTile(
           title: Text(Locales.get('powerAlarmCall', context)),
           value: widget.tracker.powerAlarmCall,
           controlAffinity: ListTileControlAffinity.trailing,
           onChanged: null,
-          secondary: const Icon(Icons.call)
-      ),
+          secondary: const Icon(Icons.call)),
       CheckboxListTile(
           title: Text(Locales.get('powerAlarmSMS', context)),
           value: widget.tracker.powerAlarmSMS,
           controlAffinity: ListTileControlAffinity.trailing,
           onChanged: null,
-          secondary: const Icon(Icons.sms_failed)
-      )
+          secondary: const Icon(Icons.sms_failed))
     ];
 
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
           title: Text(Locales.get('details', context)),
-      ),
-      body: Form(
-        key: formKey,
-        child: ListView(
-          children: detailsForms,
         ),
-      )
-    );
-
+        body: Form(
+          key: formKey,
+          child: ListView(
+            children: detailsForms,
+          ),
+        ));
   }
 }

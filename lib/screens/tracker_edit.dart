@@ -33,16 +33,13 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: Center
-                (
+              child: Center(
                   child: Text(
-                    Locales.get('tracker', context),
-                    style: const TextStyle(
-                      fontSize: 24,
-                    ),
-                  )
-              )
-          ),
+                Locales.get('tracker', context),
+                style: const TextStyle(
+                  fontSize: 24,
+                ),
+              ))),
           ListTile(
             enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.speed),
@@ -109,23 +106,23 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.sms_rounded),
-            title: Text(Locales.get('messages', context)),
-            onTap: () async {
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                return TrackerMessageListScreen(widget.tracker);
-              }));
-            }
-          ),
+              leading: const Icon(Icons.sms_rounded),
+              title: Text(Locales.get('messages', context)),
+              onTap: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return TrackerMessageListScreen(widget.tracker);
+                }));
+              }),
           ListTile(
               leading: const Icon(Icons.list),
               title: Text(Locales.get('details', context)),
               onTap: () async {
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
                   return TrackerDetailsScreen(widget.tracker);
                 }));
-              }
-          ),
+              }),
         ],
       ),
     );
@@ -176,17 +173,15 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             suffixIcon: IconButton(
                 icon: const Icon(Icons.contact_phone, color: Colors.grey),
                 onPressed: () async {
-                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-                  if(contact.phoneNumber?.number != null) {
+                  final PhoneContact contact =
+                      await FlutterContactPicker.pickPhoneContact();
+                  if (contact.phoneNumber?.number != null) {
                     String number = contact.phoneNumber?.number ?? '';
                     setState(() {
                       widget.tracker.phoneNumber = number;
                     });
                   }
-                }
-            )
-
-        ),
+                })),
         onChanged: (value) => widget.tracker.phoneNumber = value,
       )
     ];
@@ -207,8 +202,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                         setState(() {
                           widget.tracker.color = value.value;
                         });
-                      }
-                  ),
+                      }),
                 ),
               );
             },
@@ -226,39 +220,37 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             Database? db = await DataBase.get();
             await TrackerDB.update(db!, widget.tracker);
             Navigator.pop(context);
-          }
-      ),
+          }),
       ElevatedButton(
           child: Text(Locales.get('history', context)),
           onPressed: () async {
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
               return TrackerPositionListScreen(widget.tracker);
             }));
-          }
-      )
+          })
     ];
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(Locales.get('editTracker', context)),
+        title: Text(Locales.get('editTracker', context)),
       ),
       drawer: drawer,
       body: Form(
         key: formKey,
         child: ListView(
-          children: [
-            ...form, ...buttons
-          ],
+          children: [...form, ...buttons],
         ),
       ),
-      floatingActionButton: widget.tracker.phoneNumber.isEmpty ? const SizedBox() : FloatingActionButton(
-        onPressed: () async {
-          widget.tracker.requestLocation();
-          Modal.toast(context, Locales.get('requestedPosition', context));
-        },
-        child: const Icon(Icons.gps_fixed),
-      ),
+      floatingActionButton: widget.tracker.phoneNumber.isEmpty
+          ? const SizedBox()
+          : FloatingActionButton(
+              onPressed: () async {
+                widget.tracker.requestLocation();
+                Modal.toast(context, Locales.get('requestedPosition', context));
+              },
+              child: const Icon(Icons.gps_fixed),
+            ),
     );
-
   }
 }

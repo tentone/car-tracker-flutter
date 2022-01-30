@@ -9,7 +9,9 @@ class Settings extends ChangeNotifier {
 
   /// Locale of the application
   String _locale = 'en';
-  String get locale {return _locale;}
+  String get locale {
+    return _locale;
+  }
 
   set locale(String value) {
     this._locale = value;
@@ -18,7 +20,9 @@ class Settings extends ChangeNotifier {
 
   /// Theme to use in the application
   bool _darkMode = true;
-  bool get darkMode {return _darkMode;}
+  bool get darkMode {
+    return _darkMode;
+  }
 
   set darkMode(bool value) {
     this._darkMode = value;

@@ -18,24 +18,23 @@ class SMSUtils {
   /// Will also process messages received in background.
   static void startListener() {
     telephony.listenIncomingSms(
-      onNewMessage: (SmsMessage msg) async {
-        if (msg.body == null) {
-          return;
-        }
-
-        Database? db = await DataBase.get();
-        List<Tracker> trackers = await TrackerDB.list(db!);
-
-        for (int i = 0; i < trackers.length; i++) {
-          if(trackers[i].compareAddress(msg.address!)) {
-            // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
-            trackers[i].processReceivedSMS(msg);
+        onNewMessage: (SmsMessage msg) async {
+          if (msg.body == null) {
+            return;
           }
-        }
-      },
-      // onBackgroundMessage: backgroundMessageHandler,
-      listenInBackground: false
-    );
+
+          Database? db = await DataBase.get();
+          List<Tracker> trackers = await TrackerDB.list(db!);
+
+          for (int i = 0; i < trackers.length; i++) {
+            if (trackers[i].compareAddress(msg.address!)) {
+              // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
+              trackers[i].processReceivedSMS(msg);
+            }
+          }
+        },
+        // onBackgroundMessage: backgroundMessageHandler,
+        listenInBackground: false);
   }
 
   /// Get all SMS received by the device.
@@ -46,16 +45,15 @@ class SMSUtils {
   static Future importReceived() async {
     List<SmsMessage> messages = await telephony.getInboxSms(
         columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
-        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]
-    );
+        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)]);
 
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);
 
-    for(int i = 0; i < messages.length; i++) {
+    for (int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
       for (int j = 0; j < trackers.length; j++) {
-        if(trackers[j].compareAddress(msg.address!)) {
+        if (trackers[j].compareAddress(msg.address!)) {
           // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
           trackers[j].processReceivedSMS(msg);
         }
@@ -67,25 +65,26 @@ class SMSUtils {
   static Future importSent() async {
     List<SmsMessage> messages = await telephony.getSentSms(
         sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.ASC)],
-        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE]
-    );
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE]);
 
     Database? db = await DataBase.get();
     List<Tracker> trackers = await TrackerDB.list(db!);
 
-    for(int i = 0; i < messages.length; i++) {
+    for (int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
-      for (int j= 0; j < trackers.length; j++) {
-        if(trackers[j].compareAddress(msg.address!)) {
+      for (int j = 0; j < trackers.length; j++) {
+        if (trackers[j].compareAddress(msg.address!)) {
           DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
-          trackers[j].addMessage(TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
+          trackers[j].addMessage(
+              TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
         }
       }
     }
   }
 
   /// Send a SMS to an address (phone number)
-  static void send(String content, String address, {BuildContext? context}) async {
+  static void send(String content, String address,
+      {BuildContext? context}) async {
     telephony.sendSms(
         to: address,
         message: content,
@@ -95,7 +94,6 @@ class SMSUtils {
               Modal.toast(context, Locales.get('commandSent', context));
             }
           }
-        }
-    );
+        });
   }
 }

@@ -5,27 +5,34 @@ class SettingsDB {
   static String tableName = 'settings';
 
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + '('
-        'id INTEGER PRIMARY KEY,'
-        'locale TEXT,'
-        'dark_mode INT'
-        ')');
+    await db.execute('CREATE TABLE IF NOT EXISTS ' +
+        tableName +
+        '('
+            'id INTEGER PRIMARY KEY,'
+            'locale TEXT,'
+            'dark_mode INT'
+            ')');
 
     Settings settings = Settings();
 
     try {
-      await db.execute('INSERT INTO ' + tableName + ' (locale, dark_mode) VALUES (?, ?)', [settings.locale, settings.darkMode]);
-    } catch(e) {}
+      await db.execute(
+          'INSERT INTO ' + tableName + ' (locale, dark_mode) VALUES (?, ?)',
+          [settings.locale, settings.darkMode]);
+    } catch (e) {}
   }
 
   /// Update settings in database
   static Future update(Database db, Settings settings) async {
-    await db.execute('UPDATE ' + tableName + ' SET locale=?, dark_mode=? WHERE id=0', [settings.locale, settings.darkMode]);
+    await db.execute(
+        'UPDATE ' + tableName + ' SET locale=?, dark_mode=? WHERE id=0',
+        [settings.locale, settings.darkMode]);
   }
 
   /// Get settings from database
   static Future<Settings> get(Database db, String uuid) async {
-    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0', [uuid]);
+    List<Map<String, Object?>> values =
+        await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0', [uuid]);
 
     return parse(values[0]);
   }
@@ -39,5 +46,4 @@ class SettingsDB {
 
     return settings;
   }
-
 }

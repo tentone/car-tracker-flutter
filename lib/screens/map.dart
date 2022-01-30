@@ -33,24 +33,21 @@ class MapScreenState extends State<MapScreen> {
     this.controller.onSymbolTapped.add(onSymbolTapped);
 
     Database? db = await DataBase.get();
-    List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
+    List<TrackerLastPosition> entries =
+        await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     for (int i = 0; i < entries.length; i++) {
       Symbol symbol = await this.controller.addSymbol(
-        SymbolOptions(
-          geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
-          iconImage: 'car-15',
-          iconSize: 2,
-          iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
-          textField: entries[i].tracker.name,
-          textSize: 16,
-          textOffset: const Offset(0, 1.3)
-        ),
-        {
-          'position': entries[i].position,
-          'tracker': entries[i].tracker
-        }
-      );
+          SymbolOptions(
+              geometry: LatLng(
+                  entries[i].position.latitude, entries[i].position.longitude),
+              iconImage: 'car-15',
+              iconSize: 2,
+              iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
+              textField: entries[i].tracker.name,
+              textSize: 16,
+              textOffset: const Offset(0, 1.3)),
+          {'position': entries[i].position, 'tracker': entries[i].tracker});
     }
   }
 
@@ -73,37 +70,39 @@ class MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high),
-      builder: (BuildContext context, AsyncSnapshot<Position> data) {
-        if (!data.hasData) {
-          return Container();
-        }
+        future: Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high),
+        builder: (BuildContext context, AsyncSnapshot<Position> data) {
+          if (!data.hasData) {
+            return Container();
+          }
 
-        return Scaffold(
-          body: Stack(
-            children: <Widget>[
-              MapboxMap(
-                accessToken: Global.MAPBOX_TOKEN,
-                trackCameraPosition: true,
-                myLocationEnabled: true,
-                myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-                initialCameraPosition: CameraPosition(target: LatLng(data.data!.latitude, data.data!.longitude), zoom: 10),
-                onMapCreated: onMapCreated,
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              Database? db = await DataBase.get();
-              List<Tracker> trackers = await TrackerDB.list(db!);
-              for(int i = 0; i < trackers.length; i++) {
-                trackers[i].requestLocation();
-              }
-            },
-            child: const Icon(Icons.gps_not_fixed),
-          ),
-        );
-      }
-    );
+          return Scaffold(
+            body: Stack(
+              children: <Widget>[
+                MapboxMap(
+                  accessToken: Global.MAPBOX_TOKEN,
+                  trackCameraPosition: true,
+                  myLocationEnabled: true,
+                  myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(data.data!.latitude, data.data!.longitude),
+                      zoom: 10),
+                  onMapCreated: onMapCreated,
+                ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                Database? db = await DataBase.get();
+                List<Tracker> trackers = await TrackerDB.list(db!);
+                for (int i = 0; i < trackers.length; i++) {
+                  trackers[i].requestLocation();
+                }
+              },
+              child: const Icon(Icons.gps_not_fixed),
+            ),
+          );
+        });
   }
 }

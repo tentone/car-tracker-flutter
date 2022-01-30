@@ -27,7 +27,10 @@ class MenuOption {
   /// Icon to display in the options
   late Icon icon;
 
-  MenuOption({Widget Function(BuildContext context) ?builder, String ?label, Icon ?icon}) {
+  MenuOption(
+      {Widget Function(BuildContext context)? builder,
+      String? label,
+      Icon? icon}) {
     this.builder = builder ?? (BuildContext builder) => Container();
     this.label = label ?? '';
     this.icon = icon ?? Icon(Icons.home);
@@ -40,33 +43,29 @@ class MainMenuState extends State<MainMenu> {
 
   /// Options available in the meny
   static List<MenuOption> options = <MenuOption>[
-    MenuOption (
-      label: 'trackers',
-      builder: (BuildContext context) => TrackerListScreen(),
-      icon: Icon(Icons.gps_fixed)
-    ),
-    MenuOption (
+    MenuOption(
+        label: 'trackers',
+        builder: (BuildContext context) => TrackerListScreen(),
+        icon: Icon(Icons.gps_fixed)),
+    MenuOption(
         label: 'map',
         builder: (BuildContext context) => MapScreen(),
-        icon: Icon(Icons.map)
-    ),
-    MenuOption (
+        icon: Icon(Icons.map)),
+    MenuOption(
         label: 'settings',
         builder: (BuildContext context) => SettingsScreen(),
-        icon: Icon(Icons.settings)
-    )
+        icon: Icon(Icons.settings))
   ];
 
   @override
   Widget build(BuildContext context) {
     List<BottomNavigationBarItem> buttons = [];
-    for(int i = 0; i < options.length; i++) {
+    for (int i = 0; i < options.length; i++) {
       buttons.add(BottomNavigationBarItem(
         icon: options[i].icon,
         label: Locales.get(options[i].label, context),
       ));
     }
-    
 
     return Scaffold(
       appBar: AppBar(

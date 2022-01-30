@@ -6,7 +6,7 @@ import 'screens/menu.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
-  App({Key? key}): super(key: key) {}
+  App({Key? key}) : super(key: key) {}
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,10 @@ class App extends StatelessWidget {
       debugShowMaterialGrid: false,
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
-      themeMode:ThemeMode.system,
+      themeMode: ThemeMode.system,
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
-      localizationsDelegates:
-      const [
+      localizationsDelegates: const [
         LocaleManager(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate

@@ -19,6 +19,3 @@ Future<void> main() async {
 
   SMSUtils.startListener();
 }
-
-
-

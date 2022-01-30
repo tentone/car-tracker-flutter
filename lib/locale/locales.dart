@@ -9,9 +9,7 @@ class Locales {
   const Locales(this.locale);
 
   /// Locales available in the platform indexed by language code.
-  static Map<String, Map<String, String>> values = {
-    'en': LocaleEN
-  };
+  static Map<String, Map<String, String>> values = {'en': LocaleEN};
 
   /// Active locale code
   static String code = 'en';
@@ -20,19 +18,16 @@ class Locales {
   static const List<Locale> supported = [Locale('en', 'US')];
 
   /// Get the locale to be used for a specific context.
-  static Locales? of(BuildContext context)
-  {
+  static Locales? of(BuildContext context) {
     return Localizations.of<Locales>(context, Locales);
   }
 
   /// Get a locale text value for a specific context, (cleaner locale access).
-  static String get(String key, BuildContext context)
-  {
+  static String get(String key, BuildContext context) {
     Locale locale = Localizations.localeOf(context);
 
     String? value = Locales.values[locale.languageCode]?[key];
-    if(value != null)
-    {
+    if (value != null) {
       return value;
     }
 
@@ -42,7 +37,7 @@ class Locales {
   /// Get localized text from key.
   static String getValue(String key) {
     String? value = Locales.values[Locales.code]?[key];
-    if(value != null) {
+    if (value != null) {
       return value;
     }
 

@@ -131,7 +131,6 @@ class Tracker {
     }
     this.timestamp = timestamp;
 
-
     String body = msg.body!;
     this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
@@ -142,7 +141,11 @@ class Tracker {
 
     // Acknowledge message
     String ackMsg = body.toLowerCase();
-    if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
+    if (ackMsg == 'admin ok' ||
+        ackMsg == 'apn ok' ||
+        ackMsg == 'password ok' ||
+        ackMsg == 'speed ok' ||
+        ackMsg == 'ok') {
       // Modal.toast(Locales.get('trackerAcknowledge'));
       print('Tracker Acknowledge message');
       return;
@@ -151,7 +154,7 @@ class Tracker {
     // List of SOS numbers
     if (body.startsWith('101#')) {
       List<String> numbers = body.split(' ');
-      for (int i = 0; i < numbers.length;  i++) {
+      for (int i = 0; i < numbers.length; i++) {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
 
@@ -164,12 +167,13 @@ class Tracker {
     if (body.startsWith('http')) {
       print('Received GPS position');
 
-      RegExp regex = RegExp(r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
+      RegExp regex = RegExp(
+          r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
 
       List<RegExpMatch> regMatch = regex.allMatches(body).toList();
       List<String> matches = [];
 
-      if(regMatch.isNotEmpty) {
+      if (regMatch.isNotEmpty) {
         for (int i = 0; i < regMatch[0].groupCount; i++) {
           matches.add(regMatch[0].group(i + 1)!);
         }
@@ -178,7 +182,7 @@ class Tracker {
       if (matches.isEmpty) {
         return;
       }
-      
+
       // TODO <REMOVE THIS>
       print(matches);
 
@@ -200,7 +204,12 @@ class Tracker {
       // int minute = int.parse(matches[11]);
       // int seconds = int.parse(matches[12]);
 
-      print('GPS Position ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , '  + timestamp.toString());
+      print('GPS Position ' +
+          data.latitude.toString() +
+          ' , ' +
+          data.longitude.toString() +
+          ' , ' +
+          timestamp.toString());
 
       this.update();
       this.addPosition(data);
@@ -210,7 +219,8 @@ class Tracker {
     }
 
     // GPS Tracker data
-    RegExp infoRegex = RegExp(r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
+    RegExp infoRegex = RegExp(
+        r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
     try {
       if (infoRegex.hasMatch(body)) {
         List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
@@ -236,20 +246,19 @@ class Tracker {
         // Modal.toast(Locale.get('trackerUpdated', {name: this.name}));
         return;
       }
-    }
-    catch(e) {
+    } catch (e) {
       // Modal.alert(Locale.get('error'), Locale.get('errorParseInfoMsg'));
       return;
     }
   }
-
 
   /// Send a message to this tracker, store it in the messages list.
   ///
   /// @param message Message to be sent to the tracker.
   void sendSMS(String message) {
     SMSUtils.send(message, this.phoneNumber);
-    this.addMessage(TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
+    this.addMessage(
+        TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
   }
 
   /// Request a data with the location of the device, status and speed of the tracker.
@@ -273,7 +282,6 @@ class Tracker {
     this.sendSMS(msg);
   }
 
-
   /// Change the pin of the tracker.
   ///
   /// @param newPin New pin to be set on the tracker.
@@ -284,7 +292,6 @@ class Tracker {
     this.sendSMS(msg);
     this.update();
   }
-
 
   /// Set admin number used for the admin related information.
   ///
@@ -297,14 +304,13 @@ class Tracker {
     this.update();
   }
 
-
   /// Set sos number used for the GPS to return requested information, alarm messages etc.
   ///
   /// @param phoneNumber Phone number use for control.
   /// @param slot Slot being set can be 1, 2 or 3.
   void setSOSNumber(String phoneNumber, int slot) {
     if (slot < 1 || slot > 3) {
-      throw new Exception('Invalid slot value.');
+      throw Exception('Invalid slot value.');
     }
 
     String msg = '10' + slot.toString() + '#' + phoneNumber + '#';
@@ -319,7 +325,7 @@ class Tracker {
   /// @param slot Slot being set can be 1, 2 or 3.
   void deleteSOSNumber(int slot) {
     if (slot < 1 || slot > 3) {
-      throw new Exception('Invalid slot value.');
+      throw Exception('Invalid slot value.');
     }
 
     String msg = 'D10' + slot.toString() + '#';
@@ -329,14 +335,12 @@ class Tracker {
     this.update();
   }
 
-
   /// Request a list of the SOS numbers registered on the device.
   void listSOSNumbers() {
     String msg = 'C10#';
 
     this.sendSMS(msg);
   }
-
 
   /// Enable/disable ignition auto security, used for the tracker to send and SMS every time the car ignition is switched.
   ///
@@ -349,7 +353,6 @@ class Tracker {
     this.update();
   }
 
-
   /// Configure the tracker to call the admin phone if the power is disconnected from the device.
   ///
   /// @param enabled State of the power alarm.
@@ -361,7 +364,6 @@ class Tracker {
     this.update();
   }
 
-
   /// Configure the tracker to send a SMS alarm if the power is disconnected from the device.
   ///
   /// @param enabled State of the power alarm.
@@ -372,7 +374,6 @@ class Tracker {
     this.sendSMS(msg);
     this.update();
   }
-
 
   /// Set the speed limit of the GPS tracker before an alarm is triggered.
   ///
@@ -398,7 +399,6 @@ class Tracker {
     this.sendSMS(msg);
     this.update();
   }
-
 
   /// Set the time of the GPS before it enters sleep mode after being used (wakes up by movement or sms).
   ///

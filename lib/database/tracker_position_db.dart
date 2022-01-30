@@ -14,28 +14,51 @@ class TrackerPositionDB {
   static String tableName = 'tracker_position';
 
   static Future<void> migrate(Database db) async {
-    await db.execute('CREATE TABLE IF NOT EXISTS ' + tableName + ' ('
-      'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-      'tracker_id STRING,'
-      'latitude REAL,'
-      'longitude REAL,'
-      'timestamp STRING,'
-      'acc INTEGER,'
-      'gps INTEGER,'
-      'speed REAL,'
-      'FOREIGN KEY(tracker_id) REFERENCES tracker(id)'
-    ')');
+    await db.execute('CREATE TABLE IF NOT EXISTS ' +
+        tableName +
+        ' ('
+            'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            'tracker_id STRING,'
+            'latitude REAL,'
+            'longitude REAL,'
+            'timestamp STRING,'
+            'acc INTEGER,'
+            'gps INTEGER,'
+            'speed REAL,'
+            'FOREIGN KEY(tracker_id) REFERENCES tracker(id)'
+            ')');
   }
 
   /// Add a new tracker location the database
-  static Future add(Database db, String trackerUUID, TrackerPosition location) async {
-    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [trackerUUID, location.latitude, location.longitude, location.timestamp.toIso8601String(), location.acc, location.gps, location.speed]);
+  static Future add(
+      Database db, String trackerUUID, TrackerPosition location) async {
+    await db.execute(
+        'INSERT INTO ' +
+            tableName +
+            ' (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [
+          trackerUUID,
+          location.latitude,
+          location.longitude,
+          location.timestamp.toIso8601String(),
+          location.acc,
+          location.gps,
+          location.speed
+        ]);
   }
 
   /// Get a list of all location available in for a specific tracker in database
-  static Future<List<TrackerPosition>> list(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
+  static Future<List<TrackerPosition>> list(Database db, String trackerUUID,
+      {String sortAttribute = 'timestamp',
+      String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery(
+        'SELECT * FROM ' +
+            tableName +
+            ' WHERE tracker_id = ? ORDER BY ' +
+            sortAttribute +
+            ' ' +
+            sortDirection,
+        [trackerUUID]);
     List<TrackerPosition> locations = [];
 
     for (int i = 0; i < list.length; i++) {
@@ -46,26 +69,37 @@ class TrackerPositionDB {
   }
 
   /// Get the last location of a specific tracker from database
-  static Future<List<TrackerLastPosition>> getAllTrackerLastPosition(Database db, {String sortAttribute = 'name', String sortDirection = 'DESC'}) async {
-    List<Tracker> trackers = await TrackerDB.list(db, sortAttribute: sortAttribute, sortDirection: sortDirection);
+  static Future<List<TrackerLastPosition>> getAllTrackerLastPosition(
+      Database db,
+      {String sortAttribute = 'name',
+      String sortDirection = 'DESC'}) async {
+    List<Tracker> trackers = await TrackerDB.list(db,
+        sortAttribute: sortAttribute, sortDirection: sortDirection);
     List<TrackerLastPosition> list = [];
 
     for (int i = 0; i < trackers.length; i++) {
       try {
-        TrackerPosition position = await TrackerPositionDB.getLast(db, trackers[i].uuid);
+        TrackerPosition position =
+            await TrackerPositionDB.getLast(db, trackers[i].uuid);
         list.add(TrackerLastPosition(trackers[i], position));
-
-      } catch(e) {}
+      } catch (e) {}
     }
 
     return list;
   }
 
-
-
   /// Get the last location of a specific tracker from database
-  static Future<TrackerPosition> getLast(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
+  static Future<TrackerPosition> getLast(Database db, String trackerUUID,
+      {String sortAttribute = 'timestamp',
+      String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery(
+        'SELECT * FROM ' +
+            tableName +
+            ' WHERE tracker_id = ? ORDER BY ' +
+            sortAttribute +
+            ' ' +
+            sortDirection,
+        [trackerUUID]);
 
     if (list.isEmpty) {
       throw Exception('No location available for the tracker');
@@ -104,6 +138,4 @@ class TrackerPositionDB {
     print(locations[0].getGoogleMapsURL());
     print(locations);
   }
-
-
 }

@@ -22,39 +22,37 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Locales.get('positions', context)),
-      ),
-      body: FutureBuilder(
-          future: () async {
-            Database? db = await DataBase.get();
-            return TrackerPositionDB.list(db!, widget.tracker.uuid);
-          }(),
-          builder: (BuildContext context, AsyncSnapshot<List<TrackerPosition>> entries) {
-            if (entries.data == null) {
-              return const SizedBox();
-            }
-
-            return ListView.builder(
-                padding: const EdgeInsets.all(0),
-                itemCount: entries.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                      height: 80,
-                      child: ListTile(
-                        leading: const Icon(Icons.gps_fixed, size:40.0),
-                        title: Text(entries.data![index].timestamp.toString()),
-                        subtitle: Text(entries.data![index].longitude.toString() + 'º ' + entries.data![index].latitude.toString() + 'º'),
-                        onTap: () {
-                          String url = entries.data![index].getGoogleMapsURL();
-                          launch(url);
-                        },
-                      )
-                  );
-                }
-            );
+        appBar: AppBar(
+          title: Text(Locales.get('positions', context)),
+        ),
+        body: FutureBuilder(future: () async {
+          Database? db = await DataBase.get();
+          return TrackerPositionDB.list(db!, widget.tracker.uuid);
+        }(), builder: (BuildContext context,
+            AsyncSnapshot<List<TrackerPosition>> entries) {
+          if (entries.data == null) {
+            return const SizedBox();
           }
-      )
-    );
+
+          return ListView.builder(
+              padding: const EdgeInsets.all(0),
+              itemCount: entries.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                    height: 80,
+                    child: ListTile(
+                      leading: const Icon(Icons.gps_fixed, size: 40.0),
+                      title: Text(entries.data![index].timestamp.toString()),
+                      subtitle: Text(entries.data![index].longitude.toString() +
+                          'º ' +
+                          entries.data![index].latitude.toString() +
+                          'º'),
+                      onTap: () {
+                        String url = entries.data![index].getGoogleMapsURL();
+                        launch(url);
+                      },
+                    ));
+              });
+        }));
   }
 }
