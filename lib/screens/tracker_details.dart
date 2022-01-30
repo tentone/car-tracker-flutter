@@ -6,6 +6,7 @@ import 'package:cartracker/screens/tracker_message_list.dart';
 import 'package:cartracker/screens/tracker_positions_list.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sqflite/sqflite.dart';
@@ -83,6 +84,8 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
       ),
       TextFormField(
           enabled: false,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller:
               TextEditingController(text: widget.tracker.speedLimit.toString()),
           decoration: InputDecoration(
@@ -92,6 +95,8 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           )),
       TextFormField(
           enabled: false,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller:
               TextEditingController(text: widget.tracker.sleepLimit.toString()),
           decoration: InputDecoration(
@@ -100,7 +105,9 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       TextFormField(
-          enabled: false,
+          enabled: true,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller:
               TextEditingController(text: widget.tracker.battery.toString()),
           decoration: InputDecoration(
@@ -109,18 +116,21 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
           title: Text(Locales.get('ignitionAlarm', context)),
           value: widget.tracker.ignitionAlarm,
           controlAffinity: ListTileControlAffinity.trailing,
           onChanged: null,
           secondary: const Icon(Icons.alarm)),
       CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
           title: Text(Locales.get('powerAlarmCall', context)),
           value: widget.tracker.powerAlarmCall,
           controlAffinity: ListTileControlAffinity.trailing,
           onChanged: null,
           secondary: const Icon(Icons.call)),
       CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
           title: Text(Locales.get('powerAlarmSMS', context)),
           value: widget.tracker.powerAlarmSMS,
           controlAffinity: ListTileControlAffinity.trailing,

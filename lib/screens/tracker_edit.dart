@@ -7,6 +7,7 @@ import 'package:cartracker/screens/tracker_message_list.dart';
 import 'package:cartracker/screens/tracker_positions_list.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sqflite/sqflite.dart';
@@ -129,6 +130,12 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
 
     List<Widget> form = [
       TextFormField(
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return Locales.get('requiredField', context);
+          }
+          return null;
+        },
         controller: TextEditingController(text: widget.tracker.name),
         decoration: InputDecoration(
           icon: const Icon(Icons.drive_file_rename_outline),
@@ -165,6 +172,13 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         onChanged: (value) => widget.tracker.model = value,
       ),
       TextFormField(
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return Locales.get('requiredField', context);
+          }
+          return null;
+        },
+        autovalidateMode: AutovalidateMode.always,
         controller: TextEditingController(text: widget.tracker.phoneNumber),
         decoration: InputDecoration(
             icon: const Icon(Icons.phone),
@@ -183,12 +197,13 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                   }
                 })),
         onChanged: (value) => widget.tracker.phoneNumber = value,
-      )
-    ];
-
-    List<Widget> buttons = [
-      ElevatedButton(
-        onPressed: () {
+      ),
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Icon(Icons.palette),
+        title: Text(Locales.get('color', context)),
+        trailing: Container(color: Color(widget.tracker.color), width: 38, height: 38, margin: EdgeInsets.all(8)),
+        onTap: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -208,12 +223,10 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             },
           );
         },
-        child: Text(Locales.get('color', context)),
-        style: ElevatedButton.styleFrom(
-          primary: Color(widget.tracker.color),
-          elevation: 10,
-        ),
       ),
+    ];
+
+    List<Widget> buttons = [
       ElevatedButton(
           child: Text(Locales.get('save', context)),
           onPressed: () async {
