@@ -66,14 +66,8 @@ class MapScreenState extends State<MapScreen> {
   ///
   /// Open the tracker location in external application.
   void onSymbolTapped(Symbol symbol) {
-    print('symbol tapped');
-
     TrackerPosition position = symbol.data!['position'];
-
     String url = position.getGoogleMapsURL();
-
-    print(url);
-
     launch(url);
   }
 
