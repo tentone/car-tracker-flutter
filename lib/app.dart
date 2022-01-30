@@ -2,6 +2,7 @@ import 'package:cartracker/locale/locale_manager.dart';
 import 'package:cartracker/themes.dart';
 import 'package:flutter/material.dart';
 import './locale/locales.dart';
+import 'data/settings.dart';
 import 'screens/menu.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -17,7 +18,7 @@ class App extends StatelessWidget {
       debugShowMaterialGrid: false,
       checkerboardOffscreenLayers: false,
       checkerboardRasterCacheImages: false,
-      themeMode: ThemeMode.system,
+      themeMode: Settings.global.darkMode ? ThemeMode.dark : ThemeMode.light,
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
       localizationsDelegates: const [

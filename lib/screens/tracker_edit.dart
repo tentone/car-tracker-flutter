@@ -252,6 +252,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
       body: Form(
         key: formKey,
         child: ListView(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           children: [...form, ...buttons],
         ),
       ),

@@ -1,5 +1,7 @@
 const Map<String, String> LocaleEN = {
   'carTracker': 'Car Tracker',
+  'darkMode': 'Dark Mode',
+  'license': 'License',
   'map': 'Map',
   'tracker': 'Tracker',
   'trackers': 'Trackers',

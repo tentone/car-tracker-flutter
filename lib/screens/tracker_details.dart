@@ -29,30 +29,6 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
   Widget build(BuildContext context) {
     List<Widget> detailsForms = [
       TextFormField(
-          enabled: false,
-          controller: TextEditingController(text: widget.tracker.id),
-          decoration: InputDecoration(
-            icon: const Icon(Icons.perm_identity),
-            labelText: Locales.get('id', context),
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )),
-      TextFormField(
-          enabled: false,
-          controller: TextEditingController(text: widget.tracker.apn),
-          decoration: InputDecoration(
-            icon: const Icon(Icons.perm_identity),
-            labelText: Locales.get('apn', context),
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )),
-      TextFormField(
-          enabled: false,
-          controller: TextEditingController(text: widget.tracker.iccid),
-          decoration: InputDecoration(
-            icon: const Icon(Icons.perm_identity),
-            labelText: Locales.get('iccid', context),
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
-          )),
-      TextFormField(
         controller: TextEditingController(text: widget.tracker.adminNumber),
         decoration: InputDecoration(
             icon: const Icon(Icons.contact_phone),
@@ -84,6 +60,30 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
       ),
       TextFormField(
           enabled: false,
+          controller: TextEditingController(text: widget.tracker.id),
+          decoration: InputDecoration(
+            icon: const Icon(Icons.perm_identity),
+            labelText: Locales.get('id', context),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+          )),
+      TextFormField(
+          enabled: false,
+          controller: TextEditingController(text: widget.tracker.apn),
+          decoration: InputDecoration(
+            icon: const Icon(Icons.perm_identity),
+            labelText: Locales.get('apn', context),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+          )),
+      TextFormField(
+          enabled: false,
+          controller: TextEditingController(text: widget.tracker.iccid),
+          decoration: InputDecoration(
+            icon: const Icon(Icons.perm_identity),
+            labelText: Locales.get('iccid', context),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+          )),
+      TextFormField(
+          enabled: false,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller:
@@ -105,7 +105,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       TextFormField(
-          enabled: true,
+          enabled: false,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller:
@@ -145,6 +145,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
         body: Form(
           key: formKey,
           child: ListView(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             children: detailsForms,
           ),
         ));
