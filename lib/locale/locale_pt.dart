@@ -1,4 +1,6 @@
-const Map<String, String> LocaleEN = {
+const Map<String, String> LocalePT = {
+  'en': 'Inglês',
+  'pt': 'Portuges',
   'carTracker': 'Car Tracker',
   'darkMode': 'Modo Escuro',
   'license': 'Licença',

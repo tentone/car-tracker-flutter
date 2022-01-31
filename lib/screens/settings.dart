@@ -45,6 +45,24 @@ class SettingsScreenState extends State<SettingsScreen> {
               launch('https://github.com/tentone/car-tracker-flu');
             },
           ),
+          PopupMenuButton<String>(
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.flag),
+              title: Text(Locales.get(Locales.code, context)),
+            ),
+            onSelected: (String result) { setState(() { Locales.setLocale(result); }); },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: 'en',
+                child: Text(Locales.get('en', context)),
+              ),
+              PopupMenuItem<String>(
+                value: 'pt',
+                child: Text(Locales.get('pt', context)),
+              ),
+            ],
+          )
         ],
       ),
     ));

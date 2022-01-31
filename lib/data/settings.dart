@@ -1,5 +1,6 @@
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/settings_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,6 +16,7 @@ class Settings extends ChangeNotifier {
 
   set locale(String value) {
     this._locale = value;
+    Locales.code = value;
     this.update();
   }
 

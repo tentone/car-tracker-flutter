@@ -1,3 +1,4 @@
+import 'package:cartracker/locale/locale_pt.dart';
 import 'package:flutter/material.dart';
 import 'locale_en.dart';
 
@@ -9,13 +10,16 @@ class Locales {
   const Locales(this.locale);
 
   /// Locales available in the platform indexed by language code.
-  static Map<String, Map<String, String>> values = {'en': LocaleEN};
+  static Map<String, Map<String, String>> values = {
+    'en': LocaleEN,
+    'pt': LocalePT
+  };
 
   /// Active locale code
   static String code = 'en';
 
   /// Supported locale codes
-  static const List<Locale> supported = [Locale('en', 'US')];
+  static const List<Locale> supported = [Locale('en', 'US'), Locale('pt', 'PT')];
 
   /// Get the locale to be used for a specific context.
   static Locales? of(BuildContext context) {

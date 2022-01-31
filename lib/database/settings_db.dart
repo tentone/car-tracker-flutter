@@ -13,12 +13,15 @@ class SettingsDB {
             'dark_mode INT'
             ')');
 
-    Settings settings = Settings();
-
     try {
+      Settings settings = Settings();
       await db.execute(
           'INSERT INTO ' + tableName + ' (locale, dark_mode) VALUES (?, ?)',
           [settings.locale, settings.darkMode]);
+    } catch (e) {}
+
+    try {
+      Settings.global = await SettingsDB.get(db);
     } catch (e) {}
   }
 
@@ -30,9 +33,9 @@ class SettingsDB {
   }
 
   /// Get settings from database
-  static Future<Settings> get(Database db, String uuid) async {
+  static Future<Settings> get(Database db) async {
     List<Map<String, Object?>> values =
-        await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0', [uuid]);
+        await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
 
     return parse(values[0]);
   }
