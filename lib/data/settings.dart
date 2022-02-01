@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 /// Stores the application settings
 class Settings extends ChangeNotifier {
+  /// Global settings object
   static Settings global = Settings();
 
   /// Locale of the application
