@@ -27,7 +27,7 @@ class TrackerListScreenState extends State<TrackerListScreen> {
       }(), builder:
           (BuildContext context, AsyncSnapshot<List<Tracker>> entries) {
         if (entries.data == null) {
-          return const SizedBox();
+          return Center(child: Text(Locales.get('noTrackers', context)));
         }
 
         return ListView.builder(
