@@ -37,14 +37,6 @@ class SettingsScreenState extends State<SettingsScreen> {
               },
               secondary: const Icon(Icons.dark_mode)
           ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Icon(Icons.document_scanner),
-            title: Text(Locales.get('license', context)),
-            onTap: () {
-              launch('https://github.com/tentone/car-tracker-flu');
-            },
-          ),
           PopupMenuButton<String>(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
@@ -62,7 +54,17 @@ class SettingsScreenState extends State<SettingsScreen> {
                 child: Text(Locales.get('pt', context)),
               ),
             ],
-          )
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.document_scanner),
+            title: Text(Locales.get('license', context)),
+            onTap: () {
+              launch('https://github.com/tentone/car-tracker-flu');
+            },
+          ),
+
+
         ],
       ),
     ));

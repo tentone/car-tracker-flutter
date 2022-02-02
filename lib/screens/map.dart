@@ -39,8 +39,7 @@ class MapScreenState extends State<MapScreen> {
     for (int i = 0; i < entries.length; i++) {
       Symbol symbol = await this.controller.addSymbol(
           SymbolOptions(
-              geometry: LatLng(
-                  entries[i].position.latitude, entries[i].position.longitude),
+              geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
               iconImage: 'car-15',
               iconSize: 2,
               iconColor: Color(entries[i].tracker.color).toHexStringRGB(),

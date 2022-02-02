@@ -29,8 +29,14 @@ class TrackerMessageListScreenState extends State<TrackerMessageListScreen> {
           return TrackerMessageDB.list(db!, widget.tracker.uuid);
         }(), builder: (BuildContext context,
             AsyncSnapshot<List<TrackerMessage>> entries) {
-          if (entries.data == null) {
-            return const SizedBox();
+          if (entries.data == null || entries.data?.length == 0) {
+            return Center(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(child: Icon(Icons.sms, size: 60.0), padding: EdgeInsets.all(10.0)),
+                Text(Locales.get('noElements', context)),
+              ],
+            ));
           }
 
           return ListView.builder(

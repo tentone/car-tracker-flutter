@@ -27,17 +27,13 @@ class TrackerListScreenState extends State<TrackerListScreen> {
       }(), builder:
           (BuildContext context, AsyncSnapshot<List<Tracker>> entries) {
         if (entries.data == null || entries.data?.length == 0) {
-          return Container(
-            alignment: Alignment.center,
-            child: Center(
-              child: Column(
-                children: [
-                  Icon(Icons.list_outlined, size: 60.0),
-                  Text(Locales.get('noTrackers', context)),
-                ],
-              )
-            )
-          );
+          return Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(child: Icon(Icons.list_outlined, size: 60.0), padding: EdgeInsets.all(10.0)),
+              Text(Locales.get('noTrackers', context)),
+            ],
+          ));
         }
 
         return ListView.builder(
