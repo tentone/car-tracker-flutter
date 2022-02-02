@@ -26,8 +26,18 @@ class TrackerListScreenState extends State<TrackerListScreen> {
         return TrackerDB.list(db!);
       }(), builder:
           (BuildContext context, AsyncSnapshot<List<Tracker>> entries) {
-        if (entries.data == null) {
-          return Center(child: Text(Locales.get('noTrackers', context)));
+        if (entries.data == null || entries.data?.length == 0) {
+          return Container(
+            alignment: Alignment.center,
+            child: Center(
+              child: Column(
+                children: [
+                  Icon(Icons.list_outlined, size: 60.0),
+                  Text(Locales.get('noTrackers', context)),
+                ],
+              )
+            )
+          );
         }
 
         return ListView.builder(
