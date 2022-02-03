@@ -66,5 +66,8 @@ const Map<String, String> LocaleEN = {
   'chassisNumber': 'Chassis Number',
   'requestedPosition': 'Sent position request',
   'deletedSuccessfully': 'Tracker deleted successfully!',
-  'trackerAcknowledge': 'Tracker command confirmed.'
+  'trackerAcknowledge': 'Tracker command confirmed.',
+  'light': 'Light',
+  'dark': 'Dark',
+  'system': 'System'
 };

@@ -22,12 +22,12 @@ class Settings extends ChangeNotifier {
   }
 
   /// Theme to use in the application
-  bool get darkMode {
-    return Themes.darkMode;
+  ThemeMode get theme {
+    return Themes.mode;
   }
 
-  set darkMode(bool value) {
-    Themes.darkMode = value;
+  set theme(ThemeMode value) {
+    Themes.mode = value;
     this.update();
   }
 

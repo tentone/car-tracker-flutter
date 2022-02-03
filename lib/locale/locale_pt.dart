@@ -65,5 +65,8 @@ const Map<String, String> LocalePT = {
   'chassisNumber': 'Número Chassis',
   'requestedPosition': 'Enviado pedido de posição!',
   'deletedSuccessfully': 'Tracker eliminado com sucesso!',
-  'trackerAcknowledge': 'Commando confirmado pelo tracker.'
+  'trackerAcknowledge': 'Commando confirmado pelo tracker.',
+  'light': 'Claro',
+  'dark': 'Escuro',
+  'system': 'Sistema'
 };

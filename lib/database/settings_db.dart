@@ -1,4 +1,5 @@
 import 'package:cartracker/data/settings.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SettingsDB {
@@ -10,14 +11,14 @@ class SettingsDB {
         '('
             'id INTEGER PRIMARY KEY,'
             'locale TEXT,'
-            'dark_mode INT'
+            'theme INT'
             ')');
 
     try {
       Settings settings = Settings();
       await db.execute(
-          'INSERT INTO ' + tableName + ' (locale, dark_mode) VALUES (?, ?)',
-          [settings.locale, settings.darkMode]);
+          'INSERT INTO ' + tableName + ' (locale, theme) VALUES (?, ?)',
+          [settings.locale, settings.theme.index]);
     } catch (e) {}
 
     try {
@@ -28,8 +29,8 @@ class SettingsDB {
   /// Update settings in database
   static Future update(Database db, Settings settings) async {
     await db.execute(
-        'UPDATE ' + tableName + ' SET locale=?, dark_mode=? WHERE id=0',
-        [settings.locale, settings.darkMode]);
+        'UPDATE ' + tableName + ' SET locale=?, theme=? WHERE id=0',
+        [settings.locale, settings.theme.index]);
   }
 
   /// Get settings from database
@@ -45,7 +46,7 @@ class SettingsDB {
     Settings settings = Settings();
 
     settings.locale = values['locale'].toString();
-    settings.darkMode = int.parse(values['dark_mode'].toString()) == 1;
+    settings.theme = ThemeMode.values[int.parse(values['theme'].toString())];
 
     return settings;
   }

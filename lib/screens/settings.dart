@@ -21,29 +21,40 @@ class SettingsScreenState extends State<SettingsScreen> {
       body: Form(
       key: formKey,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         children: [
-          CheckboxListTile(
+          PopupMenuButton<ThemeMode>(
+            child: ListTile(
               contentPadding: EdgeInsets.zero,
-              title: Text(Locales.get('darkMode', context)),
-              value: Settings.global.darkMode,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (bool? value) {
-                if (value != null) {
-                  setState(() {
-                    Settings.global.darkMode = value;
-                  });
-                }
-              },
-              secondary: const Icon(Icons.dark_mode)
+              leading: Icon(Icons.dark_mode),
+              title: Text(Locales.get('theme', context)),
+              trailing: Text(Locales.get(Settings.global.theme.name, context)),
+            ),
+            onSelected: (ThemeMode result) { setState(() { Settings.global.theme = result; }); },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<ThemeMode>>[
+              PopupMenuItem<ThemeMode>(
+                value: ThemeMode.system,
+                child: Text(Locales.get('system', context)),
+              ),
+              PopupMenuItem<ThemeMode>(
+                value: ThemeMode.dark,
+                child: Text(Locales.get('dark', context)),
+              ),
+              PopupMenuItem<ThemeMode>(
+                value: ThemeMode.light,
+                child: Text(Locales.get('light', context)),
+              ),
+            ],
           ),
+
           PopupMenuButton<String>(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.flag),
-              title: Text(Locales.get(Locales.code, context)),
+              trailing: Text(Locales.get(Locales.code, context)),
+              title: Text(Locales.get('locale', context)),
             ),
-            onSelected: (String result) { setState(() { Locales.setLocale(result); }); },
+            onSelected: (String result) { setState(() { Settings.global.locale = result; }); },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
                 value: 'en',
