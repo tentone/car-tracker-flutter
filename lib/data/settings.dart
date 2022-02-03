@@ -4,41 +4,40 @@ import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../themes.dart';
+
 /// Stores the application settings
 class Settings extends ChangeNotifier {
   /// Global settings object
   static Settings global = Settings();
 
   /// Locale of the application
-  String _locale = 'en';
   String get locale {
-    return _locale;
+    return Locales.code;
   }
 
   set locale(String value) {
-    this._locale = value;
     Locales.code = value;
     this.update();
   }
 
   /// Theme to use in the application
-  bool _darkMode = true;
   bool get darkMode {
-    return _darkMode;
+    return Themes.darkMode;
   }
 
   set darkMode(bool value) {
-    this._darkMode = value;
+    Themes.darkMode = value;
     this.update();
   }
 
   /// Update settings on database and notify listeners for changes.
   ///
   /// Called after any parameter in the settings object has been changed.
-  void update() {
-    DataBase.get().then((Database? db) {
-      SettingsDB.update(db!, this);
-    });
+  void update() async {
+    Database? db = await DataBase.get();
+    SettingsDB.update(db!, this);
+
     notifyListeners();
   }
 }
