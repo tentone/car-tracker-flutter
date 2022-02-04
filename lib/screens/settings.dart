@@ -3,6 +3,8 @@ import 'package:cartracker/locale/locales.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../global.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -46,7 +48,6 @@ class SettingsScreenState extends State<SettingsScreen> {
               ),
             ],
           ),
-
           PopupMenuButton<String>(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
@@ -74,8 +75,12 @@ class SettingsScreenState extends State<SettingsScreen> {
               launch('https://github.com/tentone/car-tracker-flu');
             },
           ),
-
-
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.album_outlined),
+            trailing: Text(Global.VERSION),
+            title: Text(Locales.get('version', context)),
+          ),
         ],
       ),
     ));

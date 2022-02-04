@@ -14,40 +14,40 @@ class SettingsDB {
             'theme INT'
             ')');
 
-    try {
-      Settings settings = Settings();
+    if (await SettingsDB.has(db)) {
       await db.execute(
           'INSERT INTO ' + tableName + ' (locale, theme) VALUES (?, ?)',
-          [settings.locale, settings.theme.index]);
-    } catch (e) {}
-
-    try {
-      Settings.global = await SettingsDB.get(db);
-    } catch (e) {}
+          [Settings.global.locale, Settings.global.theme.index]);
+    } else {
+      await SettingsDB.get(db);
+    }
   }
 
   /// Update settings in database
-  static Future update(Database db, Settings settings) async {
+  static Future update(Database db) async {
     await db.execute(
         'UPDATE ' + tableName + ' SET locale=?, theme=? WHERE id=0',
-        [settings.locale, settings.theme.index]);
+        [Settings.global.locale, Settings.global.theme.index]);
+  }
+
+  static Future<bool> has(Database db) async {
+    List<Map<String, Object?>> values =
+    await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
+
+    return values.isNotEmpty;
   }
 
   /// Get settings from database
-  static Future<Settings> get(Database db) async {
+  static Future<void> get(Database db) async {
     List<Map<String, Object?>> values =
         await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
 
-    return parse(values[0]);
+    parse(values[0]);
   }
 
   /// Parse database retrieved data into a usable object.
-  static Settings parse(Map<String, Object?> values) {
-    Settings settings = Settings();
-
-    settings.locale = values['locale'].toString();
-    settings.theme = ThemeMode.values[int.parse(values['theme'].toString())];
-
-    return settings;
+  static void parse(Map<String, Object?> values) {
+    Settings.global.locale = values['locale'].toString();
+    Settings.global.theme = ThemeMode.values[int.parse(values['theme'].toString())];
   }
 }

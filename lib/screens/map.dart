@@ -68,18 +68,17 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high),
-        builder: (BuildContext context, AsyncSnapshot<Position> data) {
-          if (!data.hasData) {
-            return Container();
-          }
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          FutureBuilder(
+            future:  Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+              builder: (BuildContext context, AsyncSnapshot<Position> data) {
+                if (!data.hasData) {
+                  return Container();
+                }
 
-          return Scaffold(
-            body: Stack(
-              children: <Widget>[
-                MapboxMap(
+                return MapboxMap(
                   accessToken: Global.MAPBOX_TOKEN,
                   trackCameraPosition: true,
                   myLocationEnabled: true,
@@ -88,20 +87,21 @@ class MapScreenState extends State<MapScreen> {
                       target: LatLng(data.data!.latitude, data.data!.longitude),
                       zoom: 10),
                   onMapCreated: onMapCreated,
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                Database? db = await DataBase.get();
-                List<Tracker> trackers = await TrackerDB.list(db!);
-                for (int i = 0; i < trackers.length; i++) {
-                  trackers[i].requestLocation();
-                }
-              },
-              child: const Icon(Icons.gps_not_fixed),
-            ),
-          );
-        });
+                );
+              }
+            )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Database? db = await DataBase.get();
+          List<Tracker> trackers = await TrackerDB.list(db!);
+          for (int i = 0; i < trackers.length; i++) {
+            trackers[i].requestLocation();
+          }
+        },
+        child: const Icon(Icons.gps_not_fixed),
+      ),
+    );
   }
 }
