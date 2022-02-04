@@ -16,7 +16,7 @@ class SettingsDB {
 
     if (await SettingsDB.has(db)) {
       await db.execute(
-          'INSERT INTO ' + tableName + ' (locale, theme) VALUES (?, ?)',
+          'INSERT INTO ' + tableName + ' (id, locale, theme) VALUES (0, ?, ?)',
           [Settings.global.locale, Settings.global.theme.index]);
     } else {
       await SettingsDB.get(db);

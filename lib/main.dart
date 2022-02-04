@@ -1,3 +1,4 @@
+import 'package:cartracker/database/database.dart';
 import 'package:cartracker/utils/sms.dart';
 import 'package:flutter/material.dart';
 import 'package:telephony/telephony.dart';
@@ -14,6 +15,7 @@ backgroundMessageHandler(SmsMessage message) async {
 Future<void> main() async {
   runApp(App());
 
+  await DataBase.get();
   await Geolocator.requestPermission();
   await SMSUtils.importReceived();
 
