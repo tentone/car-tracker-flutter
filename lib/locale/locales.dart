@@ -19,7 +19,7 @@ class Locales {
   static String code = 'en';
 
   /// Supported locale codes
-  static const List<Locale> supported = [Locale('en', 'US'), Locale('pt', 'PT')];
+  static const List<Locale> supported = [Locale('en', ''), Locale('pt', '')];
 
   /// Get the locale to be used for a specific context.
   static Locales? of(BuildContext context) {
@@ -29,8 +29,9 @@ class Locales {
   /// Get a locale text value for a specific context, (cleaner locale access).
   static String get(String key, BuildContext context) {
     Locale locale = Localizations.localeOf(context);
+    // locale.languageCode
 
-    String? value = Locales.values[locale.languageCode]?[key];
+    String? value = Locales.values[Locales.code]?[key];
     if (value != null) {
       return value;
     }

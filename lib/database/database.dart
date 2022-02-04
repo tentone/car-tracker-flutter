@@ -34,7 +34,7 @@ class DataBase {
     String path = join(await getDatabasesPath(), DataBase.name);
 
     DataBase.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
-      // await SettingsDB.migrate(db);
+      await SettingsDB.migrate(db);
       await TrackerDB.migrate(db);
       await TrackerPositionDB.migrate(db);
       await TrackerMessageDB.migrate(db);

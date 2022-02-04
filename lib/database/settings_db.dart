@@ -14,7 +14,7 @@ class SettingsDB {
             'theme INT'
             ')');
 
-    if (await SettingsDB.has(db)) {
+    if (!await SettingsDB.has(db)) {
       await db.execute(
           'INSERT INTO ' + tableName + ' (id, locale, theme) VALUES (0, ?, ?)',
           [Settings.global.locale, Settings.global.theme.index]);
@@ -31,7 +31,7 @@ class SettingsDB {
   }
 
   static Future<bool> has(Database db) async {
-    List<Map<String, Object?>> values =
+    List values =
     await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
 
     return values.isNotEmpty;
