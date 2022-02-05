@@ -25,6 +25,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapScreenState extends State<MapScreen> {
+  /// Object to manipulate the map view
   late MapboxMapController controller;
 
   /// Method called when map is created to draw the tracker locations.
@@ -33,21 +34,25 @@ class MapScreenState extends State<MapScreen> {
   Future<void> onMapCreated(MapboxMapController controller) async {
     this.controller = controller;
     this.controller.onSymbolTapped.add(onSymbolTapped);
+  }
 
+  /// Method called after the map style is loaded
+  Future<void> onStyleLoaded() async {
+    this.addImage(this.controller, "car-sdf", "assets/sdf/car-sdf.png");
+    await this.drawMarkers(this.controller);
+  }
+
+  /// Draw markers for each tracker that has position data.
+  Future<void> drawMarkers(MapboxMapController controller) async {
     Database? db = await DataBase.get();
-    List<TrackerLastPosition> entries =
-        await TrackerPositionDB.getAllTrackerLastPosition(db!);
+    List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     for (int i = 0; i < entries.length; i++) {
-      Symbol symbol = await this.controller.addSymbol(
+      Symbol symbol = await controller.addSymbol(
           SymbolOptions(
               geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
               iconImage: 'car-sdf',
-              iconSize: 1.2,
-              iconHaloColor: '#000000',
-              iconHaloWidth: 3.0,
-              iconHaloBlur: 3.0,
-              iconOffset: const Offset(0, -3.0),
+              iconSize: 1.1,
               iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
               textField: entries[i].tracker.name,
               textSize: 16,
@@ -56,12 +61,9 @@ class MapScreenState extends State<MapScreen> {
     }
   }
 
-  void onStyleLoaded() {
-    this.addSDF("car-sdf", "assets/sdf/car-sdf.png");
-  }
 
-  /// Adds an asset image to the currently displayed style
-  Future<void> addSDF(String name, String path, {bool sdf=true}) async {
+  /// Adds an asset image to the controller style
+  Future<void> addImage(MapboxMapController controller, String name, String path, {bool sdf=true}) async {
     final ByteData bytes = await rootBundle.load(path);
     final Uint8List list = bytes.buffer.asUint8List();
     return controller.addImage(name, list, sdf);
@@ -100,6 +102,7 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: <Widget>[

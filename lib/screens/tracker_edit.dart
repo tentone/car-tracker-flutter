@@ -5,6 +5,7 @@ import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/screens/tracker_details.dart';
 import 'package:cartracker/screens/tracker_message_list.dart';
 import 'package:cartracker/screens/tracker_positions_list.dart';
+import 'package:cartracker/screens/tracker_positions_map.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -253,8 +254,8 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
           onPressed: () async {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return TrackerPositionListScreen(widget.tracker);
-            }));
+                  return TrackerPositionMapScreen(widget.tracker);
+                }));
           })
     ];
 
