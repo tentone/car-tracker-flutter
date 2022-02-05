@@ -111,8 +111,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               leading: const Icon(Icons.sms_rounded),
               title: Text(Locales.get('messages', context)),
               onTap: () async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                   return TrackerMessageListScreen(widget.tracker);
                 }));
               }),
@@ -120,8 +119,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               leading: const Icon(Icons.list),
               title: Text(Locales.get('details', context)),
               onTap: () async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                   return TrackerDetailsScreen(widget.tracker);
                 }));
               }),
@@ -188,8 +186,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             suffixIcon: IconButton(
                 icon: const Icon(Icons.contact_phone, color: Colors.grey),
                 onPressed: () async {
-                  final PhoneContact contact =
-                      await FlutterContactPicker.pickPhoneContact();
+                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
                   if (contact.phoneNumber?.number != null) {
                     String number = contact.phoneNumber?.number ?? '';
                     setState(() {
@@ -213,11 +210,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
         contentPadding: EdgeInsets.zero,
         leading: Icon(Icons.palette),
         title: Text(Locales.get('color', context)),
-        trailing: Container(
-            color: Color(widget.tracker.color),
-            width: 38,
-            height: 38,
-            margin: EdgeInsets.all(8)),
+        trailing: Container(color: Color(widget.tracker.color), width: 38, height: 38, margin: EdgeInsets.all(8)),
         onTap: () {
           showDialog(
             context: context,
@@ -252,10 +245,9 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
       ElevatedButton(
           child: Text(Locales.get('history', context)),
           onPressed: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return TrackerPositionMapScreen(widget.tracker);
-                }));
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return TrackerPositionMapScreen(widget.tracker);
+            }));
           })
     ];
 

@@ -26,11 +26,7 @@ class App extends StatelessWidget {
           themeMode: Settings.global.theme,
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
-          localizationsDelegates: const [
-            LocaleManager(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
+          localizationsDelegates: const [LocaleManager(), GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
           supportedLocales: Locales.supported,
           home: const MainMenu(),
         );

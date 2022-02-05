@@ -47,15 +47,17 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
   /// Draw markers for each position of the tracker.
   Future<void> drawMarkers(MapboxMapController controller, List<TrackerPosition> positions) async {
     for (int i = 0; i < positions.length; i++) {
-      await controller.addSymbol(SymbolOptions(
-        geometry: LatLng(positions[i].latitude, positions[i].longitude),
-        iconImage: 'geo-sdf',
-        iconSize: 0.8,
-        iconColor: Color(widget.tracker.color).toHexStringRGB(),
-        textField: positions[i].timestamp.toString(),
-        textSize: 12,
-        textOffset: const Offset(0, 2.2),
-      ), {'position': positions[i]});
+      await controller.addSymbol(
+          SymbolOptions(
+            geometry: LatLng(positions[i].latitude, positions[i].longitude),
+            iconImage: 'geo-sdf',
+            iconSize: 0.8,
+            iconColor: Color(widget.tracker.color).toHexStringRGB(),
+            textField: positions[i].timestamp.toString(),
+            textSize: 12,
+            textOffset: const Offset(0, 2.2),
+          ),
+          {'position': positions[i]});
     }
   }
 
@@ -66,12 +68,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
       points.add(LatLng(positions[i].latitude, positions[i].longitude));
     }
 
-    await controller.addLine(LineOptions(
-      geometry: points,
-      lineWidth: 1.0,
-      lineOpacity: 1.0,
-      draggable: false
-    ));
+    await controller.addLine(LineOptions(geometry: points, lineWidth: 1.0, lineOpacity: 1.0, draggable: false));
   }
 
   /// Method called when a tracker is pressed
@@ -84,7 +81,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
   }
 
   /// Adds an asset image to the controller style
-  Future<void> addImage(MapboxMapController controller, String name, String path, {bool sdf=true}) async {
+  Future<void> addImage(MapboxMapController controller, String name, String path, {bool sdf = true}) async {
     final ByteData bytes = await rootBundle.load(path);
     final Uint8List list = bytes.buffer.asUint8List();
     return controller.addImage(name, list, sdf);
@@ -107,16 +104,13 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
         body: FutureBuilder(future: () async {
           Database? db = await DataBase.get();
           return TrackerPositionDB.list(db!, widget.tracker.uuid);
-        }(), builder: (BuildContext context,
-            AsyncSnapshot<List<TrackerPosition>> entries) {
+        }(), builder: (BuildContext context, AsyncSnapshot<List<TrackerPosition>> entries) {
           if (entries.data == null || entries.data?.length == 0) {
             return Center(
-              child: Column(
+                child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                    child: Icon(Icons.map, size: 60.0),
-                    padding: EdgeInsets.all(10.0)),
+                const Padding(child: Icon(Icons.map, size: 60.0), padding: EdgeInsets.all(10.0)),
                 Text(Locales.get('noElements', context)),
               ],
             ));
@@ -129,9 +123,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
             trackCameraPosition: true,
             myLocationEnabled: true,
             myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-            initialCameraPosition: CameraPosition(
-                target: LatLng(this.positions[0].latitude, this.positions[0].longitude),
-                zoom: 10),
+            initialCameraPosition: CameraPosition(target: LatLng(this.positions[0].latitude, this.positions[0].longitude), zoom: 10),
             onMapCreated: onMapCreated,
             onStyleLoadedCallback: onStyleLoaded,
           );

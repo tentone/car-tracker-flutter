@@ -10,10 +10,7 @@ class Locales {
   const Locales(this.locale);
 
   /// Locales available in the platform indexed by language code.
-  static Map<String, Map<String, String>> values = {
-    'en': LocaleEN,
-    'pt': LocalePT
-  };
+  static Map<String, Map<String, String>> values = {'en': LocaleEN, 'pt': LocalePT};
 
   /// Active locale code
   static String code = 'en';

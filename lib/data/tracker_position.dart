@@ -27,9 +27,6 @@ class TrackerPosition {
   ///
   /// Can be used to open the location in external application.
   String getGoogleMapsURL() {
-    return 'http://maps.google.com/maps?q=' +
-        this.latitude.toString() +
-        ',' +
-        this.longitude.toString();
+    return 'http://maps.google.com/maps?q=' + this.latitude.toString() + ',' + this.longitude.toString();
   }
 }

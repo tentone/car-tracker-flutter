@@ -147,12 +147,7 @@ class Tracker {
 
     // Acknowledge message
     String ackMsg = body.toLowerCase();
-    if (ackMsg == 'admin ok' ||
-        ackMsg == 'apn ok' ||
-        ackMsg == 'password ok' ||
-        ackMsg == 'speed ok' ||
-        ackMsg == 'ok') {
-
+    if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
       print('CarTracker: Tracker Acknowledge message');
       return;
     }
@@ -171,8 +166,7 @@ class Tracker {
 
     // GPS Location
     if (body.startsWith('http')) {
-      RegExp regex = RegExp(
-          r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
+      RegExp regex = RegExp(r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
 
       List<RegExpMatch> regMatch = regex.allMatches(body).toList();
       List<String> matches = [];
@@ -207,12 +201,7 @@ class Tracker {
       // int minute = int.parse(matches[11]);
       // int seconds = int.parse(matches[12]);
 
-      print('CarTracker: Received tracker location ' +
-          data.latitude.toString() +
-          ' , ' +
-          data.longitude.toString() +
-          ' , ' +
-          timestamp.toString());
+      print('CarTracker: Received tracker location ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + timestamp.toString());
 
       this.update();
       this.addPosition(data);
@@ -221,8 +210,7 @@ class Tracker {
 
     // GPS Tracker data
     try {
-      RegExp infoRegex = RegExp(
-          r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
+      RegExp infoRegex = RegExp(r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
 
       List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
       List<String> matches = [];
@@ -255,7 +243,7 @@ class Tracker {
       this.iccid = iccid;
       this.id = id;
       this.update();
-    } catch(e) {
+    } catch (e) {
       print('CarTracker: Error parsing info message.');
     }
   }
@@ -265,8 +253,7 @@ class Tracker {
   /// @param message Message to be sent to the tracker.
   void sendSMS(String message) {
     SMSUtils.send(message, this.phoneNumber);
-    this.addMessage(
-        TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
+    this.addMessage(TrackerMessage(MessageDirection.SENT, message, DateTime.now()));
   }
 
   /// Request a data with the location of the device, status and speed of the tracker.

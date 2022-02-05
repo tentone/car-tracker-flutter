@@ -21,32 +21,13 @@ class TrackerMessageDB {
   }
 
   /// Add a new tracker message the database
-  static Future add(
-      Database db, String trackerUUID, TrackerMessage message) async {
-    await db.execute(
-        'INSERT INTO ' +
-            tableName +
-            ' (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)',
-        [
-          trackerUUID,
-          message.direction.index,
-          message.timestamp.toIso8601String(),
-          message.data
-        ]);
+  static Future add(Database db, String trackerUUID, TrackerMessage message) async {
+    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)', [trackerUUID, message.direction.index, message.timestamp.toIso8601String(), message.data]);
   }
 
   /// Get a list of all messages of the a specific tracker available in database
-  static Future<List<TrackerMessage>> list(Database db, String trackerUUID,
-      {String sortAttribute = 'timestamp',
-      String sortDirection = 'DESC'}) async {
-    List<Map<String, Object?>> list = await db.rawQuery(
-        'SELECT * FROM ' +
-            tableName +
-            ' WHERE tracker_id = ? ORDER BY ' +
-            sortAttribute +
-            ' ' +
-            sortDirection,
-        [trackerUUID]);
+  static Future<List<TrackerMessage>> list(Database db, String trackerUUID, {String sortAttribute = 'timestamp', String sortDirection = 'DESC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE tracker_id = ? ORDER BY ' + sortAttribute + ' ' + sortDirection, [trackerUUID]);
     List<TrackerMessage> messages = [];
 
     for (int i = 0; i < list.length; i++) {
@@ -60,8 +41,7 @@ class TrackerMessageDB {
   static TrackerMessage parse(Map<String, Object?> values) {
     String data = values['data'].toString();
     DateTime timestamp = DateTime.parse(values['timestamp'].toString());
-    MessageDirection direction =
-        MessageDirection.values[int.parse(values['direction'].toString())];
+    MessageDirection direction = MessageDirection.values[int.parse(values['direction'].toString())];
 
     TrackerMessage message = TrackerMessage(direction, data, timestamp);
 
@@ -78,8 +58,7 @@ class TrackerMessageDB {
     List<Future> addFuture = [];
     const int size = 10;
     for (int i = 0; i < size; i++) {
-      addFuture.add(add(db, tracker.uuid,
-          TrackerMessage(MessageDirection.SENT, 'test', DateTime.now())));
+      addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, 'test', DateTime.now())));
     }
     await Future.wait(addFuture);
 

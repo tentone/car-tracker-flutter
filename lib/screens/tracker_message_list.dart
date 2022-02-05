@@ -27,16 +27,13 @@ class TrackerMessageListScreenState extends State<TrackerMessageListScreen> {
         body: FutureBuilder(future: () async {
           Database? db = await DataBase.get();
           return TrackerMessageDB.list(db!, widget.tracker.uuid);
-        }(), builder: (BuildContext context,
-            AsyncSnapshot<List<TrackerMessage>> entries) {
+        }(), builder: (BuildContext context, AsyncSnapshot<List<TrackerMessage>> entries) {
           if (entries.data == null || entries.data?.length == 0) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                    child: Icon(Icons.sms, size: 60.0),
-                    padding: EdgeInsets.all(10.0)),
+                Padding(child: Icon(Icons.sms, size: 60.0), padding: EdgeInsets.all(10.0)),
                 Text(Locales.get('noElements', context)),
               ],
             ));
@@ -50,12 +47,7 @@ class TrackerMessageListScreenState extends State<TrackerMessageListScreen> {
                     height: 80,
                     child: ListTile(
                       title: Text(entries.data![index].timestamp.toString()),
-                      leading: Icon(
-                          entries.data![index].direction ==
-                                  MessageDirection.SENT
-                              ? Icons.call_made
-                              : Icons.call_received,
-                          size: 40.0),
+                      leading: Icon(entries.data![index].direction == MessageDirection.SENT ? Icons.call_made : Icons.call_received, size: 40.0),
                       subtitle: Text(entries.data![index].data),
                     ));
               });

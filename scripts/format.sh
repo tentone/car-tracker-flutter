@@ -3,6 +3,6 @@
 cd ..
 
 echo " - Formatting dart code"
-dart format --fix .
+flutter format -l 10000 --fix .
 
 echo " - Done!"

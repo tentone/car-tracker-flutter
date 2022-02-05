@@ -37,8 +37,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             suffixIcon: IconButton(
                 icon: const Icon(Icons.contact_phone, color: Colors.grey),
                 onPressed: () async {
-                  final PhoneContact contact =
-                      await FlutterContactPicker.pickPhoneContact();
+                  final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
                   if (contact.phoneNumber?.number != null) {
                     String number = contact.phoneNumber?.number ?? '';
                     setState(() {
@@ -76,8 +75,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           enabled: false,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          controller:
-              TextEditingController(text: widget.tracker.speedLimit.toString()),
+          controller: TextEditingController(text: widget.tracker.speedLimit.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.speed),
             labelText: Locales.get('speedLimit', context),
@@ -87,8 +85,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           enabled: false,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          controller:
-              TextEditingController(text: widget.tracker.sleepLimit.toString()),
+          controller: TextEditingController(text: widget.tracker.sleepLimit.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.mode_standby),
             labelText: Locales.get('sleepLimit', context),
@@ -98,34 +95,15 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           enabled: false,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          controller:
-              TextEditingController(text: widget.tracker.battery.toString()),
+          controller: TextEditingController(text: widget.tracker.battery.toString()),
           decoration: InputDecoration(
             icon: const Icon(Icons.battery_full),
             labelText: Locales.get('battery', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
-      CheckboxListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(Locales.get('ignitionAlarm', context)),
-          value: widget.tracker.ignitionAlarm,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: null,
-          secondary: const Icon(Icons.alarm)),
-      CheckboxListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(Locales.get('powerAlarmCall', context)),
-          value: widget.tracker.powerAlarmCall,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: null,
-          secondary: const Icon(Icons.call)),
-      CheckboxListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(Locales.get('powerAlarmSMS', context)),
-          value: widget.tracker.powerAlarmSMS,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: null,
-          secondary: const Icon(Icons.sms_failed))
+      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('ignitionAlarm', context)), value: widget.tracker.ignitionAlarm, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.alarm)),
+      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('powerAlarmCall', context)), value: widget.tracker.powerAlarmCall, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.call)),
+      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('powerAlarmSMS', context)), value: widget.tracker.powerAlarmSMS, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.sms_failed))
     ];
 
     return Scaffold(
@@ -134,18 +112,16 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
         ),
         body: Form(
           key: formKey,
-          child: ListView(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              children: [
-                ...detailsForms,
-                ElevatedButton(
-                    child: Text(Locales.get('save', context)),
-                    onPressed: () async {
-                      Database? db = await DataBase.get();
-                      await TrackerDB.update(db!, widget.tracker);
-                      Navigator.pop(context);
-                    })
-              ]),
+          child: ListView(padding: const EdgeInsets.fromLTRB(10, 0, 10, 0), children: [
+            ...detailsForms,
+            ElevatedButton(
+                child: Text(Locales.get('save', context)),
+                onPressed: () async {
+                  Database? db = await DataBase.get();
+                  await TrackerDB.update(db!, widget.tracker);
+                  Navigator.pop(context);
+                })
+          ]),
         ));
   }
 }

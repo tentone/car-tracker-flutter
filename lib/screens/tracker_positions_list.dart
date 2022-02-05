@@ -28,16 +28,13 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
         body: FutureBuilder(future: () async {
           Database? db = await DataBase.get();
           return TrackerPositionDB.list(db!, widget.tracker.uuid);
-        }(), builder: (BuildContext context,
-            AsyncSnapshot<List<TrackerPosition>> entries) {
+        }(), builder: (BuildContext context, AsyncSnapshot<List<TrackerPosition>> entries) {
           if (entries.data == null || entries.data?.length == 0) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                    child: Icon(Icons.gps_off, size: 60.0),
-                    padding: EdgeInsets.all(10.0)),
+                Padding(child: Icon(Icons.gps_off, size: 60.0), padding: EdgeInsets.all(10.0)),
                 Text(Locales.get('noElements', context)),
               ],
             ));
@@ -52,10 +49,7 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
                     child: ListTile(
                       leading: const Icon(Icons.gps_fixed, size: 40.0),
                       title: Text(entries.data![index].timestamp.toString()),
-                      subtitle: Text(entries.data![index].longitude.toString() +
-                          'º ' +
-                          entries.data![index].latitude.toString() +
-                          'º'),
+                      subtitle: Text(entries.data![index].longitude.toString() + 'º ' + entries.data![index].latitude.toString() + 'º'),
                       onTap: () {
                         String url = entries.data![index].getGoogleMapsURL();
                         launch(url);

@@ -48,22 +48,12 @@ class MapScreenState extends State<MapScreen> {
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     for (int i = 0; i < entries.length; i++) {
-      Symbol symbol = await controller.addSymbol(
-          SymbolOptions(
-              geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
-              iconImage: 'car-sdf',
-              iconSize: 1.1,
-              iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
-              textField: entries[i].tracker.name,
-              textSize: 16,
-              textOffset: const Offset(0, 2.0)),
-          {'position': entries[i].position, 'tracker': entries[i].tracker});
+      Symbol symbol = await controller.addSymbol(SymbolOptions(geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude), iconImage: 'car-sdf', iconSize: 1.1, iconColor: Color(entries[i].tracker.color).toHexStringRGB(), textField: entries[i].tracker.name, textSize: 16, textOffset: const Offset(0, 2.0)), {'position': entries[i].position, 'tracker': entries[i].tracker});
     }
   }
 
-
   /// Adds an asset image to the controller style
-  Future<void> addImage(MapboxMapController controller, String name, String path, {bool sdf=true}) async {
+  Future<void> addImage(MapboxMapController controller, String name, String path, {bool sdf = true}) async {
     final ByteData bytes = await rootBundle.load(path);
     final Uint8List list = bytes.buffer.asUint8List();
     return controller.addImage(name, list, sdf);
@@ -85,7 +75,7 @@ class MapScreenState extends State<MapScreen> {
       return Future.error('Location services are disabled.');
     }
 
-    LocationPermission  permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -102,7 +92,6 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -122,16 +111,13 @@ class MapScreenState extends State<MapScreen> {
                       trackCameraPosition: true,
                       myLocationEnabled: true,
                       myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-                      initialCameraPosition: CameraPosition(
-                          target: position,
-                          zoom: 10),
+                      initialCameraPosition: CameraPosition(target: position, zoom: 10),
                       onMapCreated: onMapCreated,
                       onStyleLoadedCallback: onStyleLoaded,
                     );
                   });
             }),
           ),
-
         ],
       ),
       floatingActionButton: FloatingActionButton(

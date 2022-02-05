@@ -12,8 +12,7 @@ class DataValidator {
 
     value = value.replaceAll(' ', '');
 
-    RegExp regex = RegExp(
-        r'((\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}');
+    RegExp regex = RegExp(r'((\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}');
 
     return regex.hasMatch(value);
   }

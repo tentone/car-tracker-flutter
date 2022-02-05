@@ -27,10 +27,7 @@ class MenuOption {
   /// Icon to display in the options
   late Icon icon;
 
-  MenuOption(
-      {Widget Function(BuildContext context)? builder,
-      String? label,
-      Icon? icon}) {
+  MenuOption({Widget Function(BuildContext context)? builder, String? label, Icon? icon}) {
     this.builder = builder ?? (BuildContext builder) => Container();
     this.label = label ?? '';
     this.icon = icon ?? Icon(Icons.home);
@@ -42,20 +39,7 @@ class MainMenuState extends State<MainMenu> {
   int selectedIndex = 0;
 
   /// Options available in the meny
-  static List<MenuOption> options = <MenuOption>[
-    MenuOption(
-        label: 'trackers',
-        builder: (BuildContext context) => TrackerListScreen(),
-        icon: Icon(Icons.gps_fixed)),
-    MenuOption(
-        label: 'map',
-        builder: (BuildContext context) => MapScreen(),
-        icon: Icon(Icons.map)),
-    MenuOption(
-        label: 'settings',
-        builder: (BuildContext context) => SettingsScreen(),
-        icon: Icon(Icons.settings))
-  ];
+  static List<MenuOption> options = <MenuOption>[MenuOption(label: 'trackers', builder: (BuildContext context) => TrackerListScreen(), icon: Icon(Icons.gps_fixed)), MenuOption(label: 'map', builder: (BuildContext context) => MapScreen(), icon: Icon(Icons.map)), MenuOption(label: 'settings', builder: (BuildContext context) => SettingsScreen(), icon: Icon(Icons.settings))];
 
   @override
   Widget build(BuildContext context) {

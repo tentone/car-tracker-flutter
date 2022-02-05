@@ -44,28 +44,7 @@ class TrackerDB {
                 'model, color, phone_number, admin_number, sos_numbers,'
                 'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
                 'power_alarm_call, battery, apn, iccid, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [
-          tracker.uuid,
-          tracker.id,
-          tracker.name,
-          tracker.licensePlate,
-          tracker.chassisNumber,
-          tracker.model,
-          tracker.color,
-          tracker.phoneNumber,
-          tracker.adminNumber,
-          tracker.sosNumbers,
-          tracker.pin,
-          tracker.speedLimit,
-          tracker.sleepLimit,
-          tracker.ignitionAlarm,
-          tracker.powerAlarmSMS,
-          tracker.powerAlarmCall,
-          tracker.battery,
-          tracker.apn,
-          tracker.iccid,
-          tracker.timestamp.toIso8601String()
-        ]);
+        [tracker.uuid, tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber, tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers, tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS, tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String()]);
 
     TrackerDB.changeNotifier.notifyListeners();
   }
@@ -79,36 +58,14 @@ class TrackerDB {
                 'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
                 'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
                 'power_alarm_call=?, battery=?, apn=?, iccid=?, timestamp=? WHERE uuid=?',
-        [
-          tracker.id,
-          tracker.name,
-          tracker.licensePlate,
-          tracker.chassisNumber,
-          tracker.model,
-          tracker.color,
-          tracker.phoneNumber,
-          tracker.adminNumber,
-          tracker.sosNumbers,
-          tracker.pin,
-          tracker.speedLimit,
-          tracker.sleepLimit,
-          tracker.ignitionAlarm,
-          tracker.powerAlarmSMS,
-          tracker.powerAlarmCall,
-          tracker.battery,
-          tracker.apn,
-          tracker.iccid,
-          tracker.timestamp.toIso8601String(),
-          tracker.uuid
-        ]);
+        [tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber, tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers, tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS, tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String(), tracker.uuid]);
 
     TrackerDB.changeNotifier.notifyListeners();
   }
 
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
-    List<Map<String, Object?>> values = await db
-        .rawQuery('SELECT * FROM ' + tableName + ' WHERE uuid=?', [uuid]);
+    List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE uuid=?', [uuid]);
     if (values.length == 0) {
       throw Exception('Tracker does not exist.');
     }
@@ -124,19 +81,12 @@ class TrackerDB {
 
   /// Count the number of trackers stored in database
   static Future<int?> count(Database db) async {
-    return Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ' + tableName));
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM ' + tableName));
   }
 
   /// Get a list of all trackers available in database
-  static Future<List<Tracker>> list(Database db,
-      {String sortAttribute = 'name', String sortDirection = 'ASC'}) async {
-    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' +
-        tableName +
-        ' ORDER BY ' +
-        sortAttribute +
-        ' ' +
-        sortDirection);
+  static Future<List<Tracker>> list(Database db, {String sortAttribute = 'name', String sortDirection = 'ASC'}) async {
+    List<Map<String, Object?>> list = await db.rawQuery('SELECT * FROM ' + tableName + ' ORDER BY ' + sortAttribute + ' ' + sortDirection);
     List<Tracker> trackers = [];
 
     for (int i = 0; i < list.length; i++) {
@@ -164,10 +114,8 @@ class TrackerDB {
     tracker.speedLimit = int.parse(values['speed_limit'].toString());
     tracker.sleepLimit = int.parse(values['sleep_limit'].toString());
     tracker.ignitionAlarm = int.parse(values['ignition_alarm'].toString()) == 1;
-    tracker.powerAlarmSMS =
-        int.parse(values['power_alarm_sms'].toString()) == 1;
-    tracker.powerAlarmCall =
-        int.parse(values['power_alarm_call'].toString()) == 1;
+    tracker.powerAlarmSMS = int.parse(values['power_alarm_sms'].toString()) == 1;
+    tracker.powerAlarmCall = int.parse(values['power_alarm_call'].toString()) == 1;
     tracker.battery = int.parse(values['battery'].toString());
     tracker.apn = values['apn'].toString();
     tracker.iccid = values['iccid'].toString();

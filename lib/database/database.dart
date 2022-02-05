@@ -33,8 +33,7 @@ class DataBase {
   static Future<Database?> create() async {
     String path = join(await getDatabasesPath(), DataBase.name);
 
-    DataBase.db =
-        await openDatabase(path, version: 1, onOpen: (Database db) async {
+    DataBase.db = await openDatabase(path, version: 1, onOpen: (Database db) async {
       await SettingsDB.migrate(db);
       await TrackerDB.migrate(db);
       await TrackerPositionDB.migrate(db);
