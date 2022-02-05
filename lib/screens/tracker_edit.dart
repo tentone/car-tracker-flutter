@@ -126,12 +126,46 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             onTap: () async {
               int time = 0;
 
-              // TODO <ADD CODE HERE>
-              // Modal.question(context, Locales.get('sleepTime', context), message, options)
+              Alert(
+                context: context,
+                content: Column(
+                  children: <Widget>[
+                    TextField(
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      controller: TextEditingController(text: widget.tracker.sleepLimit.toString()),
+                      onChanged: (value) {
+                        try {
+                          widget.tracker.sleepLimit = int.parse(value);
+                        } catch (e) {}
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.speed),
+                        labelText: Locales.get('sleepLimit', context),
+                      ),
+                    )
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                    onPressed: () async {
+                      widget.tracker.setSleepTime(time);
+                      Database? db = await DataBase.get();
+                      await TrackerDB.update(db!, widget.tracker);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                        Locales.get('ok', context)
+                    ),
+                  ),
+                  DialogButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                        Locales.get('cancel', context)
+                    ),
+                  )
+                ]).show();
 
-              widget.tracker.setSleepTime(time);
-              Database? db = await DataBase.get();
-              await TrackerDB.update(db!, widget.tracker);
             },
           ),
           ListTile(
