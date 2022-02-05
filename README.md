@@ -25,10 +25,11 @@
 
   
 ### SDF Icons
- - Mapbox uses SDF based icons, to generate icons use the tool [image-sdf](https://github.com/mattdesl/image-sdf) from the command line
+ - Mapbox uses SDF-based icons, to generate icons use the tool [image-sdf](https://github.com/mattdesl/image-sdf) or [sdfgen](https://github.com/ConnyOnny/sdfgen) from the command line.
+ - SDF allow for high quality rendering of 2D shapes and should be used when possible.
 ```bash
-npm install image-sdf -g
-image-sdf image.png --spread 32 --downscale 2 > image-sdf.png
+npm install -g image-sdf
+image-sdf .\car-marker.png -s 6 -d 8 -c "#fff" -o car-sdf.png
 ```
 
 ### Build

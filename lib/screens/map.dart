@@ -41,27 +41,30 @@ class MapScreenState extends State<MapScreen> {
     for (int i = 0; i < entries.length; i++) {
       Symbol symbol = await this.controller.addSymbol(
           SymbolOptions(
-              geometry: LatLng(
-                  entries[i].position.latitude, entries[i].position.longitude),
-              iconImage: 'car-15',
-              iconSize: 2,
+              geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
+              iconImage: 'car-sdf',
+              iconSize: 1.2,
+              iconHaloColor: '#000000',
+              iconHaloWidth: 3.0,
+              iconHaloBlur: 3.0,
+              iconOffset: const Offset(0, -3.0),
               iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
               textField: entries[i].tracker.name,
               textSize: 16,
-              textOffset: const Offset(0, 1.3)),
+              textOffset: const Offset(0, 2.0)),
           {'position': entries[i].position, 'tracker': entries[i].tracker});
     }
   }
 
   void onStyleLoaded() {
-    this.addImageFromAsset("car-sdf", "assets/symbols/custom-icon.png");
+    this.addSDF("car-sdf", "assets/sdf/car-sdf.png");
   }
 
   /// Adds an asset image to the currently displayed style
-  Future<void> addImageFromAsset(String name, String assetName) async {
-    final ByteData bytes = await rootBundle.load(assetName);
+  Future<void> addSDF(String name, String path, {bool sdf=true}) async {
+    final ByteData bytes = await rootBundle.load(path);
     final Uint8List list = bytes.buffer.asUint8List();
-    return controller.addImage(name, list);
+    return controller.addImage(name, list, sdf);
   }
 
   /// Method called when a tracker is pressed
@@ -138,7 +141,7 @@ class MapScreenState extends State<MapScreen> {
             }
           }
         },
-        child: const Icon(Icons.gps_not_fixed),
+        child: const Icon(Icons.gps_fixed),
       ),
     );
   }
