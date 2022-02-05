@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../global.dart';
@@ -73,25 +74,34 @@ class MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          FutureBuilder(
-              future: Geolocator.getCurrentPosition(
-                  desiredAccuracy: LocationAccuracy.best),
-              builder: (BuildContext context, AsyncSnapshot<Position> data) {
-                if (!data.hasData) {
-                  return Container();
-                }
+          ChangeNotifierProvider(
+            create: (context) {
+              TrackerDB.changeNotifier = ChangeNotifier();
+              return TrackerDB.changeNotifier;
+            },
+            child: Consumer<ChangeNotifier>(builder: (context, ChangeNotifier _, child) {
+              return FutureBuilder(
+                  future: Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.best),
+                  builder: (BuildContext context, AsyncSnapshot<Position> data) {
+                    if (!data.hasData) {
+                      return Container();
+                    }
 
-                return MapboxMap(
-                  accessToken: Global.MAPBOX_TOKEN,
-                  trackCameraPosition: true,
-                  myLocationEnabled: true,
-                  myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(data.data!.latitude, data.data!.longitude),
-                      zoom: 10),
-                  onMapCreated: onMapCreated,
-                );
-              })
+                    return MapboxMap(
+                      accessToken: Global.MAPBOX_TOKEN,
+                      trackCameraPosition: true,
+                      myLocationEnabled: true,
+                      myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(data.data!.latitude, data.data!.longitude),
+                          zoom: 10),
+                      onMapCreated: onMapCreated,
+                    );
+                  });
+            }),
+          ),
+
         ],
       ),
       floatingActionButton: FloatingActionButton(

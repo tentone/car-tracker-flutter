@@ -220,28 +220,44 @@ class Tracker {
     }
 
     // GPS Tracker data
-    RegExp infoRegex = RegExp(
-        r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
+    try {
+      RegExp infoRegex = RegExp(
+          r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
 
-    List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
-    List<String> matches = [];
+      List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
+      List<String> matches = [];
 
-    String model = matches[1];
-    String id = matches[5];
-    String ip = matches[6];
-    String port = matches[7];
-    int battery = int.parse(matches[8]);
-    String apn = matches[9];
-    String gps = matches[10];
-    String gsm = matches[11];
-    String iccid = matches[12];
+      if (regMatch.isNotEmpty) {
+        for (int i = 0; i < regMatch[0].groupCount; i++) {
+          matches.add(regMatch[0].group(i + 1)!);
+        }
+      }
 
-    this.battery = battery;
-    this.model = model;
-    this.apn = apn;
-    this.iccid = iccid;
-    this.id = id;
-    this.update();
+      if (matches.isEmpty) {
+        return;
+      }
+
+      print('CarTracker: Regex info matches ' + matches.toString());
+
+      String model = matches[1];
+      String id = matches[5];
+      String ip = matches[6];
+      String port = matches[7];
+      int battery = int.parse(matches[8]);
+      String apn = matches[9];
+      String gps = matches[10];
+      String gsm = matches[11];
+      String iccid = matches[12];
+
+      this.battery = battery;
+      this.model = model;
+      this.apn = apn;
+      this.iccid = iccid;
+      this.id = id;
+      this.update();
+    } catch(e) {
+      print('CarTracker: Error parsing info message.');
+    }
   }
 
   /// Send a message to this tracker, store it in the messages list.
