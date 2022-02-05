@@ -48,7 +48,7 @@ class MapScreenState extends State<MapScreen> {
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     for (int i = 0; i < entries.length; i++) {
-      Symbol symbol = await controller.addSymbol(SymbolOptions(geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude), iconImage: 'car-sdf', iconSize: 1.1, iconColor: Color(entries[i].tracker.color).toHexStringRGB(), textField: entries[i].tracker.name, textSize: 16, textOffset: const Offset(0, 2.0)), {'position': entries[i].position, 'tracker': entries[i].tracker});
+      await controller.addSymbol(SymbolOptions(geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude), iconImage: 'car-sdf', iconSize: 1.1, iconColor: Color(entries[i].tracker.color).toHexStringRGB(), textField: entries[i].tracker.name, textSize: 16, textOffset: const Offset(0, 2.0)), {'position': entries[i].position, 'tracker': entries[i].tracker});
     }
   }
 

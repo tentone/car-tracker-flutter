@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerEditScreen extends StatefulWidget {
@@ -49,11 +50,45 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             onTap: () async {
               int speed = 0;
 
-              // TODO <ADD CODE HERE>
-
-              widget.tracker.setSpeedLimit(speed);
-              Database? db = await DataBase.get();
-              await TrackerDB.update(db!, widget.tracker);
+              Alert(
+                context: context,
+                content: Column(
+                  children: <Widget>[
+                    TextField(
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      controller: TextEditingController(text: widget.tracker.speedLimit.toString()),
+                      onChanged: (value) {
+                        try {
+                          widget.tracker.speedLimit = int.parse(value);
+                        } catch (e) {}
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.speed),
+                        labelText: Locales.get('speedLimit', context),
+                      ),
+                    )
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                    onPressed: () async {
+                      widget.tracker.setSpeedLimit(speed);
+                      Database? db = await DataBase.get();
+                      await TrackerDB.update(db!, widget.tracker);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      Locales.get('ok', context)
+                    ),
+                  ),
+                  DialogButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                        Locales.get('cancel', context)
+                    ),
+                  )
+                ]).show();
             },
           ),
           ListTile(
