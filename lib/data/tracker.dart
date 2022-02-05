@@ -114,13 +114,16 @@ class Tracker {
       return false;
     }
 
-    if (address.length > this.phoneNumber.length) {
-      return address.contains(this.phoneNumber);
-    } else if (address.length < this.phoneNumber.length) {
-      return this.phoneNumber.contains(address);
+    String a = address.replaceAll(' ', '');
+    String b = this.phoneNumber.replaceAll(' ', '');
+
+    if (a.length > b.length) {
+      return a.contains(b);
+    } else if (a.length < b.length) {
+      return b.contains(a);
     }
 
-    return address == this.phoneNumber;
+    return a == b;
   }
 
   /// Process a message received from SMS and store its result on a tracker message.
@@ -149,10 +152,6 @@ class Tracker {
         ackMsg == 'password ok' ||
         ackMsg == 'speed ok' ||
         ackMsg == 'ok') {
-      if (App.context != null) {
-        Modal.toast(
-            App.context!, Locales.get('trackerAcknowledge', App.context!));
-      }
 
       print('CarTracker: Tracker Acknowledge message');
       return;

@@ -7,15 +7,12 @@ import 'data/settings.dart';
 import 'screens/menu.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+/// Main application widget entry point
 class App extends StatelessWidget {
-  static BuildContext? context = null;
-
   App({Key? key}) : super(key: key) {}
 
   @override
   Widget build(BuildContext context) {
-    App.context = context;
-
     return ChangeNotifierProvider(
       create: (_) => Settings.global,
       child: Consumer<Settings>(builder: (context, Settings settings, child) {

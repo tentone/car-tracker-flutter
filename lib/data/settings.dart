@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../themes.dart';
 
-/// Stores the application settings
+/// Singleton class to store the application settings
 class Settings extends ChangeNotifier {
   /// Global settings object
   static Settings global = Settings();

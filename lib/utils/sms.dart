@@ -60,17 +60,15 @@ class SMSUtils {
     for (int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
       for (int j = 0; j < trackers.length; j++) {
-        DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+        if (trackers[j].compareAddress(msg.address!)) {
+          DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+          print('CarTracker: Found message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
 
-        if (trackers[j].compareAddress(msg.address!) &&
-            trackers[j].timestamp.isBefore(timestamp)) {
-          print('CarTracker: Import received message ' +
-              msg.address! +
-              ' (' +
-              timestamp.toIso8601String() +
-              ') -> ' +
-              msg.body!);
-          trackers[j].processReceivedSMS(msg);
+
+          if( trackers[j].timestamp.isBefore(timestamp)) {
+            print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
+            trackers[j].processReceivedSMS(msg);
+          }
         }
       }
     }

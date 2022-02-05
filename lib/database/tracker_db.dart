@@ -1,7 +1,11 @@
 import 'package:cartracker/data/tracker.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerDB {
+  /// Used to notify changes to the tracker table
+  static ChangeNotifier changeNotifier = ChangeNotifier();
+
   static String tableName = 'tracker';
 
   static Future<void> migrate(Database db) async {
@@ -62,6 +66,8 @@ class TrackerDB {
           tracker.iccid,
           tracker.timestamp.toIso8601String()
         ]);
+
+    TrackerDB.changeNotifier.notifyListeners();
   }
 
   /// Update data from the tracker in database
@@ -95,6 +101,8 @@ class TrackerDB {
           tracker.timestamp.toIso8601String(),
           tracker.uuid
         ]);
+
+    TrackerDB.changeNotifier.notifyListeners();
   }
 
   /// Get details of a tracker by its UUID
@@ -111,6 +119,7 @@ class TrackerDB {
   /// Delete a tracker by its UUID
   static Future delete(Database db, String uuid) async {
     await db.rawDelete('DELETE FROM ' + tableName + ' WHERE uuid = ?', [uuid]);
+    TrackerDB.changeNotifier.notifyListeners();
   }
 
   /// Count the number of trackers stored in database

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum Theme { AUTO, DARK, LIGHT }
-
 class Themes {
   /// Indicate if dark mode is used
   static ThemeMode mode = ThemeMode.system;
