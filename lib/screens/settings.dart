@@ -28,10 +28,11 @@ class SettingsScreenState extends State<SettingsScreen> {
           PopupMenuButton<ThemeMode>(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.dark_mode),
+              leading: const Icon(Icons.dark_mode),
               title: Text(Locales.get('theme', context)),
               trailing: Text(Locales.get(Settings.global.theme.name, context)),
             ),
+            offset: const Offset(0, kToolbarHeight),
             onSelected: (ThemeMode result) {
               setState(() {
                 Settings.global.theme = result;
@@ -55,10 +56,11 @@ class SettingsScreenState extends State<SettingsScreen> {
           PopupMenuButton<String>(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.flag),
+              leading: const Icon(Icons.flag),
               trailing: Text(Locales.get(Locales.code, context)),
               title: Text(Locales.get('locale', context)),
             ),
+            offset: const Offset(0, kToolbarHeight),
             onSelected: (String result) {
               setState(() {
                 Settings.global.locale = result;
@@ -77,7 +79,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: Icon(Icons.document_scanner),
+            leading: const Icon(Icons.document_scanner),
             title: Text(Locales.get('license', context)),
             onTap: () {
               launch('https://github.com/tentone/car-tracker-flu');
@@ -85,8 +87,8 @@ class SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: Icon(Icons.album_outlined),
-            trailing: Text(Global.VERSION),
+            leading: const Icon(Icons.album_outlined),
+            trailing: const Text(Global.VERSION),
             title: Text(Locales.get('version', context)),
           ),
         ],
