@@ -32,7 +32,7 @@ class SettingsDB {
 
   static Future<bool> has(Database db) async {
     List values =
-    await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
+        await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE id=0');
 
     return values.isNotEmpty;
   }
@@ -48,6 +48,7 @@ class SettingsDB {
   /// Parse database retrieved data into a usable object.
   static void parse(Map<String, Object?> values) {
     Settings.global.locale = values['locale'].toString();
-    Settings.global.theme = ThemeMode.values[int.parse(values['theme'].toString())];
+    Settings.global.theme =
+        ThemeMode.values[int.parse(values['theme'].toString())];
   }
 }

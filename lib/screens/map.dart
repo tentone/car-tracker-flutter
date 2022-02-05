@@ -5,6 +5,7 @@ import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
+import 'package:cartracker/utils/data-validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -39,7 +40,8 @@ class MapScreenState extends State<MapScreen> {
     for (int i = 0; i < entries.length; i++) {
       Symbol symbol = await this.controller.addSymbol(
           SymbolOptions(
-              geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
+              geometry: LatLng(
+                  entries[i].position.latitude, entries[i].position.longitude),
               iconImage: 'car-15',
               iconSize: 2,
               iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
@@ -72,7 +74,8 @@ class MapScreenState extends State<MapScreen> {
       body: Stack(
         children: <Widget>[
           FutureBuilder(
-            future:  Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+              future: Geolocator.getCurrentPosition(
+                  desiredAccuracy: LocationAccuracy.best),
               builder: (BuildContext context, AsyncSnapshot<Position> data) {
                 if (!data.hasData) {
                   return Container();
@@ -88,8 +91,7 @@ class MapScreenState extends State<MapScreen> {
                       zoom: 10),
                   onMapCreated: onMapCreated,
                 );
-              }
-            )
+              })
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -97,7 +99,9 @@ class MapScreenState extends State<MapScreen> {
           Database? db = await DataBase.get();
           List<Tracker> trackers = await TrackerDB.list(db!);
           for (int i = 0; i < trackers.length; i++) {
-            trackers[i].requestLocation();
+            if (DataValidator.phoneNumber(trackers[i].phoneNumber)) {
+              trackers[i].requestLocation();
+            }
           }
         },
         child: const Icon(Icons.gps_not_fixed),

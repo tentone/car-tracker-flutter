@@ -198,11 +198,25 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                 })),
         onChanged: (value) => widget.tracker.phoneNumber = value,
       ),
+      TextFormField(
+        controller: TextEditingController(text: widget.tracker.pin),
+        obscureText: true,
+        decoration: InputDecoration(
+          icon: const Icon(Icons.password),
+          labelText: Locales.get('pin', context),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+        onChanged: (value) => widget.tracker.pin = value,
+      ),
       ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Icon(Icons.palette),
         title: Text(Locales.get('color', context)),
-        trailing: Container(color: Color(widget.tracker.color), width: 38, height: 38, margin: EdgeInsets.all(8)),
+        trailing: Container(
+            color: Color(widget.tracker.color),
+            width: 38,
+            height: 38,
+            margin: EdgeInsets.all(8)),
         onTap: () {
           showDialog(
             context: context,

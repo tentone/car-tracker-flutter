@@ -3,8 +3,12 @@ import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
+/// Show tracker data alongside with the last known position
 class TrackerLastPosition {
+  /// Tracker data
   Tracker tracker;
+
+  /// Tracker last known position
   TrackerPosition position;
 
   TrackerLastPosition(this.tracker, this.position);
@@ -121,6 +125,7 @@ class TrackerPositionDB {
     return location;
   }
 
+  /// Test functionality of the location storage
   static Future<void> test(Database db) async {
     Tracker tracker = Tracker();
     await TrackerDB.add(db, tracker);

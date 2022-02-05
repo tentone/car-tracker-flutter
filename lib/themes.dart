@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Theme {
-  AUTO,
-  DARK,
-  LIGHT
-}
+enum Theme { AUTO, DARK, LIGHT }
 
 class Themes {
   /// Indicate if dark mode is used
@@ -13,7 +9,8 @@ class Themes {
   /// Light/white theme configurations
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: Colors.white,
-      colorScheme: const ColorScheme.light(primary: Colors.blue, secondary: Colors.blue),
+      colorScheme:
+          const ColorScheme.light(primary: Colors.blue, secondary: Colors.blue),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.blue,
       ));
@@ -21,7 +18,11 @@ class Themes {
   /// Dark theme configurations
   static ThemeData darkTheme = ThemeData(
       scaffoldBackgroundColor: Colors.black,
-      colorScheme: const ColorScheme.dark(primary: Colors.blue, primaryVariant: Colors.blueAccent, secondary: Colors.blue, secondaryVariant: Colors.blueAccent),
+      colorScheme: const ColorScheme.dark(
+          primary: Colors.blue,
+          primaryVariant: Colors.blueAccent,
+          secondary: Colors.blue,
+          secondaryVariant: Colors.blueAccent),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black,
       ));

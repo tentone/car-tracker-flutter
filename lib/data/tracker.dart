@@ -1,10 +1,13 @@
+import 'package:cartracker/app.dart';
 import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms.dart';
+import 'package:cartracker/widget/modal.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
@@ -135,7 +138,7 @@ class Tracker {
     this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
     if (body == '指令格式错误') {
-      print('Tracker Command Error');
+      print('CarTracker: Tracker Command Error');
       return;
     }
 
@@ -146,8 +149,12 @@ class Tracker {
         ackMsg == 'password ok' ||
         ackMsg == 'speed ok' ||
         ackMsg == 'ok') {
-      // Modal.toast(Locales.get('trackerAcknowledge'));
-      print('Tracker Acknowledge message');
+      if (App.context != null) {
+        Modal.toast(
+            App.context!, Locales.get('trackerAcknowledge', App.context!));
+      }
+
+      print('CarTracker: Tracker Acknowledge message');
       return;
     }
 
@@ -158,15 +165,13 @@ class Tracker {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
 
-      print('Received SOS list.');
+      print('CarTracker: Received SOS list.');
       this.update();
       return;
     }
 
     // GPS Location
     if (body.startsWith('http')) {
-      print('Received GPS position');
-
       RegExp regex = RegExp(
           r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
 
@@ -183,8 +188,7 @@ class Tracker {
         return;
       }
 
-      // TODO <REMOVE THIS>
-      print(matches);
+      print('CarTracker: Regex location matches ' + matches.toString());
 
       TrackerPosition data = TrackerPosition();
       data.timestamp = timestamp;
@@ -204,7 +208,7 @@ class Tracker {
       // int minute = int.parse(matches[11]);
       // int seconds = int.parse(matches[12]);
 
-      print('GPS Position ' +
+      print('CarTracker: Received tracker location ' +
           data.latitude.toString() +
           ' , ' +
           data.longitude.toString() +
@@ -213,43 +217,32 @@ class Tracker {
 
       this.update();
       this.addPosition(data);
-
-      // Modal.toast(Locale.get('trackerLocation', {name: this.name}));
       return;
     }
 
     // GPS Tracker data
     RegExp infoRegex = RegExp(
         r'/([A-Za-z0-9_.]+) ([0-9]+)/([0-9]+)/([0-9]+)s*ID:([0-9]+)s*IP:([0-9.a-zA-Z\\]+)s*([0-9]+) BAT:([0-9])s*APN:([0-9.a-zA-Z\\]+)s*GPS:([0-9A-Z-]+)s*GSM:([0-9]+)s*ICCID:([0-9A-Z]+)/');
-    try {
-      if (infoRegex.hasMatch(body)) {
-        List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
-        List<String> matches = regMatch.map((val) => val.input).toList();
 
-        String model = matches[1];
-        String id = matches[5];
-        String ip = matches[6];
-        String port = matches[7];
-        int battery = int.parse(matches[8]);
-        String apn = matches[9];
-        String gps = matches[10];
-        String gsm = matches[11];
-        String iccid = matches[12];
+    List<RegExpMatch> regMatch = infoRegex.allMatches(body).toList();
+    List<String> matches = [];
 
-        this.battery = battery;
-        this.model = model;
-        this.apn = apn;
-        this.iccid = iccid;
-        this.id = id;
-        this.update();
+    String model = matches[1];
+    String id = matches[5];
+    String ip = matches[6];
+    String port = matches[7];
+    int battery = int.parse(matches[8]);
+    String apn = matches[9];
+    String gps = matches[10];
+    String gsm = matches[11];
+    String iccid = matches[12];
 
-        // Modal.toast(Locale.get('trackerUpdated', {name: this.name}));
-        return;
-      }
-    } catch (e) {
-      // Modal.alert(Locale.get('error'), Locale.get('errorParseInfoMsg'));
-      return;
-    }
+    this.battery = battery;
+    this.model = model;
+    this.apn = apn;
+    this.iccid = iccid;
+    this.id = id;
+    this.update();
   }
 
   /// Send a message to this tracker, store it in the messages list.
@@ -378,7 +371,6 @@ class Tracker {
   /// Set the speed limit of the GPS tracker before an alarm is triggered.
   ///
   /// @param speed Speed limit in MPH zero means no speed limit.
-
   void setSpeedLimit(int speed) {
     if (speed > 999) {
       speed = 999;

@@ -20,7 +20,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+        body: Form(
       key: formKey,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -32,7 +32,11 @@ class SettingsScreenState extends State<SettingsScreen> {
               title: Text(Locales.get('theme', context)),
               trailing: Text(Locales.get(Settings.global.theme.name, context)),
             ),
-            onSelected: (ThemeMode result) { setState(() { Settings.global.theme = result; }); },
+            onSelected: (ThemeMode result) {
+              setState(() {
+                Settings.global.theme = result;
+              });
+            },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<ThemeMode>>[
               PopupMenuItem<ThemeMode>(
                 value: ThemeMode.system,
@@ -55,7 +59,11 @@ class SettingsScreenState extends State<SettingsScreen> {
               trailing: Text(Locales.get(Locales.code, context)),
               title: Text(Locales.get('locale', context)),
             ),
-            onSelected: (String result) { setState(() { Settings.global.locale = result; }); },
+            onSelected: (String result) {
+              setState(() {
+                Settings.global.locale = result;
+              });
+            },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
                 value: 'en',

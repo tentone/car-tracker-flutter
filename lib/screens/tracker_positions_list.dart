@@ -31,12 +31,15 @@ class TrackerPositionListScreenState extends State<TrackerPositionListScreen> {
         }(), builder: (BuildContext context,
             AsyncSnapshot<List<TrackerPosition>> entries) {
           if (entries.data == null || entries.data?.length == 0) {
-            return Center(child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(child: Icon(Icons.gps_off, size: 60.0), padding: EdgeInsets.all(10.0)),
-                  Text(Locales.get('noElements', context)),
-                ],
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                    child: Icon(Icons.gps_off, size: 60.0),
+                    padding: EdgeInsets.all(10.0)),
+                Text(Locales.get('noElements', context)),
+              ],
             ));
           }
 

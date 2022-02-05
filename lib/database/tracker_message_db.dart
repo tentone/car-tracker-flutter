@@ -3,6 +3,7 @@ import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:sqflite/sqflite.dart';
 
+/// Tracker message stores messages exchanged with GPS trackers.
 class TrackerMessageDB {
   static String tableName = 'tracker_message';
 
@@ -69,6 +70,7 @@ class TrackerMessageDB {
     return message;
   }
 
+  /// Test functionality of the message storage
   static Future<void> test(Database db) async {
     Tracker tracker = Tracker();
     await TrackerDB.add(db, tracker);

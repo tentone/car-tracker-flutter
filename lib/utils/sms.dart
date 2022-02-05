@@ -27,8 +27,15 @@ class SMSUtils {
           List<Tracker> trackers = await TrackerDB.list(db!);
 
           for (int i = 0; i < trackers.length; i++) {
+            DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+
             if (trackers[i].compareAddress(msg.address!)) {
-              // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
+              print('CarTracker: Received message ' +
+                  msg.address! +
+                  ' (' +
+                  timestamp.toIso8601String() +
+                  ') -> ' +
+                  msg.body!);
               trackers[i].processReceivedSMS(msg);
             }
           }
@@ -53,8 +60,16 @@ class SMSUtils {
     for (int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
       for (int j = 0; j < trackers.length; j++) {
-        if (trackers[j].compareAddress(msg.address!)) {
-          // print(msg.address! + ' (' + DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String() + ') -> ' + msg.body!);
+        DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+
+        if (trackers[j].compareAddress(msg.address!) &&
+            trackers[j].timestamp.isBefore(timestamp)) {
+          print('CarTracker: Import received message ' +
+              msg.address! +
+              ' (' +
+              timestamp.toIso8601String() +
+              ') -> ' +
+              msg.body!);
           trackers[j].processReceivedSMS(msg);
         }
       }
@@ -72,9 +87,11 @@ class SMSUtils {
 
     for (int i = 0; i < messages.length; i++) {
       SmsMessage msg = messages[i];
+
       for (int j = 0; j < trackers.length; j++) {
-        if (trackers[j].compareAddress(msg.address!)) {
-          DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+        DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
+        if (trackers[j].compareAddress(msg.address!) &&
+            trackers[j].timestamp.isBefore(timestamp)) {
           trackers[j].addMessage(
               TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
         }

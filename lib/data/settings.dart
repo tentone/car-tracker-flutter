@@ -36,8 +36,7 @@ class Settings extends ChangeNotifier {
   /// Called after any parameter in the settings object has been changed.
   void update() async {
     Database? db = await DataBase.get();
-    SettingsDB.update(db!);
-
+    await SettingsDB.update(db!);
     notifyListeners();
   }
 }

@@ -49,16 +49,6 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
         onChanged: (value) => widget.tracker.adminNumber = value,
       ),
       TextFormField(
-        controller: TextEditingController(text: widget.tracker.pin),
-        obscureText: true,
-        decoration: InputDecoration(
-          icon: const Icon(Icons.password),
-          labelText: Locales.get('pin', context),
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
-        ),
-        onChanged: (value) => widget.tracker.pin = value,
-      ),
-      TextFormField(
           enabled: false,
           controller: TextEditingController(text: widget.tracker.id),
           decoration: InputDecoration(
@@ -145,9 +135,17 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
         body: Form(
           key: formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            children: detailsForms,
-          ),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              children: [
+                ...detailsForms,
+                ElevatedButton(
+                    child: Text(Locales.get('save', context)),
+                    onPressed: () async {
+                      Database? db = await DataBase.get();
+                      await TrackerDB.update(db!, widget.tracker);
+                      Navigator.pop(context);
+                    })
+              ]),
         ));
   }
 }
