@@ -53,6 +53,10 @@ class MapScreenState extends State<MapScreen> {
     }
   }
 
+  void onStyleLoaded() {
+    this.addImageFromAsset("car-sdf", "assets/symbols/custom-icon.png");
+  }
+
   /// Adds an asset image to the currently displayed style
   Future<void> addImageFromAsset(String name, String assetName) async {
     final ByteData bytes = await rootBundle.load(assetName);
@@ -69,6 +73,28 @@ class MapScreenState extends State<MapScreen> {
     launch(url);
   }
 
+  /// Get current position of the tracker, otherwise a default location is returned
+  Future<Position> getPosition() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    LocationPermission  permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,22 +107,20 @@ class MapScreenState extends State<MapScreen> {
             },
             child: Consumer<ChangeNotifier>(builder: (context, ChangeNotifier _, child) {
               return FutureBuilder(
-                  future: Geolocator.getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.best),
+                  future: this.getPosition(),
                   builder: (BuildContext context, AsyncSnapshot<Position> data) {
-                    if (!data.hasData) {
-                      return Container();
-                    }
+                    LatLng position = data.hasData ? LatLng(data.data!.latitude, data.data!.longitude) : const LatLng(0, 0);
 
                     return MapboxMap(
                       accessToken: Global.MAPBOX_TOKEN,
                       trackCameraPosition: true,
                       myLocationEnabled: true,
-                      myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
+                      myLocationTrackingMode: MyLocationTrackingMode.Tracking,
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(data.data!.latitude, data.data!.longitude),
+                          target: position,
                           zoom: 10),
                       onMapCreated: onMapCreated,
+                      onStyleLoadedCallback: onStyleLoaded,
                     );
                   });
             }),

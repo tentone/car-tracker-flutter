@@ -24,6 +24,12 @@
 - Use `flutter doctor` to debug setup problems. Don't forget to accept the `flutter doctor --android-licenses`.
 
   
+### SDF Icons
+ - Mapbox uses SDF based icons, to generate icons use the tool [image-sdf](https://github.com/mattdesl/image-sdf) from the command line
+```bash
+npm install image-sdf -g
+image-sdf image.png --spread 32 --downscale 2 > image-sdf.png
+```
 
 ### Build
 
@@ -64,19 +70,6 @@
 </intent>
 </queries>
 ```
-
-
-
-### Dependencies
-- https://pub.dev/packages/sqlite3
-- https://pub.dev/packages/flutter_sms
-- https://pub.dev/packages/sms_receiver
-- https://pub.dev/packages/sms_retriever
-- https://pub.dev/packages/mapbox_gl
-- https://github.com/therezacuet/Motion-Tab-Bar
-
-
-
 
 ### License
 
