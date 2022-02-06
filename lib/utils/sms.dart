@@ -30,13 +30,23 @@ class SMSUtils {
             DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
 
             if (trackers[i].compareAddress(msg.address!)) {
-              print('CarTracker: Received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
+              print('CarTracker: Received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
               trackers[i].processReceivedSMS(msg);
             }
           }
         },
         // onBackgroundMessage: backgroundMessageHandler,
         listenInBackground: false);
+  }
+
+  /// Import all messages received by the device.
+  ///
+  /// Should be called on application startup to process all stored messages.
+  ///
+  /// Can also be called after creating or changing the number of a tracker.
+  static importAll() async {
+    await SMSUtils.importReceived();
+    await SMSUtils.importSent();
   }
 
   /// Get all SMS received by the device.
@@ -58,7 +68,7 @@ class SMSUtils {
           print('CarTracker: Found message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
 
           if (trackers[j].timestamp.isBefore(timestamp)) {
-            print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
+            print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
             trackers[j].processReceivedSMS(msg);
           }
         }
@@ -79,6 +89,7 @@ class SMSUtils {
       for (int j = 0; j < trackers.length; j++) {
         DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
         if (trackers[j].compareAddress(msg.address!) && trackers[j].timestamp.isBefore(timestamp)) {
+          print('CarTracker: Import sent message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
           trackers[j].addMessage(TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
         }
       }

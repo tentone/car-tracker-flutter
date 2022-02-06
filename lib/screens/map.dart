@@ -106,29 +106,31 @@ class MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          ChangeNotifierProvider(
-            create: (context) {
-              TrackerDB.changeNotifier = ChangeNotifier();
-              return TrackerDB.changeNotifier;
-            },
-            child: Consumer<ChangeNotifier>(builder: (context, ChangeNotifier _, child) {
-              return FutureBuilder(
-                  future: this.getPosition(),
-                  builder: (BuildContext context, AsyncSnapshot<Position> data) {
-                    LatLng position = data.hasData ? LatLng(data.data!.latitude, data.data!.longitude) : const LatLng(0, 0);
+          FutureBuilder(
+            future: this.getPosition(),
+            builder: (BuildContext context, AsyncSnapshot<Position> data) {
+              LatLng position = data.hasData ? LatLng(data.data!.latitude, data.data!.longitude) : const LatLng(0, 0);
 
-                    return MapboxMap(
-                      accessToken: Global.MAPBOX_TOKEN,
-                      trackCameraPosition: true,
-                      myLocationEnabled: true,
-                      myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-                      initialCameraPosition: CameraPosition(target: position, zoom: 10),
-                      onMapCreated: onMapCreated,
-                      onStyleLoadedCallback: onStyleLoaded,
-                    );
-                  });
-            }),
-          ),
+              return ChangeNotifierProvider(
+                create: (context) {
+                  TrackerDB.changeNotifier = ChangeNotifier();
+                  return TrackerDB.changeNotifier;
+                },
+                child: Consumer<ChangeNotifier>(builder: (context, ChangeNotifier _, child) {
+
+                  return MapboxMap(
+                    accessToken: Global.MAPBOX_TOKEN,
+                    trackCameraPosition: true,
+                    myLocationEnabled: true,
+                    myLocationTrackingMode: MyLocationTrackingMode.Tracking,
+                    initialCameraPosition: CameraPosition(target: position, zoom: 10),
+                    onMapCreated: onMapCreated,
+                    onStyleLoadedCallback: onStyleLoaded,
+                  );
+                }),
+              );
+            }
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

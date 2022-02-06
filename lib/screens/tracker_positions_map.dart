@@ -35,6 +35,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
   /// Called when the map is created to display the trajectory of the tracker.
   Future<void> onMapCreated(MapboxMapController controller) async {
     this.controller = controller;
+    this.controller.onSymbolTapped.add(onSymbolTapped);
   }
 
   /// Method called after the map style is loaded
