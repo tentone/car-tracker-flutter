@@ -35,7 +35,8 @@ class TrackerPositionDB {
 
   /// Add a new tracker location the database
   static Future add(Database db, String trackerUUID, TrackerPosition location) async {
-    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)', [trackerUUID, location.latitude, location.longitude, location.timestamp.toIso8601String(), location.acc, location.gps, location.speed]);
+    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, latitude, longitude, timestamp, acc, gps, speed) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [trackerUUID, location.latitude, location.longitude, location.timestamp.toIso8601String(), location.acc, location.gps, location.speed]);
   }
 
   /// Get a list of all location available in for a specific tracker in database

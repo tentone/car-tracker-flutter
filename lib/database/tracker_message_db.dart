@@ -22,7 +22,8 @@ class TrackerMessageDB {
 
   /// Add a new tracker message the database
   static Future add(Database db, String trackerUUID, TrackerMessage message) async {
-    await db.execute('INSERT INTO ' + tableName + ' (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)', [trackerUUID, message.direction.index, message.timestamp.toIso8601String(), message.data]);
+    await db.execute(
+        'INSERT INTO ' + tableName + ' (tracker_id, direction, timestamp, data) VALUES (?, ?, ?, ?)', [trackerUUID, message.direction.index, message.timestamp.toIso8601String(), message.data]);
   }
 
   /// Get a list of all messages of the a specific tracker available in database

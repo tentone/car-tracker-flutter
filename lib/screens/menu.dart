@@ -39,7 +39,11 @@ class MainMenuState extends State<MainMenu> {
   int selectedIndex = 0;
 
   /// Options available in the meny
-  static List<MenuOption> options = <MenuOption>[MenuOption(label: 'trackers', builder: (BuildContext context) => TrackerListScreen(), icon: Icon(Icons.gps_fixed)), MenuOption(label: 'map', builder: (BuildContext context) => MapScreen(), icon: Icon(Icons.map)), MenuOption(label: 'settings', builder: (BuildContext context) => SettingsScreen(), icon: Icon(Icons.settings))];
+  static List<MenuOption> options = <MenuOption>[
+    MenuOption(label: 'trackers', builder: (BuildContext context) => TrackerListScreen(), icon: Icon(Icons.gps_fixed)),
+    MenuOption(label: 'map', builder: (BuildContext context) => MapScreen(), icon: Icon(Icons.map)),
+    MenuOption(label: 'settings', builder: (BuildContext context) => SettingsScreen(), icon: Icon(Icons.settings))
+  ];
 
   @override
   Widget build(BuildContext context) {

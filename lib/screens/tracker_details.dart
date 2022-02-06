@@ -101,9 +101,27 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
             labelText: Locales.get('battery', context),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
-      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('ignitionAlarm', context)), value: widget.tracker.ignitionAlarm, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.alarm)),
-      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('powerAlarmCall', context)), value: widget.tracker.powerAlarmCall, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.call)),
-      CheckboxListTile(contentPadding: EdgeInsets.zero, title: Text(Locales.get('powerAlarmSMS', context)), value: widget.tracker.powerAlarmSMS, controlAffinity: ListTileControlAffinity.trailing, onChanged: null, secondary: const Icon(Icons.sms_failed))
+      CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(Locales.get('ignitionAlarm', context)),
+          value: widget.tracker.ignitionAlarm,
+          controlAffinity: ListTileControlAffinity.trailing,
+          onChanged: null,
+          secondary: const Icon(Icons.alarm)),
+      CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(Locales.get('powerAlarmCall', context)),
+          value: widget.tracker.powerAlarmCall,
+          controlAffinity: ListTileControlAffinity.trailing,
+          onChanged: null,
+          secondary: const Icon(Icons.call)),
+      CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(Locales.get('powerAlarmSMS', context)),
+          value: widget.tracker.powerAlarmSMS,
+          controlAffinity: ListTileControlAffinity.trailing,
+          onChanged: null,
+          secondary: const Icon(Icons.sms_failed))
     ];
 
     return Scaffold(

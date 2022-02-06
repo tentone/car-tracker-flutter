@@ -44,7 +44,28 @@ class TrackerDB {
                 'model, color, phone_number, admin_number, sos_numbers,'
                 'pin, speed_limit, sleep_limit, ignition_alarm, power_alarm_sms,'
                 'power_alarm_call, battery, apn, iccid, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [tracker.uuid, tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber, tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers, tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS, tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String()]);
+        [
+          tracker.uuid,
+          tracker.id,
+          tracker.name,
+          tracker.licensePlate,
+          tracker.chassisNumber,
+          tracker.model,
+          tracker.color,
+          tracker.phoneNumber,
+          tracker.adminNumber,
+          tracker.sosNumbers,
+          tracker.pin,
+          tracker.speedLimit,
+          tracker.sleepLimit,
+          tracker.ignitionAlarm,
+          tracker.powerAlarmSMS,
+          tracker.powerAlarmCall,
+          tracker.battery,
+          tracker.apn,
+          tracker.iccid,
+          tracker.timestamp.toIso8601String()
+        ]);
 
     TrackerDB.changeNotifier.notifyListeners();
   }
@@ -58,7 +79,28 @@ class TrackerDB {
                 'model=?, color=?, phone_number=?, admin_number=?, sos_numbers=?,'
                 'pin=?, speed_limit=?, sleep_limit=?, ignition_alarm=?, power_alarm_sms=?,'
                 'power_alarm_call=?, battery=?, apn=?, iccid=?, timestamp=? WHERE uuid=?',
-        [tracker.id, tracker.name, tracker.licensePlate, tracker.chassisNumber, tracker.model, tracker.color, tracker.phoneNumber, tracker.adminNumber, tracker.sosNumbers, tracker.pin, tracker.speedLimit, tracker.sleepLimit, tracker.ignitionAlarm, tracker.powerAlarmSMS, tracker.powerAlarmCall, tracker.battery, tracker.apn, tracker.iccid, tracker.timestamp.toIso8601String(), tracker.uuid]);
+        [
+          tracker.id,
+          tracker.name,
+          tracker.licensePlate,
+          tracker.chassisNumber,
+          tracker.model,
+          tracker.color,
+          tracker.phoneNumber,
+          tracker.adminNumber,
+          tracker.sosNumbers,
+          tracker.pin,
+          tracker.speedLimit,
+          tracker.sleepLimit,
+          tracker.ignitionAlarm,
+          tracker.powerAlarmSMS,
+          tracker.powerAlarmCall,
+          tracker.battery,
+          tracker.apn,
+          tracker.iccid,
+          tracker.timestamp.toIso8601String(),
+          tracker.uuid
+        ]);
 
     TrackerDB.changeNotifier.notifyListeners();
   }

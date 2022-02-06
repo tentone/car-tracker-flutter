@@ -51,44 +51,40 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               int speed = 0;
 
               Alert(
-                context: context,
-                content: Column(
-                  children: <Widget>[
-                    TextField(
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      controller: TextEditingController(text: widget.tracker.speedLimit.toString()),
-                      onChanged: (value) {
-                        try {
-                          widget.tracker.speedLimit = int.parse(value);
-                        } catch (e) {}
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.speed),
-                        labelText: Locales.get('speedLimit', context),
-                      ),
-                    )
-                  ],
-                ),
-                buttons: [
-                  DialogButton(
-                    onPressed: () async {
-                      widget.tracker.setSpeedLimit(speed);
-                      Database? db = await DataBase.get();
-                      await TrackerDB.update(db!, widget.tracker);
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      Locales.get('ok', context)
-                    ),
+                  context: context,
+                  content: Column(
+                    children: <Widget>[
+                      TextField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        controller: TextEditingController(text: widget.tracker.speedLimit.toString()),
+                        onChanged: (value) {
+                          try {
+                            widget.tracker.speedLimit = int.parse(value);
+                          } catch (e) {}
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.speed),
+                          labelText: Locales.get('speedLimit', context),
+                        ),
+                      )
+                    ],
                   ),
-                  DialogButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                        Locales.get('cancel', context)
+                  buttons: [
+                    DialogButton(
+                      onPressed: () async {
+                        widget.tracker.setSpeedLimit(speed);
+                        Database? db = await DataBase.get();
+                        await TrackerDB.update(db!, widget.tracker);
+                        Navigator.pop(context);
+                      },
+                      child: Text(Locales.get('ok', context)),
                     ),
-                  )
-                ]).show();
+                    DialogButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(Locales.get('cancel', context)),
+                    )
+                  ]).show();
             },
           ),
           ListTile(
@@ -127,45 +123,36 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
               int time = 0;
 
               Alert(
-                context: context,
-                content: Column(
-                  children: <Widget>[
-                    TextField(
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      controller: TextEditingController(text: widget.tracker.sleepLimit.toString()),
-                      onChanged: (value) {
-                        try {
-                          widget.tracker.sleepLimit = int.parse(value);
-                        } catch (e) {}
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.speed),
-                        labelText: Locales.get('sleepLimit', context),
-                      ),
-                    )
-                  ],
-                ),
-                buttons: [
-                  DialogButton(
-                    onPressed: () async {
-                      widget.tracker.setSleepTime(time);
-                      Database? db = await DataBase.get();
-                      await TrackerDB.update(db!, widget.tracker);
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                        Locales.get('ok', context)
-                    ),
+                  context: context,
+                  content: Column(
+                    children: <Widget>[
+                      TextField(
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        controller: TextEditingController(text: widget.tracker.sleepLimit.toString()),
+                        onChanged: (value) {
+                          try {
+                            widget.tracker.sleepLimit = int.parse(value);
+                          } catch (e) {}
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.speed),
+                          labelText: Locales.get('sleepLimit', context),
+                        ),
+                      )
+                    ],
                   ),
-                  DialogButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                        Locales.get('cancel', context)
-                    ),
-                  )
-                ]).show();
-
+                  buttons: [
+                    DialogButton(
+                      onPressed: () async {
+                        widget.tracker.setSleepTime(time);
+                        Database? db = await DataBase.get();
+                        await TrackerDB.update(db!, widget.tracker);
+                        Navigator.pop(context);
+                      },
+                      child: Text(Locales.get('ok', context)),
+                    )
+                  ]).show();
             },
           ),
           ListTile(
