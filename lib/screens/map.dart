@@ -5,7 +5,9 @@ import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
+import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/data-validator.dart';
+import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -138,6 +140,7 @@ class MapScreenState extends State<MapScreen> {
               trackers[i].requestLocation();
             }
           }
+          Modal.toast(context, Locales.get('requestedPosition', context));
         },
         child: const Icon(Icons.gps_fixed),
       ),
