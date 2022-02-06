@@ -7,6 +7,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/data-validator.dart';
+import 'package:cartracker/utils/geolocation.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,58 +80,34 @@ class MapScreenState extends State<MapScreen> {
     launch(url);
   }
 
-  /// Get current position of the tracker, otherwise a default location is returned
-  Future<Position> getPosition() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
           FutureBuilder(
-            future: this.getPosition(),
-            builder: (BuildContext context, AsyncSnapshot<Position> data) {
-              LatLng position = data.hasData ? LatLng(data.data!.latitude, data.data!.longitude) : const LatLng(0, 0);
+              future: Geolocation.getPosition(),
+              builder: (BuildContext context, AsyncSnapshot<Position> data) {
+                LatLng position = data.hasData ? LatLng(data.data!.latitude, data.data!.longitude) : const LatLng(0, 0);
 
-              return ChangeNotifierProvider(
-                create: (context) {
-                  TrackerDB.changeNotifier = ChangeNotifier();
-                  return TrackerDB.changeNotifier;
-                },
-                child: Consumer<ChangeNotifier>(builder: (context, ChangeNotifier _, child) {
-
-                  return MapboxMap(
-                    accessToken: Global.MAPBOX_TOKEN,
-                    trackCameraPosition: true,
-                    myLocationEnabled: true,
-                    myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-                    initialCameraPosition: CameraPosition(target: position, zoom: 10),
-                    onMapCreated: onMapCreated,
-                    onStyleLoadedCallback: onStyleLoaded,
-                  );
-                }),
-              );
-            }
-          )
+                return ChangeNotifierProvider(
+                  create: (context) {
+                    TrackerDB.changeNotifier = ChangeNotifier();
+                    return TrackerDB.changeNotifier;
+                  },
+                  child: Consumer<ChangeNotifier>(builder: (BuildContext context, ChangeNotifier notifier, Widget? child) {
+                    return MapboxMap(
+                      accessToken: Global.MAPBOX_TOKEN,
+                      trackCameraPosition: true,
+                      myLocationEnabled: true,
+                      myLocationTrackingMode: MyLocationTrackingMode.Tracking,
+                      initialCameraPosition: CameraPosition(target: position, zoom: 10),
+                      onMapCreated: onMapCreated,
+                      onStyleLoadedCallback: onStyleLoaded,
+                    );
+                  }),
+                );
+              })
         ],
       ),
       floatingActionButton: FloatingActionButton(

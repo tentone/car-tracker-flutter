@@ -31,7 +31,7 @@ class SMSUtils {
 
             if (trackers[i].compareAddress(msg.address!)) {
               print('CarTracker: Received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
-              trackers[i].processReceivedSMS(msg);
+              trackers[i].processCommand(msg);
             }
           }
         },
@@ -69,7 +69,7 @@ class SMSUtils {
 
           if (trackers[j].timestamp.isBefore(timestamp)) {
             print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
-            trackers[j].processReceivedSMS(msg);
+            trackers[j].processCommand(msg);
           }
         }
       }

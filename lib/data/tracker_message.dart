@@ -19,5 +19,5 @@ class TrackerMessage {
   /// The content of the message
   String data;
 
-  TrackerMessage(this.direction, this.data, this.timestamp) {}
+  TrackerMessage(this.direction, this.data, this.timestamp);
 }

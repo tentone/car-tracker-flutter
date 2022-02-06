@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 /// Main application widget entry point
 class App extends StatelessWidget {
-  App({Key? key}) : super(key: key) {}
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

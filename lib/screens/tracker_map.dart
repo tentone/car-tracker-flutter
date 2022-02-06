@@ -5,7 +5,7 @@ import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:cartracker/locale/locales.dart';
-import 'package:cartracker/screens/tracker_positions_list.dart';
+import 'package:cartracker/screens/tracker_positions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -106,7 +106,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
           Database? db = await DataBase.get();
           return TrackerPositionDB.list(db!, widget.tracker.uuid);
         }(), builder: (BuildContext context, AsyncSnapshot<List<TrackerPosition>> entries) {
-          if (entries.data == null || entries.data?.length == 0) {
+          if (entries.data == null || entries.data!.isEmpty) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -25,7 +25,7 @@ class Locales {
 
   /// Get a locale text value for a specific context, (cleaner locale access).
   static String get(String key, BuildContext context) {
-    Locale locale = Localizations.localeOf(context);
+    // Locale locale = Localizations.localeOf(context);
     // locale.languageCode
 
     String? value = Locales.values[Locales.code]?[key];

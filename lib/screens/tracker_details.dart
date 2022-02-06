@@ -2,8 +2,8 @@ import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
-import 'package:cartracker/screens/tracker_message_list.dart';
-import 'package:cartracker/screens/tracker_positions_list.dart';
+import 'package:cartracker/screens/tracker_messages.dart';
+import 'package:cartracker/screens/tracker_positions.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,6 +79,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           decoration: InputDecoration(
             icon: const Icon(Icons.speed),
             labelText: Locales.get('speedLimit', context),
+            suffixText: 'miles/h',
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       TextFormField(
@@ -89,6 +90,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           decoration: InputDecoration(
             icon: const Icon(Icons.mode_standby),
             labelText: Locales.get('sleepLimit', context),
+            suffixText: 'm',
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       TextFormField(
@@ -99,6 +101,7 @@ class TrackerDetailsScreenState extends State<TrackerDetailsScreen> {
           decoration: InputDecoration(
             icon: const Icon(Icons.battery_full),
             labelText: Locales.get('battery', context),
+            suffixText: '%',
             floatingLabelBehavior: FloatingLabelBehavior.auto,
           )),
       CheckboxListTile(

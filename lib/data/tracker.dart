@@ -1,13 +1,10 @@
-import 'package:cartracker/app.dart';
 import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
-import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/utils/sms.dart';
-import 'package:cartracker/widget/modal.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
@@ -50,9 +47,13 @@ class Tracker {
   String pin = '123456';
 
   /// Limit speed in miles per hour, defined on the tracker.
+  ///
+  /// Speed limit stored in miles per hour.
   int speedLimit = 0;
 
   /// Time limit before the tracker enters into sleep mode.
+  ///
+  /// Sleep time stored in minutes.
   int sleepLimit = 0;
 
   /// If enabled the ignition alarm is fired every time the ACC signal changes.
@@ -101,9 +102,9 @@ class Tracker {
   }
 
   /// Update the tracker information in database.
-  void update() async {
+  Future<void> update() async {
     Database? db = await DataBase.get();
-    TrackerDB.update(db!, this);
+    await TrackerDB.update(db!, this);
   }
 
   /// Compare the phone number of the tracker with an external phone number.
@@ -129,7 +130,7 @@ class Tracker {
   /// Process a message received from SMS and store its result on a tracker message.
   ///
   /// @param message Message received.
-  void processReceivedSMS(SmsMessage msg) {
+  void processCommand(SmsMessage msg) async {
     DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
 
     if (this.timestamp.isAfter(timestamp)) {
@@ -142,6 +143,7 @@ class Tracker {
 
     if (body == '指令格式错误') {
       print('CarTracker: Tracker Command Error');
+      await this.update();
       return;
     }
 
@@ -149,6 +151,7 @@ class Tracker {
     String ackMsg = body.toLowerCase();
     if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
       print('CarTracker: Tracker Acknowledge message');
+      await this.update();
       return;
     }
 
@@ -160,7 +163,7 @@ class Tracker {
       }
 
       print('CarTracker: Received SOS list.');
-      this.update();
+      await this.update();
       return;
     }
 
@@ -203,8 +206,8 @@ class Tracker {
 
       print('CarTracker: Received tracker location ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + timestamp.toString());
 
-      this.update();
-      this.addPosition(data);
+      await this.addPosition(data);
+      await this.update();
       return;
     }
 
@@ -243,7 +246,9 @@ class Tracker {
       this.apn = apn;
       this.iccid = iccid;
       this.id = id;
-      this.update();
+
+      await this.update();
+      return;
     } catch (e) {
       print('CarTracker: Error parsing info message.');
     }
