@@ -1,9 +1,19 @@
-# Car Tracker
+# Car Tracker Flutter
 
 - Car Tracker application using Flutter, as a rewrite of [this project](https://github.com/tentone/car-tracker-ion) originally developed using Ionic and Capacitor 
-- Track car GPS position for SMS based Chinese tracker(s) marketed under the model number A11, ST-901, GT01 and GT09.
+- Mobile application to track car GPS position for SMS-based Chinese tracker(s) marketed under the model number A11, ST-901, GT01, and GT09.
+ - Manage multiple GPS car trackers using SMS communication.
+ - Set multiple parameters of the tracker (e.g. speed limit, sleep time, password, distance alarm)
+ - Manage and list messages exchanged with the car tracker.
+- Track car GPS position for SMS-based Chinese tracker(s) marketed under the model number A11, ST-901, GT01 and GT09.
 
-### Getting tarted
+<img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/front.jpg" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/back.jpg" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/pcb.jpg" width="250">
+
+### Screenshots
+
+<img src="https://raw.githubusercontent.com/tentone/car-tracker-flutter/master/store/screenshot/map.png" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-flutter/master/store/screenshot/history.png" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-flutter/master/store/screenshot/list.png" width="250">
+
+### Getting Started
 
 - Install [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/) and get the [Flutter SDK](https://flutter.dev/).
 
