@@ -40,7 +40,7 @@ class Modal {
     fToast.showToast(
       child: toast,
       gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
+      toastDuration: const Duration(seconds: 2),
     );
   }
 
@@ -69,18 +69,19 @@ class Modal {
   }
 
   /// Show dialog message to question between multiple options.
-  static void question(BuildContext context, String title, String message, List<ModalOption> options) {
+  static Future<void> question(BuildContext context, String title, List<ModalOption> options) async {
     List<TextButton> actions = [];
 
     for (int i = 0; i < options.length; i++) {
       actions.add(TextButton(child: Text(options[i].text), onPressed: options[i].callback));
     }
 
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(title: Text(title), actions: actions, content: Text(message));
-        });
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(title: Text(title), actions: actions);
+      }
+    );
   }
 
   /// Show a confirm modal with ok and cancel buttons

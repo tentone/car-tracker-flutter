@@ -1,4 +1,5 @@
 import 'package:cartracker/data/tracker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -108,7 +109,7 @@ class TrackerDB {
   /// Get details of a tracker by its UUID
   static Future<Tracker> get(Database db, String uuid) async {
     List<Map<String, Object?>> values = await db.rawQuery('SELECT * FROM ' + tableName + ' WHERE uuid=?', [uuid]);
-    if (values.length == 0) {
+    if (values.isEmpty) {
       throw Exception('Tracker does not exist.');
     }
 
@@ -168,18 +169,20 @@ class TrackerDB {
 
   /// Test tracker database functionality.
   static test(Database db) async {
-    const int size = 10;
+    if (kDebugMode) {
+      const int size = 10;
 
-    print(await count(db));
+      print(await count(db));
 
-    List<Future> addFuture = [];
-    for (int i = 0; i < size; i++) {
-      addFuture.add(add(db, Tracker()));
+      List<Future> addFuture = [];
+      for (int i = 0; i < size; i++) {
+        addFuture.add(add(db, Tracker()));
+      }
+      await Future.wait(addFuture);
+
+      print(await list(db));
+
+      print(await count(db));
     }
-    await Future.wait(addFuture);
-
-    print(await list(db));
-
-    print(await count(db));
   }
 }

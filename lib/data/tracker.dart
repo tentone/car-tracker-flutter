@@ -5,6 +5,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_message_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:cartracker/utils/sms.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 import 'package:uuid/uuid.dart';
@@ -142,7 +143,9 @@ class Tracker {
     this.addMessage(TrackerMessage(MessageDirection.RECEIVED, body, timestamp));
 
     if (body == '指令格式错误') {
-      print('CarTracker: Tracker Command Error');
+      if (kDebugMode) {
+        print('CarTracker: Tracker Command Error');
+      }
       await this.update();
       return;
     }
@@ -150,7 +153,9 @@ class Tracker {
     // Acknowledge message
     String ackMsg = body.toLowerCase();
     if (ackMsg == 'admin ok' || ackMsg == 'apn ok' || ackMsg == 'password ok' || ackMsg == 'speed ok' || ackMsg == 'ok') {
-      print('CarTracker: Tracker Acknowledge message');
+      if (kDebugMode) {
+        print('CarTracker: Tracker Acknowledge message');
+      }
       await this.update();
       return;
     }
@@ -162,7 +167,9 @@ class Tracker {
         this.sosNumbers[i] = numbers[i].substring(4);
       }
 
-      print('CarTracker: Received SOS list.');
+      if (kDebugMode) {
+        print('CarTracker: Received SOS list.');
+      }
       await this.update();
       return;
     }
@@ -184,7 +191,9 @@ class Tracker {
         return;
       }
 
-      print('CarTracker: Regex location matches ' + matches.toString());
+      if (kDebugMode) {
+        print('CarTracker: Regex location matches ' + matches.toString());
+      }
 
       TrackerPosition data = TrackerPosition();
       data.timestamp = timestamp;
@@ -204,7 +213,9 @@ class Tracker {
       // int minute = int.parse(matches[11]);
       // int seconds = int.parse(matches[12]);
 
-      print('CarTracker: Received tracker location ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + timestamp.toString());
+      if (kDebugMode) {
+        print('CarTracker: Received tracker location ' + data.latitude.toString() + ' , ' + data.longitude.toString() + ' , ' + timestamp.toString());
+      }
 
       await this.addPosition(data);
       await this.update();
@@ -229,7 +240,9 @@ class Tracker {
         return;
       }
 
-      print('CarTracker: Regex info matches ' + matches.toString());
+      if (kDebugMode) {
+        print('CarTracker: Regex info matches ' + matches.toString());
+      }
 
       String model = matches[1];
       String id = matches[5];
@@ -250,7 +263,9 @@ class Tracker {
       await this.update();
       return;
     } catch (e) {
-      print('CarTracker: Error parsing info message.');
+      if (kDebugMode) {
+        print('CarTracker: Error parsing info message.');
+      }
     }
   }
 

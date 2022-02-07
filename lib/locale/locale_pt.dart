@@ -1,6 +1,8 @@
 const Map<String, String> LocalePT = {
   'en': 'Inglês',
   'pt': 'Portugês',
+  'yes': 'Sim',
+  'no': 'Não',
   'noTrackers': 'Sem trackers. Adiciona um Tracker para começar!',
   'noElements': 'Sem dados para mostrar!',
   'carTracker': 'Car Tracker',

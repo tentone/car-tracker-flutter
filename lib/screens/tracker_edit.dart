@@ -92,13 +92,20 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             leading: const Icon(Icons.call),
             title: Text(Locales.get('powerAlarmCall', context)),
             onTap: () async {
-              bool enabled = false;
-
-              // TODO <ADD CODE HERE>
-
-              widget.tracker.setPowerAlarmCall(enabled);
-              Database? db = await DataBase.get();
-              await TrackerDB.update(db!, widget.tracker);
+              Modal.question(context, Locales.get('powerAlarmCall', context), [
+                ModalOption(Locales.get('yes', context), () async {
+                  widget.tracker.setPowerAlarmCall(true);
+                  Database? db = await DataBase.get();
+                  await TrackerDB.update(db!, widget.tracker);
+                  Navigator.pop(context);
+                }),
+                ModalOption(Locales.get('no', context), () async {
+                  widget.tracker.setPowerAlarmCall(false);
+                  Database? db = await DataBase.get();
+                  await TrackerDB.update(db!, widget.tracker);
+                  Navigator.pop(context);
+                })
+              ]);
             },
           ),
           ListTile(
@@ -106,13 +113,21 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
             leading: const Icon(Icons.sms_outlined),
             title: Text(Locales.get('powerAlarmSMS', context)),
             onTap: () async {
-              bool enabled = false;
 
-              // TODO <ADD CODE HERE>
-
-              widget.tracker.setPowerAlarmSMS(enabled);
-              Database? db = await DataBase.get();
-              await TrackerDB.update(db!, widget.tracker);
+              Modal.question(context, Locales.get('powerAlarmSMS', context), [
+                ModalOption(Locales.get('yes', context), () async {
+                  widget.tracker.setPowerAlarmSMS(true);
+                  Database? db = await DataBase.get();
+                  await TrackerDB.update(db!, widget.tracker);
+                  Navigator.pop(context);
+                }),
+                ModalOption(Locales.get('no', context), () async {
+                  widget.tracker.setPowerAlarmSMS(false);
+                  Database? db = await DataBase.get();
+                  await TrackerDB.update(db!, widget.tracker);
+                  Navigator.pop(context);
+                })
+              ]);
             },
           ),
           ListTile(
@@ -163,7 +178,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
           ),
           ListTile(
             enabled: widget.tracker.phoneNumber.isNotEmpty,
-            leading: const Icon(Icons.call),
+            leading: const Icon(Icons.delete_forever),
             title: Text(Locales.get('factoryReset', context)),
             onTap: () async {
               Modal.confirm(context, Locales.get('warning', context), Locales.get('confirmFactoryReset', context), onConfirm: () {

@@ -5,6 +5,7 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:telephony/telephony.dart';
 
@@ -30,7 +31,9 @@ class SMSUtils {
             DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
 
             if (trackers[i].compareAddress(msg.address!)) {
-              print('CarTracker: Received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+              if (kDebugMode) {
+                print('CarTracker: Received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+              }
               trackers[i].processCommand(msg);
             }
           }
@@ -65,10 +68,14 @@ class SMSUtils {
       for (int j = 0; j < trackers.length; j++) {
         if (trackers[j].compareAddress(msg.address!)) {
           DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
-          print('CarTracker: Found message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
+          if (kDebugMode) {
+            print('CarTracker: Found message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!);
+          }
 
           if (trackers[j].timestamp.isBefore(timestamp)) {
-            print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+            if (kDebugMode) {
+              print('CarTracker: Import received message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+            }
             trackers[j].processCommand(msg);
           }
         }
@@ -89,7 +96,9 @@ class SMSUtils {
       for (int j = 0; j < trackers.length; j++) {
         DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(msg.date!);
         if (trackers[j].compareAddress(msg.address!) && trackers[j].timestamp.isBefore(timestamp)) {
-          print('CarTracker: Import sent message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+          if (kDebugMode) {
+            print('CarTracker: Import sent message ' + msg.address! + ' (' + timestamp.toIso8601String() + ') -> ' + msg.body!.replaceAll('\n', ''));
+          }
           trackers[j].addMessage(TrackerMessage(MessageDirection.SENT, msg.body!, timestamp));
         }
       }

@@ -1,6 +1,7 @@
 import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_message.dart';
 import 'package:cartracker/database/tracker_db.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Tracker message stores messages exchanged with GPS trackers.
@@ -53,16 +54,19 @@ class TrackerMessageDB {
 
   /// Test functionality of the message storage
   static Future<void> test(Database db) async {
-    Tracker tracker = Tracker();
-    await TrackerDB.add(db, tracker);
+    if (kDebugMode) {
+      Tracker tracker = Tracker();
+      await TrackerDB.add(db, tracker);
 
-    List<Future> addFuture = [];
-    const int size = 10;
-    for (int i = 0; i < size; i++) {
-      addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, 'test', DateTime.now())));
+      List<Future> addFuture = [];
+      const int size = 10;
+      for (int i = 0; i < size; i++) {
+        addFuture.add(add(db, tracker.uuid, TrackerMessage(MessageDirection.SENT, 'test', DateTime.now())));
+      }
+      await Future.wait(addFuture);
+
+
+      print(await list(db, tracker.uuid));
     }
-    await Future.wait(addFuture);
-
-    print(await list(db, tracker.uuid));
   }
 }

@@ -30,7 +30,7 @@ class TrackerListScreenState extends State<TrackerListScreen> {
           Database? db = await DataBase.get();
           return TrackerDB.list(db!);
         }(), builder: (BuildContext context, AsyncSnapshot<List<Tracker>> entries) {
-          if (entries.data == null || entries.data?.length == 0) {
+          if (entries.data == null || entries.data!.isEmpty) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

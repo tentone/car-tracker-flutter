@@ -1,6 +1,7 @@
 import 'package:cartracker/data/tracker.dart';
 import 'package:cartracker/data/tracker_position.dart';
 import 'package:cartracker/database/tracker_db.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Show tracker data alongside with the last known position
@@ -92,20 +93,22 @@ class TrackerPositionDB {
 
   /// Test functionality of the location storage
   static Future<void> test(Database db) async {
-    Tracker tracker = Tracker();
-    await TrackerDB.add(db, tracker);
+    if (kDebugMode) {
+      Tracker tracker = Tracker();
+      await TrackerDB.add(db, tracker);
 
-    List<Future> addFuture = [];
-    const int size = 10;
-    for (int i = 0; i < size; i++) {
-      TrackerPosition location = TrackerPosition();
-      addFuture.add(add(db, tracker.uuid, location));
+      List<Future> addFuture = [];
+      const int size = 10;
+      for (int i = 0; i < size; i++) {
+        TrackerPosition location = TrackerPosition();
+        addFuture.add(add(db, tracker.uuid, location));
+      }
+      await Future.wait(addFuture);
+
+      List<TrackerPosition> locations = await list(db, tracker.uuid);
+
+      print(locations[0].getGoogleMapsURL());
+      print(locations);
     }
-    await Future.wait(addFuture);
-
-    List<TrackerPosition> locations = await list(db, tracker.uuid);
-
-    print(locations[0].getGoogleMapsURL());
-    print(locations);
   }
 }
