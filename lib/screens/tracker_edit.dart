@@ -4,14 +4,12 @@ import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/locale/locales.dart';
 import 'package:cartracker/screens/tracker_details.dart';
 import 'package:cartracker/screens/tracker_messages.dart';
-import 'package:cartracker/screens/tracker_positions.dart';
 import 'package:cartracker/screens/tracker_map.dart';
 import 'package:cartracker/widget/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TrackerEditScreen extends StatefulWidget {

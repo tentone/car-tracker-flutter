@@ -267,20 +267,21 @@ class Tracker {
     this.sendSMS('g1234');
   }
 
+  /// Request a data with the location of the device, status and speed of the tracker.
+  void format() {
+    this.sendSMS('format');
+  }
+
   /// Change the timezone of tracker.
   ///
   /// @param timezone Timezone to be used by the tracker.
   void setTimezone(String timezone) {
-    String msg = 'zone' + this.pin + ' ' + timezone;
-
-    this.sendSMS(msg);
+    this.sendSMS('zone' + this.pin + ' ' + timezone);
   }
 
   /// Request a data with the location of the device, status and speed of the tracker.
   void getTrackerInfo() {
-    String msg = 'CXZT';
-
-    this.sendSMS(msg);
+    this.sendSMS('CXZT');
   }
 
   /// Change the pin of the tracker.
@@ -338,9 +339,7 @@ class Tracker {
 
   /// Request a list of the SOS numbers registered on the device.
   void listSOSNumbers() {
-    String msg = 'C10#';
-
-    this.sendSMS(msg);
+    this.sendSMS('C10#');
   }
 
   /// Enable/disable ignition auto security, used for the tracker to send and SMS every time the car ignition is switched.
