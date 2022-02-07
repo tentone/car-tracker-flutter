@@ -34,11 +34,11 @@ image-sdf .\car-marker.png -s 6 -d 8 -c "#fff" -o car-sdf.png
 - Check the flutter [android](https://flutter.io/docs/deployment/android) and [ios](https://flutter.io/docs/deployment/ios) publish guides for more information.
 - The application has only tested in Android during development.
 - To build a release APK for android run `flutter build apk` on the project folder.
-- For publish a ABB file is preferred run `flutter build appbundle`
+- For publishing a ABB file is preferred run `flutter build appbundle`
 - Don't forget to update the project version on the `pubspec.yaml` file.
 - When building APK output is the `build\app\outputs\apk\release` folder.
 
-### Androi Permissions
+### Android Permissions
 
 - When new plugins are added to provide additional native functionality, the permissions list in the `AndroidManifest.xml` should be updated.
 - It might be necessary to also request for permission during runtime before using the feature.
