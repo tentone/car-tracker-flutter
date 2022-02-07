@@ -38,6 +38,7 @@ const Map<String, String> LocalePT = {
   'received': 'Recebido',
   'changePin': 'Alterar PIN',
   'getInfo': 'Obter Informação',
+  'factoryReset': 'Reset Fábrica',
   'sleepTime': 'Tempo Standby',
   'sosNumbers': 'Números SOS',
   'invalidDate': 'Data Invalida',
@@ -68,5 +69,7 @@ const Map<String, String> LocalePT = {
   'trackerAcknowledge': 'Commando confirmado pelo tracker.',
   'light': 'Claro',
   'dark': 'Escuro',
-  'system': 'Sistema'
+  'system': 'Sistema',
+  'warning': 'Aviso',
+  'confirmFactoryReset': 'Tem a certeza que pretende limpar dados do tracker?'
 };

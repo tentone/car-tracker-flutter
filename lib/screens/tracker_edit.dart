@@ -163,6 +163,16 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
           ),
           ListTile(
             enabled: widget.tracker.phoneNumber.isNotEmpty,
+            leading: const Icon(Icons.call),
+            title: Text(Locales.get('factoryReset', context)),
+            onTap: () async {
+              Modal.confirm(context, Locales.get('warning', context), Locales.get('confirmFactoryReset', context), onConfirm: () {
+                widget.tracker.factoryReset();
+              });
+            },
+          ),
+          ListTile(
+            enabled: widget.tracker.phoneNumber.isNotEmpty,
             leading: const Icon(Icons.info_outline),
             title: Text(Locales.get('getInfo', context)),
             onTap: () async {

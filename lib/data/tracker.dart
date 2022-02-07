@@ -268,7 +268,7 @@ class Tracker {
   }
 
   /// Request a data with the location of the device, status and speed of the tracker.
-  void format() {
+  void factoryReset() {
     this.sendSMS('format');
   }
 

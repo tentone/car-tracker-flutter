@@ -39,6 +39,7 @@ const Map<String, String> LocaleEN = {
   'received': 'Received',
   'changePin': 'Change PIN',
   'getInfo': 'Get Info',
+  'factoryReset': 'Factory Reset',
   'sleepTime': 'Sleep Time',
   'sosNumbers': 'SOS Numbers',
   'invalidDate': 'Invalid Date',
@@ -69,5 +70,7 @@ const Map<String, String> LocaleEN = {
   'trackerAcknowledge': 'Tracker command confirmed.',
   'light': 'Light',
   'dark': 'Dark',
-  'system': 'System'
+  'system': 'System',
+  'warning': 'Warning',
+  'confirmFactoryReset': 'Are you sure that you want to clear tracker data?'
 };
