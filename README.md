@@ -3,9 +3,7 @@
 - Car Tracker application using Flutter, as a rewrite of [this project](https://github.com/tentone/car-tracker-ion) originally developed using Ionic and Capacitor 
 - Track car GPS position for SMS based Chinese tracker(s) marketed under the model number A11, ST-901, GT01 and GT09.
 
-
-
-### Getting Started
+### Getting tarted
 
 - Install [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/) and get the [Flutter SDK](https://flutter.dev/).
 
@@ -23,7 +21,6 @@
 
 - Use `flutter doctor` to debug setup problems. Don't forget to accept the `flutter doctor --android-licenses`.
 
-  
 ### SDF Icons
  - Mapbox uses SDF-based icons, to generate icons use the tool [image-sdf](https://github.com/mattdesl/image-sdf) or [sdfgen](https://github.com/ConnyOnny/sdfgen) from the command line.
  - SDF allow for high quality rendering of 2D shapes and should be used when possible.
@@ -37,12 +34,11 @@ image-sdf .\car-marker.png -s 6 -d 8 -c "#fff" -o car-sdf.png
 - Check the flutter [android](https://flutter.io/docs/deployment/android) and [ios](https://flutter.io/docs/deployment/ios) publish guides for more information.
 - The application has only tested in Android during development.
 - To build a release APK for android run `flutter build apk` on the project folder.
+- For publish a ABB file is preferred run `flutter build appbundle`
 - Don't forget to update the project version on the `pubspec.yaml` file.
 - When building APK output is the `build\app\outputs\apk\release` folder.
 
-
-
-### Android Permissions
+### Androi Permissions
 
 - When new plugins are added to provide additional native functionality, the permissions list in the `AndroidManifest.xml` should be updated.
 - It might be necessary to also request for permission during runtime before using the feature.
