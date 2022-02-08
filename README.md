@@ -12,9 +12,7 @@
 
 - Track car GPS position for SMS-based Chinese tracker(s) marketed under the model number A11, ST-901, GT01 and GT09.
 
-  <img src="https://raw.githubusercontent.com/tentone/car-tracker-flutter/master/store/badge.png" href="https://play.google.com/store/apps/details?id=com.tentone.cartarcker.cartracker" width="200">
-
-
+[<img src="https://raw.githubusercontent.com/tentone/car-tracker-flutter/master/store/badge.png" width="200">](https://play.google.com/store/apps/details?id=com.tentone.cartarcker.cartracker)
 
 <img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/front.jpg" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/back.jpg" width="250"><img src="https://raw.githubusercontent.com/tentone/car-tracker-ionic/master/readme/pcb.jpg" width="250">
 
