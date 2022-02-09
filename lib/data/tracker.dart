@@ -177,6 +177,7 @@ class Tracker {
     // GPS Location
     if (body.startsWith('http')) {
       RegExp regex = RegExp(r'http:\/\/maps\.google\.cn\/maps\?q\=N([-0-9\.]+)\%2cW([-0-9\.]+)');
+      // RegExp regex = RegExp(r'https?\:\/\/maps\.google\.cn\/maps\??q?=?N?([\-0-9\.]*),?W?([\-0-9\.]*)\s*ID:([0-9]+)\s*ACC:([A-Z]+)\s*GPS:([A-Z]+)\s*Speed:([0-9\.]+) ?KM\/H\s*([0-9]+)\-([0-9]+)\-([0-9]+)\s*([0-9]+):([0-9]+):([0-9]+)');
 
       List<RegExpMatch> regMatch = regex.allMatches(body).toList();
       List<String> matches = [];
