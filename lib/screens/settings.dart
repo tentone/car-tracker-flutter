@@ -79,18 +79,18 @@ class SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.album_outlined),
+            trailing: const Text(Global.VERSION),
+            title: Text(Locales.get('version', context)),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.document_scanner),
             title: Text(Locales.get('license', context)),
             onTap: () {
               launch('https://github.com/tentone/car-tracker-flu');
             },
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.album_outlined),
-            trailing: const Text(Global.VERSION),
-            title: Text(Locales.get('version', context)),
-          ),
+          )
         ],
       ),
     ));
