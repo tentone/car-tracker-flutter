@@ -74,5 +74,6 @@ const Map<String, String> LocaleEN = {
   'dark': 'Dark',
   'system': 'System',
   'warning': 'Warning',
-  'confirmFactoryReset': 'Are you sure that you want to clear tracker data?'
+  'confirmFactoryReset': 'Are you sure that you want to clear tracker data?',
+  'cantSendSMS': 'Device cannot send SMS messages'
 };

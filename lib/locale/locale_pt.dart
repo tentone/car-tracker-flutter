@@ -1,6 +1,6 @@
 const Map<String, String> LocalePT = {
   'en': 'Inglês',
-  'pt': 'Portugês',
+  'pt': 'Português',
   'yes': 'Sim',
   'no': 'Não',
   'noTrackers': 'Sem trackers. Adiciona um Tracker para começar!',
@@ -73,5 +73,6 @@ const Map<String, String> LocalePT = {
   'dark': 'Escuro',
   'system': 'Sistema',
   'warning': 'Aviso',
-  'confirmFactoryReset': 'Tem a certeza que pretende limpar dados do tracker?'
+  'confirmFactoryReset': 'Tem a certeza que pretende limpar dados do tracker?',
+  'cantSendSMS': 'Dispositivo sem capacidade de comunicação SMS'
 };

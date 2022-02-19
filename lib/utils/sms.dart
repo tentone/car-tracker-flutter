@@ -107,6 +107,12 @@ class SMSUtils {
 
   /// Send a SMS to an address (phone number)
   static void send(String content, String address, {BuildContext? context}) async {
+    // Check if the device is capable of sending SMS
+    bool? canSendSms = await telephony.isSmsCapable;
+    if (!canSendSms! && context != null) {
+      Modal.toast(context, Locales.get('cantSendSMS', context));
+    }
+
     telephony.sendSms(
         to: address,
         message: content,
