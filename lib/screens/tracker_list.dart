@@ -9,6 +9,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../themes.dart';
+
 class TrackerListScreen extends StatefulWidget {
   const TrackerListScreen({Key? key}) : super(key: key);
 
@@ -88,7 +90,7 @@ class TrackerListScreenState extends State<TrackerListScreen> {
             return TrackerEditScreen(tracker);
           }));
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add, color: Themes.theme().textTheme.bodyText1?.color),
       ),
     );
   }

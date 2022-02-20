@@ -28,7 +28,8 @@ dependencies:
   flutter_slidable: 1.2.0
   url_launcher: 6.0.18
   geolocator: 8.0.5
-  curved_navigation_bar: 1.0.3
+  salomon_bottom_bar: 3.2.0
+  animated_icon: 0.0.2
 
 dev_dependencies:
   flutter_test:

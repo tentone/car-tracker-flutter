@@ -13,6 +13,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../global.dart';
+import '../themes.dart';
 
 class TrackerPositionMapScreen extends StatefulWidget {
   final Tracker tracker;
@@ -100,7 +101,7 @@ class TrackerPositionMapScreenState extends State<TrackerPositionMapScreen> {
               return TrackerPositionListScreen(widget.tracker);
             }));
           },
-          child: const Icon(Icons.list),
+          child: Icon(Icons.list, color: Themes.theme().textTheme.bodyText1?.color),
         ),
         body: FutureBuilder(future: () async {
           Database? db = await DataBase.get();

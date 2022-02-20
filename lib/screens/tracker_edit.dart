@@ -12,6 +12,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../themes.dart';
+
 class TrackerEditScreen extends StatefulWidget {
   final Tracker tracker;
 
@@ -358,7 +360,7 @@ class TrackerEditScreenState extends State<TrackerEditScreen> {
                 widget.tracker.requestLocation();
                 Modal.toast(context, Locales.get('requestedPosition', context));
               },
-              child: const Icon(Icons.gps_fixed),
+              child: Icon(Icons.gps_fixed, color: Themes.theme().textTheme.bodyText1?.color),
             ),
     );
   }

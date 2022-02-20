@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../global.dart';
+import '../themes.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -121,7 +122,7 @@ class MapScreenState extends State<MapScreen> {
           }
           Modal.toast(context, Locales.get('requestedPosition', context));
         },
-        child: const Icon(Icons.gps_fixed),
+        child: Icon(Icons.gps_fixed, color: Themes.theme().textTheme.bodyText1?.color),
       ),
     );
   }

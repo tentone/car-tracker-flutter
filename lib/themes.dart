@@ -4,6 +4,18 @@ class Themes {
   /// Indicate if dark mode is used
   static ThemeMode mode = ThemeMode.system;
 
+  static ThemeData theme() {
+    ThemeMode mode = Themes.mode;
+
+    if (mode == ThemeMode.dark) {
+      return Themes.darkTheme;
+    } else if(mode == ThemeMode.light) {
+      return Themes.lightTheme;
+    }
+
+    return MediaQuery.platformBrightnessOf == Brightness.light ? Themes.lightTheme : Themes.darkTheme;
+  }
+
   /// Light/white theme configurations
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: Colors.white,
