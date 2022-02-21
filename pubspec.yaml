@@ -29,7 +29,6 @@ dependencies:
   url_launcher: 6.0.18
   geolocator: 8.0.5
   salomon_bottom_bar: 3.2.0
-  animated_icon: 0.0.2
 
 dev_dependencies:
   flutter_test:
