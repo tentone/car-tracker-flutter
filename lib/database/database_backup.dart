@@ -10,7 +10,7 @@ class DatabaseBackup {
     await drive.signInAndInit([DriveScopes.app]);
 
     DateTime now = DateTime.now();
-        
+
     drive.createFile('car_tracker_' + now.year.toString() + now.month.toString() + now.day.toString() + ".db", "application/x-sqlite3");
   }
 
