@@ -4,6 +4,14 @@ class Themes {
   /// Indicate if dark mode is used
   static ThemeMode mode = ThemeMode.system;
 
+  static ThemeMode checkMode() {
+    if (Themes.mode == ThemeMode.system) {
+      return MediaQuery.platformBrightnessOf == Brightness.light ? ThemeMode.light : ThemeMode.dark;
+    }
+
+    return Themes.mode;
+  }
+
   static ThemeData theme() {
     ThemeMode mode = Themes.mode;
 

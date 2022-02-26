@@ -81,6 +81,13 @@ class MapScreenState extends State<MapScreen> {
     launch(url);
   }
 
+  /**
+   * Get the mapbox style to be used based on the system theme.
+   */
+  String getStyle() {
+    return Themes.checkMode() == ThemeMode.dark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/light-v10';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +112,7 @@ class MapScreenState extends State<MapScreen> {
                       initialCameraPosition: CameraPosition(target: position, zoom: 10),
                       onMapCreated: onMapCreated,
                       onStyleLoadedCallback: onStyleLoaded,
+                      styleString: this.getStyle(),
                     );
                   }),
                 );
