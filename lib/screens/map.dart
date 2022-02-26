@@ -6,6 +6,7 @@ import 'package:cartracker/database/database.dart';
 import 'package:cartracker/database/tracker_db.dart';
 import 'package:cartracker/database/tracker_position_db.dart';
 import 'package:cartracker/locale/locales.dart';
+import 'package:cartracker/utils/color.dart';
 import 'package:cartracker/utils/data-validator.dart';
 import 'package:cartracker/utils/geolocation.dart';
 import 'package:cartracker/widget/modal.dart';
@@ -51,17 +52,27 @@ class MapScreenState extends State<MapScreen> {
     Database? db = await DataBase.get();
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
+    Color? textColor = Themes.theme().textTheme.bodyText1?.color;
+    String cssColor = '#000000';
+    if(textColor != null) {
+      cssColor = textColor.toHex();
+    }
+
+    print(cssColor);
+
     for (int i = 0; i < entries.length; i++) {
       await controller.addSymbol(
-          SymbolOptions(
-              geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
-              iconImage: 'car-sdf',
-              iconSize: 1.1,
-              iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
-              textField: entries[i].tracker.name,
-              textSize: 16,
-              textOffset: const Offset(0, 2.0)),
-          {'position': entries[i].position, 'tracker': entries[i].tracker});
+        SymbolOptions(
+          geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
+          iconImage: 'car-sdf',
+          iconSize: 1.1,
+          iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
+          textField: entries[i].tracker.name,
+          textSize: 16,
+          textOffset: const Offset(0, 2.0),
+          textColor: cssColor
+        ),
+        {'position': entries[i].position, 'tracker': entries[i].tracker});
     }
   }
 
@@ -81,9 +92,7 @@ class MapScreenState extends State<MapScreen> {
     launch(url);
   }
 
-  /**
-   * Get the mapbox style to be used based on the system theme.
-   */
+  /// Get the mapbox style to be used based on the system theme.
   String getStyle() {
     return Themes.checkMode() == ThemeMode.dark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/light-v10';
   }
