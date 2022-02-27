@@ -55,10 +55,8 @@ class MapScreenState extends State<MapScreen> {
     Color? textColor = Themes.theme().textTheme.bodyText1?.color;
     String cssColor = '#000000';
     if(textColor != null) {
-      cssColor = textColor.toHex();
+      cssColor = textColor.toHexStringRGB();
     }
-
-    print(cssColor);
 
     for (int i = 0; i < entries.length; i++) {
       await controller.addSymbol(
