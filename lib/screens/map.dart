@@ -43,7 +43,7 @@ class MapScreenState extends State<MapScreen> {
 
   /// Method called after the map style is loaded
   Future<void> onStyleLoaded() async {
-    this.addImage(this.controller, "car-sdf", "assets/sdf/car-sdf.png");
+    this.addImage(this.controller, "car-sdf", "assets/sdf/geo-sdf.png");
     await this.drawMarkers(this.controller);
   }
 
@@ -53,20 +53,22 @@ class MapScreenState extends State<MapScreen> {
     List<TrackerLastPosition> entries = await TrackerPositionDB.getAllTrackerLastPosition(db!);
 
     Color? textColor = Themes.theme().textTheme.bodyText1?.color;
-    String cssColor = '#000000';
-    if(textColor != null) {
-      cssColor = textColor.toHexStringRGB();
-    }
+    Color? textBorderColor = Themes.theme().textTheme.subtitle2?.color;
+    String cssColor = textColor != null ? textColor.toHexStringRGB() : '#000000';
+    String cssBorderColor = textBorderColor != null ? textBorderColor.toHexStringRGB() : '#ffffff';
+
 
     for (int i = 0; i < entries.length; i++) {
       await controller.addSymbol(
         SymbolOptions(
           geometry: LatLng(entries[i].position.latitude, entries[i].position.longitude),
           iconImage: 'car-sdf',
-          iconSize: 1.1,
+          iconSize: 0.9,
           iconColor: Color(entries[i].tracker.color).toHexStringRGB(),
           textField: entries[i].tracker.name,
           textSize: 16,
+          textHaloColor: cssBorderColor,
+          textHaloWidth: 1.0,
           textOffset: const Offset(0, 2.0),
           textColor: cssColor
         ),
